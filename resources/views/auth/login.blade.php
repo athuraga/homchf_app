@@ -97,6 +97,9 @@
                             <div class="form-group text-center">
                                 <a href="{{ url('vendor/login') }}">{{__('Login as @ Home Chef')}}</a>
                             </div>
+                            <div class="form-group text-center">
+                                <a> "Don't have an account?" </a>
+                                <a href="{{ url('vendor/register_vendor') }}">{{__('Register as @ Home Chef')}}</a>
                         </form>
                     </div>
                 </div>
