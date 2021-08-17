@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     @php
-        $title = App\Models\GeneralSetting::find(1)->business_name;
-        $favicon = App\Models\GeneralSetting::find(1)->favicon;
+    $title = App\Models\GeneralSetting::find(1)->business_name;
+    $favicon = App\Models\GeneralSetting::find(1)->favicon;
     @endphp
 
-    <title>{{ $title }} | @yield('title','Vendor register')</title>
+    <title>{{ $title }} | @yield('title','@HomChf register')</title>
 
     <link rel="icon" href="{{ url('images/upload/'.$favicon) }}" type="image/png">
 
@@ -25,30 +25,28 @@
     <link rel="stylesheet" href="{{ url('css/components.css')}}">
 
     @php
-        $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
-        $color = App\Models\GeneralSetting::find(1)->site_color;
-        $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
+    $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
+    $color = App\Models\GeneralSetting::find(1)->site_color;
+    $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
     @endphp
     <style>
-        :root
-        {
+        :root {
             --site_color: <?php echo $color; ?>;
-            --hover_color: <?php echo $color.'c7'; ?>;
+            --hover_color: <?php echo $color . 'c7'; ?>;
         }
-        input[type=checkbox] + label {
+
+        input[type=checkbox]+label {
             display: block;
             margin: 0.2em;
             cursor: pointer;
             padding: 0.2em;
         }
 
-        input[type=checkbox]
-        {
+        input[type=checkbox] {
             display: none;
         }
 
-        input[type=checkbox] + label:before
-        {
+        input[type=checkbox]+label:before {
             border: 0.1em solid #000;
             border-radius: 0.2em;
             display: inline-block;
@@ -63,20 +61,17 @@
             content: "\2714";
         }
 
-        input[type=checkbox] + label:active:before
-        {
+        input[type=checkbox]+label:active:before {
             transform: scale(0);
         }
 
-        input[type=checkbox]:checked + label:before
-        {
-            background-color:var(--site_color);
-            border-color:var(--site_color);
+        input[type=checkbox]:checked+label:before {
+            background-color: var(--site_color);
+            border-color: var(--site_color);
             color: #fff;
         }
 
-        input[type=checkbox]:disabled + label:before
-        {
+        input[type=checkbox]:disabled+label:before {
             transform: scale(1);
             border-color: #aaa;
         }
@@ -99,7 +94,8 @@
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome Vendor...!!")}}</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold">{{__("nothing beats home taste...!!")}}</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold">{{__("register as @ Home Chef")}}</h1>
                             </div>
                         </div>
                     </div>
@@ -114,14 +110,14 @@
                         @if ($errors->any())
                         <div class="alert alert-primary alert-dismissible show fade">
                             <div class="alert-body">
-                              <button class="close" data-dismiss="alert">
-                                <span>×</span>
-                              </button>
-                              @foreach ($errors->all() as $item)
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @foreach ($errors->all() as $item)
                                 {{ $item }}
-                              @endforeach
+                                @endforeach
                             </div>
-                          </div>
+                        </div>
                         @endif
                         <form method="POST" action="{{ url('vendor/register') }}">
                             @csrf
@@ -143,7 +139,7 @@
                                     <div class="input-group-prepend" style="width: 100px;">
                                         <select name="phone_code" class="form-control select2">
                                             @foreach ($phone_codes as $phone_code)
-                                                <option value="+{{ $phone_code->phonecode }}">+{{ $phone_code->phonecode }}</option>
+                                            <option value="+{{ $phone_code->phonecode }}">+{{ $phone_code->phonecode }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -174,19 +170,18 @@
                         <div class="text-muted text-center">
                             {{__("Already have an account?")}} <a href="{{ url('vendor/login') }}">{{__('Login')}}</a>
                         </div>
-                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+    </div>
+    </section>
     </div>
 
     <!-- General JS Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>

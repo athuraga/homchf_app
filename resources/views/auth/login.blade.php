@@ -95,7 +95,7 @@
                                 </a>
                             </div>
                             <div class="form-group text-center">
-                                <a href="{{ url('vendor/login') }}">{{__('Vendor Login')}}</a>
+                                <a href="{{ url('vendor/login') }}">{{__('Login as @ Home Chef')}}</a>
                             </div>
                         </form>
                     </div>
