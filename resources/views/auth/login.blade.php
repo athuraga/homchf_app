@@ -6,8 +6,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 
     @php
-        $title = App\Models\GeneralSetting::find(1)->business_name;
-        $favicon = App\Models\GeneralSetting::find(1)->favicon;
+    $title = App\Models\GeneralSetting::find(1)->business_name;
+    $favicon = App\Models\GeneralSetting::find(1)->favicon;
     @endphp
 
     <title>{{ $title }} | @yield('title','Admin login')</title>
@@ -18,17 +18,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-        @php
-            $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
-            $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
-            $color = App\Models\GeneralSetting::find(1)->site_color;
-        @endphp
-        <style>
-            :root {
-                --site_color: <?php echo $color; ?>;
-                --hover_color: <?php echo $color.'c7'; ?>;
-            }
-        </style>
+    @php
+    $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
+    $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
+    $color = App\Models\GeneralSetting::find(1)->site_color;
+    @endphp
+    <style>
+        :root {
+            --site_color: <?php echo $color; ?>;
+            --hover_color: <?php echo $color . 'c7'; ?>;
+        }
+    </style>
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
@@ -43,7 +43,7 @@
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome admin...!!")}}</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold">{{__("nothing beats home taste...!!")}}</h1>
                             </div>
                         </div>
                     </div>
@@ -53,19 +53,19 @@
                         <div class="w-100 text-center">
                             <img src="{{ url('images/upload/'.$icon) }}" alt="logo" width="80" class="shadow-light rounded-circle mb-5 mt-2">
                         </div>
-                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span class="font-weight-bold">{{__('MealUp')}}</span>
+                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span class="font-weight-bold">{{__('@HomChf')}}</span>
                         </h4>
                         @if ($errors->any())
                         <div class="alert alert-primary alert-dismissible show fade">
                             <div class="alert-body">
-                              <button class="close" data-dismiss="alert">
-                                <span>×</span>
-                              </button>
-                              @foreach ($errors->all() as $item)
+                                <button class="close" data-dismiss="alert">
+                                    <span>×</span>
+                                </button>
+                                @foreach ($errors->all() as $item)
                                 {{ $item }}
-                              @endforeach
+                                @endforeach
                             </div>
-                          </div>
+                        </div>
                         @endif
                         <form method="POST" action="{{ url('confirm_login') }}">
                             @csrf
@@ -80,8 +80,7 @@
                                     <div class="float-right">
                                     </div>
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password"
-                                tabindex="2" required>
+                                <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
                             </div>
 
                             <div class="form-group">
