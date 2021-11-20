@@ -72,6 +72,13 @@ class OrderController extends Controller
             $cancelOrders = Order::where([['vendor_id',$vendor->id],['order_status','CANCEL']])->orderBy('id','desc')->get();
             $completeOrders = Order::where([['vendor_id',$vendor->id],['order_status','COMPLETE']])->orderBy('id','desc')->get();
         }
+        foreach ($orders as $order) {
+            if ($order->delivery_person_id) 
+            {
+                $delivery_person = DeliveryPerson::find($order->delivery_person_id,['id','first_name','last_name','image']);
+                $order['deliver_person_name'] = $delivery_person->first_name.' '.$delivery_person->last_name;
+            }
+        }
         return view('vendor.order.order',compact('orders','delivery_persons','currency','cancelOrders','completeOrders','pickUpOrders','pendingOrders','deliveredOrders','approveOrders'));
     }
 
@@ -148,7 +155,6 @@ class OrderController extends Controller
         $cartData = Session::get('cart');
         $items = [];
         $tt = 0;
-        // dd(is_array(json_decode($request->tax)),$request->tax);
         foreach (json_decode($request->tax) as $tax)
         {
             $tt = $tt + $tax->tax;
@@ -201,12 +207,21 @@ class OrderController extends Controller
         $data['vendor_id'] = $vendor->id;
         $data['user_id'] = $request->user_id;
         $data['tax'] = $request->tax;
+        $data['order_schedule'] = $request->order_schedule;
+
         $order = Order::create($data);
+        // $order = Order::find(1);
         foreach (Session::get('cart') as $cart)
         {
             $order_child = array();
             $order_child['order_id'] = $order->id;
             $order_child['item'] = $cart['id'];
+        
+            $submenu = Submenu::find($cart['id']);
+            if ($submenu->qty_reset == 'daily') {
+                $ava_item = $submenu->availabel_item + $cart['qty'];
+                $submenu->update(['availabel_item' => $ava_item]);
+            }
             $order_child['price'] = $cart['price'];
             $order_child['qty'] = $cart['qty'];
             if(isset($cart['custimization']))
@@ -272,8 +287,6 @@ class OrderController extends Controller
         $status = strtoupper($request->status);
         $order = Order::find($request->id);
         $vendor = Vendor::where('id',$order->vendor_id)->first();
-        $order->order_status = $status;
-        $order->save();
         $user = User::find($order->user_id);
         if ($request->status == 'APPROVE' || $request->status == 'approve')
         {
@@ -281,10 +294,25 @@ class OrderController extends Controller
             $order->order_start_time = $start_time;
             $order->save();
         }
-        if ($request->status == 'COMPLETE' || $request->status == 'complete')
+        $order->order_status = $request->status;
+        $order->save();
+        if ($order->order_status == 'COMPLETE' || $order->order_status == 'complete')
         {
             $order->order_end_time = Carbon::now(env('timezone'))->format('h:i a');
+            $order->payment_status = 1; 
             $order->save();
+            $settle = array();
+            $settle['vendor_id'] = $order->vendor_id;
+            $settle['order_id'] = $order->id;
+            if ($order->payment_type == 'COD')
+                $settle['payment'] = 0;
+            else
+                $settle['payment'] = 1;
+
+            $settle['vendor_status'] = 0;
+            $settle['admin_earning'] = $order->admin_commission;
+            $settle['vendor_earning'] = $order->vendor_amount;
+            Settle::create($settle);
         }
         if (Session::get('vendor_driver') == 0)
         {
@@ -305,55 +333,17 @@ class OrderController extends Controller
                     }
                 }
                 $near_drivers = DeliveryPerson::whereIn('delivery_zone_id', $ds)->get();
-
                 foreach ($near_drivers as $near_driver)
                 {
-                    $driver_notification = GeneralSetting::first()->driver_notification;
-                    $driver_mail = GeneralSetting::first()->driver_mail;
-                    $content = NotificationTemplate::where('title', 'delivery person order')->first();
-                    $detail['drive_name'] = $near_driver->first_name . ' - ' . $near_driver->last_name;
-                    $detail['vendor_name'] = $vendor->name;
-                    if (UserAddress::find($request->address_id))
+                    $orders = Order::where([['delivery_person_id',$near_driver->id],['order_status','!=','COMPLETE'],['order_status','!=','CANCEL'],['order_status','!=','REJECT']])->get();
+                    if (GeneralSetting::first()->is_driver_accept_multipleorder == 0) 
                     {
-                        $detail['address'] = UserAddress::find($request->address_id)->address;
+                        if (!count($orders) > 0)
+                            $this->sendDriverNotification($near_driver,$order,$vendor);
                     }
-                    $h = ["{driver_name}", "{vendor_name}", "{address}"];
-                    $notification_content = str_replace($h, $detail, $content->notification_content);
-                    if ($driver_notification == 1)
-                    {
-                        Config::set('onesignal.app_id', env('driver_app_id'));
-                        Config::set('onesignal.rest_api_key', env('driver_api_key'));
-                        Config::set('onesignal.user_auth_key', env('driver_auth_key'));
-                        try {
-                            OneSignal::sendNotificationToUser(
-                                $notification_content,
-                                $near_driver->device_token,
-                                $url = null,
-                                $data = null,
-                                $buttons = null,
-                                $schedule = null,
-                                GeneralSetting::find(1)->business_name
-                            );
-                        }
-                        catch (\Throwable $th)
-                        {
-
-                        }
-                    }
-                    $p_notification = array();
-                    $p_notification['title'] = 'create order';
-                    $p_notification['user_type'] = 'driver';
-                    $p_notification['user_id'] = $near_driver->id;
-                    $p_notification['message'] = $notification_content;
-                    Notification::create($p_notification);
-                    if ($driver_mail == 1) {
-                        $mail_content = str_replace($h, $detail, $content->mail_content);
-                        try
-                        {
-                            Mail::to($near_driver->email_id)->send(new DriverOrder($mail_content));
-                        }
-                        catch (\Throwable $th) {
-                        }
+                    else{
+                        if (count($orders) < GeneralSetting::first()->driver_accept_multiple_order_count)
+                            $this->sendDriverNotification($near_driver,$order,$vendor);
                     }
                 }
             }
@@ -457,30 +447,59 @@ class OrderController extends Controller
         $notification['title'] = $status;
         $notification['message'] = $message1;
         Notification::create($notification);
+        return response(['success' => true, 'data' => ['status' => $status , 'order_id' => $order->id]]);
+    }
 
-        if($order->delivery_type == 'SHOP')
+    public function sendDriverNotification($near_driver,$order,$vendor)
+    {
+        $driver_notification = GeneralSetting::first()->driver_notification;
+        $driver_mail = GeneralSetting::first()->driver_mail;
+        $content = NotificationTemplate::where('title','delivery person order')->first();
+        $detail['drive_name'] = $near_driver->first_name . ' - ' . $near_driver->last_name;
+        $detail['vendor_name'] = $vendor->name;
+        if (UserAddress::find($order->address_id))
         {
-            $end_time = Carbon::now(env('timezone'))->format('h:i a');
-            $order->order_start_time = $end_time;
-            $order->save();
-            if ($request->status == 'complete' || $request->status == 'COMPLETE')
+            $detail['address'] = UserAddress::find($order->address_id)->address;
+        }
+        $h = ["{driver_name}", "{vendor_name}", "{address}"];
+        $notification_content = str_replace($h, $detail, $content->notification_content);
+        if ($driver_notification == 1)
+        {
+            Config::set('onesignal.app_id', env('driver_app_id'));
+            Config::set('onesignal.rest_api_key', env('driver_api_key'));
+            Config::set('onesignal.user_auth_key', env('driver_auth_key'));
+            try {
+                OneSignal::sendNotificationToUser(
+                    $notification_content,
+                    $near_driver->device_token,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    GeneralSetting::find(1)->business_name
+                );
+            }
+            catch (\Throwable $th)
             {
-                $settle = array();
-                $settle['vendor_id'] = $order->vendor_id;
-                $settle['order_id'] = $order->id;
-                if ($order->payment_type == 'COD')
-                {
-                    $settle['payment'] = 0;
-                } else {
-                    $settle['payment'] = 1;
-                }
-                $settle['vendor_status'] = 0;
-                $settle['admin_earning'] = $order->admin_commission;
-                $settle['vendor_earning'] = $order->vendor_amount;
-                Settle::create($settle);
+
             }
         }
-        return response(['success' => true, 'data' => ['status' => $status , 'order_id' => $order->id]]);
+        $p_notification = array();
+        $p_notification['title'] = 'create order';
+        $p_notification['user_type'] = 'driver';
+        $p_notification['user_id'] = $near_driver->id;
+        $p_notification['message'] = $notification_content;
+        Notification::create($p_notification);
+        if ($driver_mail == 1) {
+            $mail_content = str_replace($h, $detail, $content->mail_content);
+            try
+            {
+                Mail::to($near_driver->email_id)->send(new DriverOrder($mail_content));
+            }
+            catch (\Throwable $th) {
+            }
+        }
+        return true;
     }
 
     public function driver_assign(Request $request)
@@ -542,6 +561,7 @@ class OrderController extends Controller
     public function cart(Request $request)
     {
         $data = $request->all();
+        $submenuItem = Submenu::where('id', $request->id)->first();
         $qty = 0;
         $price = 0;
         $grand_total = 0;
@@ -575,7 +595,6 @@ class OrderController extends Controller
         else
         {
             $session = Session::get('cart');
-            $submenuItem = Submenu::where('id', $request->id)->get()->first();
             $tax = GeneralSetting::first()->isItemTax;
             if ($tax == 0)
             {
@@ -652,8 +671,9 @@ class OrderController extends Controller
     public function custimization($submenu_id)
     {
         $vendor = Vendor::where('user_id',auth()->user()->id)->first();
-        $custimization_item = SubmenuCusomizationType::where([['submenu_id',$submenu_id],['vendor_id',$vendor->id]])->get();
+        $custimizations = SubmenuCusomizationType::where([['submenu_id',$submenu_id],['vendor_id',$vendor->id]])->get();
         $cust = '';
+        $custimization_item = [];
         $session = Session::get('cart');
         foreach ($session as $key => $item)
         {
@@ -663,6 +683,14 @@ class OrderController extends Controller
                 if(isset($item['custimization']))
                 {
                     $cust = $item['custimization'];
+                }
+            }
+            foreach ($custimizations as $custimization) {
+                if ($custimization->submenu_id == intval($submenu_id)) 
+                {
+                    if ($custimization->min_item_selection <= $item['qty'] && $custimization->max_item_selection >= $item['qty']) {
+                        array_push($custimization_item,$custimization);
+                    }
                 }
             }
         }

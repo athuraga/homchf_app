@@ -188,7 +188,6 @@
                             <input type="hidden" name="amount" value="{{ $amount }}">
                             <input type="hidden" name="duration" value="{{ $duration }}">
                             <input type="submit" value="Flutterwave" class="btn btn-primary">
-                            {{-- <a href="{{ url('admin/fluterPayment') }}" class="btn btn-primary">{{__('Flutterwave')}}</a> --}}
                         </form>
                     </div>
                 </div>

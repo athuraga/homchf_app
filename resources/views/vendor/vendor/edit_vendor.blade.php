@@ -277,3 +277,8 @@
 </section>
 
 @endsection
+
+@section('js')
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ App\Models\GeneralSetting::first()->map_key }}&callback=initMap&libraries=places&v=weekly" defer></script>
+    <script src="{{ asset('js/map.js') }}"></script>
+@endsection

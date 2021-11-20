@@ -456,4 +456,10 @@ class DeliveryPersonController extends Controller
         }
         return response(['success' => true , 'data' => $settle , 'currency' => $currency]);
     }
+
+    public function pending_amount($order_id)
+    {
+        Order::find($order_id)->update(['vendor_pending_amount' => 1]);
+        return redirect()->back();
+    }
 }

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2021 at 08:42 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.4.20
+-- Generation Time: Sep 28, 2021 at 04:05 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mealup_test`
+-- Database: `mealup_testing`
 --
 
 -- --------------------------------------------------------
@@ -590,31 +590,19 @@ CREATE TABLE `feedback` (
 CREATE TABLE `general_setting` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `cancel_reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `company_white_logo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_black_logo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `favicon` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `business_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_person_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `business_address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tax_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `timezone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `currency` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `currency_symbol` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `help_line_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `start_time` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `end_time` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `business_availability` tinyint(1) DEFAULT NULL,
   `message` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `isItemTax` int(11) DEFAULT NULL,
   `item_tax` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tax_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vendor_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `driver_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `isPickup` tinyint(1) DEFAULT NULL,
-  `isSameDayDelivery` tinyint(1) DEFAULT NULL,
-  `vendor_distance` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_notification` tinyint(4) DEFAULT NULL,
   `customer_app_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `customer_auth_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -632,10 +620,6 @@ CREATE TABLE `general_setting` (
   `help` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `about_us` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `site_color` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '#6777EF',
-  `settlement_days` int(11) DEFAULT NULL,
-  `is_driver_accept_multipleorder` int(11) DEFAULT NULL,
-  `driver_accept_multiple_order_count` int(11) DEFAULT NULL,
-  `driver_assign_km` int(11) DEFAULT NULL,
   `driver_vehical_type` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `driver_earning` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -673,6 +657,7 @@ CREATE TABLE `general_setting` (
   `license_code` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `client_name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `license_verify` tinyint(1) DEFAULT NULL,
+  `isPickup` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -681,8 +666,8 @@ CREATE TABLE `general_setting` (
 -- Dumping data for table `general_setting`
 --
 
-INSERT INTO `general_setting` (`id`, `cancel_reason`, `company_white_logo`, `company_black_logo`, `favicon`, `business_name`, `contact_person_name`, `contact`, `business_address`, `country`, `tax_id`, `timezone`, `currency`, `currency_symbol`, `help_line_no`, `start_time`, `end_time`, `business_availability`, `message`, `isItemTax`, `item_tax`, `tax_type`, `vendor_name`, `driver_name`, `isPickup`, `isSameDayDelivery`, `vendor_distance`, `customer_notification`, `customer_app_id`, `customer_auth_key`, `customer_api_key`, `driver_notification`, `driver_app_id`, `driver_auth_key`, `driver_api_key`, `vendor_notification`, `vendor_app_id`, `vendor_auth_key`, `vendor_api_key`, `privacy_policy`, `terms_and_condition`, `help`, `about_us`, `site_color`, `settlement_days`, `is_driver_accept_multipleorder`, `driver_accept_multiple_order_count`, `driver_assign_km`, `driver_vehical_type`, `driver_earning`, `company_details`, `twilio_acc_id`, `verification`, `verification_email`, `verification_phone`, `twilio_auth_token`, `twilio_phone_no`, `radius`, `driver_auto_refrese`, `mail_mailer`, `mail_host`, `mail_port`, `mail_username`, `mail_password`, `mail_encryption`, `mail_from_address`, `customer_mail`, `vendor_mail`, `driver_mail`, `ios_customer_version`, `ios_vendor_version`, `ios_driver_version`, `ios_customer_app_url`, `ios_vendor_app_url`, `ios_driver_app_url`, `android_customer_version`, `android_vendor_version`, `android_driver_version`, `android_customer_app_url`, `android_vendor_app_url`, `android_driver_app_url`, `map_key`, `license_code`, `client_name`, `license_verify`, `created_at`, `updated_at`) VALUES
-(1, '[\"Lorem ispum is doner sumit aemit da cost\",\"I have multiple order\",\"Other Reason\"]', '60b75a0d8c403.png', 'meAlup.png', 'favicon.png', 'MealUp', 'MealUp', '1234567890', 'gondal road rajkot', 'INDIA', 'aqw', 'Asia/Kolkata', 'USD', '$', NULL, '08:00 am', '08:00 pm', 1, NULL, 0, '5', 'GST', 'resturant', 'delivery person', 1, 1, '50', 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#06C168', 15, 0, NULL, 5000, '[{\"vehical_type\":\"car\",\"license\":\"yes\"},{\"vehical_type\":\"bike\",\"license\":\"yes\"},{\"vehical_type\":\"bicycle\",\"license\":\"no\"}]', '[{\"min_km\":\"5\",\"max_km\":\"10\",\"charge\":\"100\"},{\"min_km\":\"10\",\"max_km\":\"20\",\"charge\":\"200\"}]', NULL, NULL, 0, 0, 0, NULL, NULL, '15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2020-10-27 05:55:00', '2021-06-05 04:13:15');
+INSERT INTO `general_setting` (`id`, `cancel_reason`, `company_black_logo`, `favicon`, `business_name`, `country`, `timezone`, `currency`, `currency_symbol`, `start_time`, `end_time`, `business_availability`, `message`, `isItemTax`, `item_tax`, `customer_notification`, `customer_app_id`, `customer_auth_key`, `customer_api_key`, `driver_notification`, `driver_app_id`, `driver_auth_key`, `driver_api_key`, `vendor_notification`, `vendor_app_id`, `vendor_auth_key`, `vendor_api_key`, `privacy_policy`, `terms_and_condition`, `help`, `about_us`, `site_color`, `driver_vehical_type`, `driver_earning`, `company_details`, `twilio_acc_id`, `verification`, `verification_email`, `verification_phone`, `twilio_auth_token`, `twilio_phone_no`, `radius`, `driver_auto_refrese`, `mail_mailer`, `mail_host`, `mail_port`, `mail_username`, `mail_password`, `mail_encryption`, `mail_from_address`, `customer_mail`, `vendor_mail`, `driver_mail`, `ios_customer_version`, `ios_vendor_version`, `ios_driver_version`, `ios_customer_app_url`, `ios_vendor_app_url`, `ios_driver_app_url`, `android_customer_version`, `android_vendor_version`, `android_driver_version`, `android_customer_app_url`, `android_vendor_app_url`, `android_driver_app_url`, `map_key`, `license_code`, `client_name`, `license_verify`,`isPickup`, `created_at`, `updated_at`) VALUES
+(1, '[\"Lorem ispum is doner sumit aemit da cost\",\"I have multiple order\",\"Other Reason\"]', 'meAlup.png', 'favicon.png', 'MealUp', 'INDIA', 'Asia/Kolkata', 'USD', '$', '08:00 am', '08:00 pm', 1, NULL, 0, '5', 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '#06C168', '[{\"vehical_type\":\"car\",\"license\":\"yes\"},{\"vehical_type\":\"bike\",\"license\":\"yes\"},{\"vehical_type\":\"bicycle\",\"license\":\"no\"}]', '[{\"min_km\":\"5\",\"max_km\":\"10\",\"charge\":\"100\"},{\"min_km\":\"10\",\"max_km\":\"20\",\"charge\":\"200\"}]', NULL, NULL, 0, 0, 0, NULL, NULL, '15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0,1, '2020-10-27 05:55:00', '2021-06-05 04:13:15');
 
 -- --------------------------------------------------------
 
@@ -725,10 +710,6 @@ CREATE TABLE `menu` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `menu`
---
 
 -- --------------------------------------------------------
 
@@ -849,300 +830,6 @@ CREATE TABLE `oauth_access_tokens` (
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `oauth_access_tokens`
---
-
-INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('0053924b33bf7ac5fe87004c39f14c311a18671769494a471680dc7d6d96f8c9e6bdf7e08a95486c', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:50:43', '2020-12-24 15:50:43', '2021-12-24 10:50:43'),
-('010d7b8dbc6bfd7a2756b674ee89418effd489af2b4c8da61b83b9e97720ccdccfd60b12238c9856', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:16:30', '2020-12-05 17:16:30', '2021-12-05 12:16:30'),
-('02982aeeb43a4a2a45183087554a92829eb23bd86e957bdeb5481fcb34ee095402bad43d8734cb7a', 76, 1, 'mealUp', '[]', 0, '2020-12-03 22:30:31', '2020-12-03 22:30:31', '2021-12-03 17:30:31'),
-('0471a7d54c172debd29ed2bb154c7e7dec30bf19813288a009a1f7aa81723aae2a51b29f01162d95', 10, 1, 'food delivery', '[]', 0, '2020-12-23 19:42:39', '2020-12-23 19:42:39', '2021-12-23 14:42:39'),
-('04f934311a9a521f49e62dffb62e91d91d73711e83ca9036fd56ee38d8dd4a319831fed33fb1adb4', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:40:20', '2020-12-12 22:40:20', '2021-12-12 17:40:20'),
-('06cf105497b2a3bb0e9ba2455bbf47140c6572c911c0e83132c81985db479f6e0c0846f343b03ff6', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:40:14', '2020-12-12 19:40:14', '2021-12-12 14:40:14'),
-('07dcd4d12d1344ef174583b7c14da9ae27356ff47dd5f1490d597b26d7b0ca01274f5a32de3276e6', 76, 1, 'mealUp', '[]', 0, '2020-12-05 20:17:25', '2020-12-05 20:17:25', '2021-12-05 15:17:25'),
-('0823ba7c4c11452b93aa9bd981237033eea60d6d402a5f1eeda78d9295a5d1980b5861a85836fbbf', 76, 1, 'mealUp', '[]', 0, '2020-12-11 15:37:59', '2020-12-11 15:37:59', '2021-12-11 10:37:59'),
-('088efb8c4aab818f71191a472d7548020a2c49f951c7736d9cb6fb2fae1aaea0facea89d8ab2e0d4', 94, 1, 'mealUp', '[]', 0, '2021-01-04 04:58:31', '2021-01-04 04:58:31', '2022-01-04 10:28:31'),
-('08c26d4294ee05c3d2786c1dc718f076e5a213f852c7111805286187e3138f4739cab03d76524c1b', 76, 1, 'mealUp', '[]', 0, '2020-12-08 21:32:23', '2020-12-08 21:32:23', '2021-12-08 16:32:23'),
-('0af2191d931381eba32a2f87d5ff547311cf4688ffa18aa9237e39c2551b7496398e7342c0948233', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:36:40', '2020-12-23 22:36:40', '2021-12-23 17:36:40'),
-('0b528ce482b64204aaa070222b0e4f3b9f97a1736ceaf96c1c7c04193b7f138efe522fdc98818d42', 62, 1, 'food delivery', '[]', 0, '2020-12-01 06:10:24', '2020-12-01 06:10:24', '2021-12-01 11:40:24'),
-('0c24f5b37b3c3a078dfd7012e7acc7ab121c2fa153a92a8fcf53b5742f5deff2c664a9c77656ed28', 10, 1, 'food delivery', '[]', 0, '2020-12-23 19:45:55', '2020-12-23 19:45:55', '2021-12-23 14:45:55'),
-('0d07e7a03deb51fa85df469f3ad654080de3411307ffed36a31cb739e59d07fa5a945a7f23ace963', 10, 1, 'food delivery', '[]', 0, '2020-12-24 16:19:08', '2020-12-24 16:19:08', '2021-12-24 11:19:08'),
-('0f5fb8294f7648282ab53d5282383a5301db2484609a379f85477faa9e4c6943079937eca44b411d', 3, 1, 'food delivery', '[]', 0, '2020-12-21 14:42:32', '2020-12-21 14:42:32', '2021-12-21 09:42:32'),
-('113a195ce32c17864bfd073aee98791010836d051e01f9145156e4bbf8c801cb887fee73e8b0a732', 10, 1, 'food delivery', '[]', 0, '2020-12-23 17:13:36', '2020-12-23 17:13:36', '2021-12-23 12:13:36'),
-('120e5c3a878a89bea2f571bea4c840af08dd3753cb9da1a1a201172b68917083c416ce0b55252c3c', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:04:44', '2020-12-23 23:04:44', '2021-12-23 18:04:44'),
-('1322081129788e2d9566f4d226cd3ba7ba80997016b40c22a2fa65ea9113a5c04ed96530d396e86d', 58, 1, 'food delivery', '[]', 0, '2020-11-28 11:48:23', '2020-11-28 11:48:23', '2021-11-28 17:18:23'),
-('135eeb296aba294d6af6d1e2c5dcfebd1b1353fa118ba92147aeee2ca66b41680407a1057acb9bcc', 76, 1, 'mealUp', '[]', 0, '2020-12-12 16:47:01', '2020-12-12 16:47:01', '2021-12-12 11:47:01'),
-('13c9bfb157b154f4abab8dd6100a42f93f0a02979c26d7a69d7a4ad1dc1c3ce67b6fa6b7ef71f381', 76, 1, 'mealUp', '[]', 0, '2020-12-14 19:52:21', '2020-12-14 19:52:21', '2021-12-14 14:52:21'),
-('17c4b1323030ec37f507c468e43b60c7f97ddeb3c4db44860a2ea424fcb3838f95d81bdcd586b4be', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:09:34', '2020-12-14 17:09:34', '2021-12-14 12:09:34'),
-('184f881a027233926b36d5bc6e65f2c019abfae5bb53f06c7e22a15991f9f99e9fc5e483e6b62d7a', 76, 1, 'mealUp', '[]', 0, '2020-12-26 07:27:33', '2020-12-26 07:27:33', '2021-12-26 12:57:33'),
-('187fcf6fb30b3f61a16f732c5d186bac9f8d33974aa03256f5cfa9272a107a61a7bece0a42c41751', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:54:26', '2020-12-22 22:54:26', '2021-12-22 17:54:26'),
-('1ab9abc8bfbcf4a329dead5e5dbccff42a771ef54993fbdc1a8c66d7c3d482833970b40943bb3ab4', 58, 1, 'food delivery', '[]', 0, '2020-11-28 10:41:43', '2020-11-28 10:41:43', '2021-11-28 16:11:43'),
-('1be81b8a977d8d408c5a6f3f2d624bd68d6721d5b618945ad57ac8a459e780c6e8ee2c08d6e37a42', 61, 1, 'food delivery', '[]', 0, '2020-11-28 11:25:31', '2020-11-28 11:25:31', '2021-11-28 16:55:31'),
-('1c58b4afe4773a2a51419904d1982406f126448ed385e58f578bfc2ea73d71f2cf1bbb93c88d790f', 3, 1, 'food delivery', '[]', 0, '2020-12-22 22:07:07', '2020-12-22 22:07:07', '2021-12-22 17:07:07'),
-('1dcc51b555b863cd086a760134479854f43fb8657d35ea8f2bff80092b267fafcf18fa8eaa30ab60', 76, 1, 'mealUp', '[]', 0, '2020-12-15 14:40:50', '2020-12-15 14:40:50', '2021-12-15 09:40:50'),
-('1dfef1870f7cf332c8c045072551589f2204d2e5cde96e38b7139dc9bb3c5e3c454370490df23c25', 76, 1, 'mealUp', '[]', 0, '2020-12-12 20:00:55', '2020-12-12 20:00:55', '2021-12-12 15:00:55'),
-('2054162e019ac06a0a5edaa520bd955ced9f2f51898b1f64b0e2b9a1c0ab3aa212740781e901165a', 76, 1, 'mealUp', '[]', 0, '2020-12-14 16:26:19', '2020-12-14 16:26:19', '2021-12-14 11:26:19'),
-('21f37634a888fe8522a36249df5d1da7a5e56f70929d2dc910f3271e1de5d7131f467d5017eb54f8', 76, 1, 'mealUp', '[]', 0, '2020-12-25 13:13:26', '2020-12-25 13:13:26', '2021-12-25 18:43:26'),
-('231c56558c0ef395524da8fe87178fd13923741f73ffc82048eed4027732cc2d1bbee72a2ef1277d', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:58:50', '2020-12-23 22:58:50', '2021-12-23 17:58:50'),
-('23b9140884db8a63e1f4ab0e3fa4df8e22d677fed4676b29aaa175f1dcc9f8f696b3d85b7120bd97', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:29:06', '2020-12-24 15:29:06', '2021-12-24 10:29:06'),
-('2464e1cf9a7d6f65fb6a4ad705f67b60576b87655b69ed1cdecb283e9abf7a0c55d191d4dcec66ef', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:15:56', '2020-12-12 21:15:56', '2021-12-12 16:15:56'),
-('25e7139b1802caeb5c954bcf62c6516ed6382eee549d9ad9fad9468b106746973b9842d831a0d258', 3, 1, 'food delivery', '[]', 0, '2020-12-22 15:18:39', '2020-12-22 15:18:39', '2021-12-22 10:18:39'),
-('263a635c7232258d479df62fc5015feceb83f8981613580d525bbfb1dcd1a81a04d8b3a0fafb595d', 76, 1, 'mealUp', '[]', 0, '2020-12-14 22:00:25', '2020-12-14 22:00:25', '2021-12-14 17:00:25'),
-('268f2e71f916d77e3e5adb9a5d1fe9c60b62e5758adb01de9093ff81a732890810842140364d40f7', 76, 1, 'mealUp', '[]', 0, '2020-12-04 23:44:19', '2020-12-04 23:44:19', '2021-12-04 18:44:19'),
-('270abb8a543ee82a9b718981cb868c72c1f937451749e40e7ea43b5806c24d5255cb4448d0119452', 10, 1, 'food delivery', '[]', 0, '2020-12-23 21:56:07', '2020-12-23 21:56:07', '2021-12-23 16:56:07'),
-('272387fab2c7101c10bc65ad326a7b0f471dd8942cefecd54b92809f53cdda27a96fba5170c8f124', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:27:09', '2020-12-12 21:27:09', '2021-12-12 16:27:09'),
-('273f8d2dedfda452a4665e25d499308ce8990bb868d5c14eefec24bb2dbcd1583edb41d925548798', 9, 1, 'food delivery', '[]', 0, '2020-12-23 21:26:33', '2020-12-23 21:26:33', '2021-12-23 16:26:33'),
-('278b4eed023be49a71d8e681b3a9152ce1fa5aa29d2058ef3154b4a4ff80909c3c58480ca84485a8', 76, 1, 'mealUp', '[]', 0, '2020-12-15 15:21:48', '2020-12-15 15:21:48', '2021-12-15 10:21:48'),
-('27db136d97e906c6983417b070ae5c992fecf630f0895ada79235fa2832cdcf908365ff3654c7d88', 8, 1, 'food delivery', '[]', 0, '2020-12-22 22:08:39', '2020-12-22 22:08:39', '2021-12-22 17:08:39'),
-('2818af4d6c9fefab20a087c56253391e51d2080a296c403f874fd21b2a446fa0c47237351d1374f8', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:59:50', '2020-12-02 16:59:50', '2021-12-02 11:59:50'),
-('294f6abeb8d7fda3163c31b5a5bbb8f23fe837aa9f9d489d4a72ba4beb21516cde6d5ae9ee55f358', 94, 1, 'mealUp', '[]', 0, '2021-01-04 04:57:58', '2021-01-04 04:57:58', '2022-01-04 10:27:58'),
-('295ecf531c8f5146c7975bd886711200bfb5989a59fd501f156bba6f7396cd291e5d6f7118e30df9', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:33:23', '2020-12-12 19:33:23', '2021-12-12 14:33:23'),
-('2c47fd108f862c52b309e6986d4487a1fcbffae36cb17cea6c60bc5caac0d875c55561af92ed94a6', 76, 1, 'mealUp', '[]', 0, '2020-12-04 23:39:43', '2020-12-04 23:39:43', '2021-12-04 18:39:43'),
-('2e165159a9d96614d7e24f0b82e108161b99067e196ff901a5bee0316a7dab2b1c1138f4d7a24771', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:43:03', '2020-12-24 15:43:03', '2021-12-24 10:43:03'),
-('2f39e97f3194a54858455b3aa876305f32e54f4b7c50d14e8948f7fd3f19988aa004a1fca573e565', 76, 1, 'mealUp', '[]', 0, '2020-12-04 15:19:12', '2020-12-04 15:19:12', '2021-12-04 10:19:12'),
-('30aa24a7733c279c1d89aa71c390e7a516e8c5019cb15383882934320faac57062c8c65bcc815e9f', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:58:33', '2020-12-24 15:58:33', '2021-12-24 10:58:33'),
-('321169284ad9bae8b49804d77546fd1395224796cbf72a20cfe8f3c2972285ba1e9016a9e303ef27', 76, 1, 'mealUp', '[]', 0, '2020-12-14 20:37:41', '2020-12-14 20:37:41', '2021-12-14 15:37:41'),
-('3333947264d24caac0b538a4784c3fbf1ae923ff5d9276b95069ee914cc04e27c6255d5edec2fa14', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:43:00', '2020-12-02 22:43:00', '2021-12-02 17:43:00'),
-('34abc5b0cc702bc1f0aa1208547defdc57983f16deb08d551989fb4808141a91317b1373a610c4bb', 62, 1, 'food delivery', '[]', 0, '2020-11-28 11:48:45', '2020-11-28 11:48:45', '2021-11-28 17:18:45'),
-('34b31026916e0a1195773e0804435fd226edd774d0097c75729532eddb3cce3d334961333343f7f0', 76, 1, 'mealUp', '[]', 0, '2020-12-03 20:17:32', '2020-12-03 20:17:32', '2021-12-03 15:17:32'),
-('38e5645ad9922e0950f50f5cbd8caea9c710f0b04e3533c01b298f9d6bbb1a9761ad8d2c548122c9', 10, 1, 'food delivery', '[]', 0, '2020-12-26 07:10:05', '2020-12-26 07:10:05', '2021-12-26 12:40:05'),
-('39bfb6f6d3a9c897451167a5a2b1731044c9db68bf1291a050c452e65fd3afed9dffe4a632614a32', 10, 1, 'food delivery', '[]', 0, '2020-12-24 16:03:08', '2020-12-24 16:03:08', '2021-12-24 11:03:08'),
-('39d9033b7604af84076ca3a5023560aff10fa794c4a79d87aac7f592567296f401a26511edfbdd37', 121, 1, 'mealUp', '[]', 0, '2021-02-16 07:02:08', '2021-02-16 07:02:08', '2022-02-16 12:32:08'),
-('39de9ecc12b47c66a5cca8914545b07a3bdfeb9e09c731155db8ee3371b68a763598ba22c3bc9216', 76, 1, 'mealUp', '[]', 0, '2020-12-11 22:19:12', '2020-12-11 22:19:12', '2021-12-11 17:19:12'),
-('3a8cb409b63182c5df3e6a9436939b15a14b648f66f5bcce4db9f62018354f64b86d0fc9de79ff2d', 76, 1, 'mealUp', '[]', 0, '2020-12-15 16:22:00', '2020-12-15 16:22:00', '2021-12-15 11:22:00'),
-('3adf8bd82edd0d887ece77c807833bb76afb225436f1c98763d1f5774a69889919a436283a8047ff', 76, 1, 'mealUp', '[]', 0, '2020-12-03 17:50:17', '2020-12-03 17:50:17', '2021-12-03 12:50:17'),
-('3bb130aa8613a9a4fcd829a4c607e92ba247fc191b0ca7cd8310005f7a435ccffa4205b4819d30ce', 62, 1, 'mealUp', '[]', 0, '2020-12-15 17:39:12', '2020-12-15 17:39:12', '2021-12-15 12:39:12'),
-('3d12dd4a473e41612039f63f0120f3104ce4f1d6ceab7bdc0e56950dd99ed941c11d508538c7f59a', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:26:48', '2020-12-23 23:26:48', '2021-12-23 18:26:48'),
-('3d3591f34223d0373a4d13f7578e9475eb1da0576cc1be8a590a07dd06bf77d7e557072580798fea', 76, 1, 'mealUp', '[]', 0, '2020-12-04 14:33:10', '2020-12-04 14:33:10', '2021-12-04 09:33:10'),
-('3e0f7c23f29e1e0c86fd32616e44cfd0b211e0c260a51ce9789b0308d957d20a95e8c586ea76442c', 76, 1, 'mealUp', '[]', 0, '2020-12-12 17:56:48', '2020-12-12 17:56:48', '2021-12-12 12:56:48'),
-('3ee728a0c9bd3c597aa52fd524acdbfc3964b72622de1494eb67a3686863e26ba7bb006e7beb2d73', 10, 1, 'food delivery', '[]', 0, '2020-12-23 21:04:52', '2020-12-23 21:04:52', '2021-12-23 16:04:52'),
-('3efe41dadb314cab72f20c60f5c9beb04de1211b163d64733ad089734f05bbcb0da3e186e7eab492', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:36:12', '2020-12-12 19:36:12', '2021-12-12 14:36:12'),
-('3f76e5c9a307aeb049bd549b094499a249bb549014e34a67d7b6ce4f55a5e4eecda89ffcd77444ba', 62, 1, 'mealUp', '[]', 0, '2020-12-22 17:24:58', '2020-12-22 17:24:58', '2021-12-22 12:24:58'),
-('3fd39d52439f69fa1eac4999823f7ac17ca5fb8537d583d218bb0b021e45d539b5f7dcd662c2d1f0', 76, 1, 'mealUp', '[]', 0, '2020-12-15 14:49:07', '2020-12-15 14:49:07', '2021-12-15 09:49:07'),
-('40f9a2eff98c0624501ff93b905e8af0913c246c42905dbff289ccec2f287d3776540d2a6010e908', 76, 1, 'mealUp', '[]', 0, '2020-12-14 23:53:36', '2020-12-14 23:53:36', '2021-12-14 18:53:36'),
-('4206f2e052cb85226a71593a97b828907a8a310c816c9b506539b114e1689913610c050e7e024ce8', 76, 1, 'mealUp', '[]', 0, '2020-12-12 15:51:57', '2020-12-12 15:51:57', '2021-12-12 10:51:57'),
-('42182d5c734dbfc6d1512416a71f29e483e8ff0876260de78112cf23c2272bc2fff46063b9ed81e5', 76, 1, 'mealUp', '[]', 0, '2020-12-07 21:34:46', '2020-12-07 21:34:46', '2021-12-07 16:34:46'),
-('43c256920e6b12199da826d945c5b997bc2f6f0da6d7e7730e7f85e70993657f67bcc94e4263270e', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:37:20', '2020-12-23 22:37:20', '2021-12-23 17:37:20'),
-('44142a2a3849edabc5515bad1b7361bae9013b9d87ec9e73f9c220b759dd9f21dce2a2a0dbe89c38', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:07:54', '2020-12-23 23:07:54', '2021-12-23 18:07:54'),
-('447868117f812573332477229cb6974d9a35e532e28ad5d6b4e164cb587b29db7bcf50e8cf6a7e72', 76, 1, 'mealUp', '[]', 0, '2020-12-14 23:40:55', '2020-12-14 23:40:55', '2021-12-14 18:40:55'),
-('45fbe074424380e850f553b954cdc5066d0996dc5e1f0fd5f115e315cca6d6cba1bd2a4d4a3d0c28', 76, 1, 'mealUp', '[]', 0, '2020-12-14 15:59:01', '2020-12-14 15:59:01', '2021-12-14 10:59:01'),
-('46192e8bc4ca751fa1a3253319dcc17bb7dbd9e441dc62998024a1390850b2a71f124c23db0d40ff', 76, 1, 'mealUp', '[]', 0, '2020-12-12 20:47:26', '2020-12-12 20:47:26', '2021-12-12 15:47:26'),
-('49b0ec5b11bcb7cf0a867ba484b918f927ac4e5a207bcd57eda01ee12ed20c7bf4f3b29d7a98eb39', 76, 1, 'mealUp', '[]', 0, '2020-12-03 15:29:13', '2020-12-03 15:29:13', '2021-12-03 10:29:13'),
-('4a303312b27bc69203207eb9b3269bff6bdeb8976b7ebcdd044cbaf556b3f7c38fb02017715e90b0', 3, 1, 'food delivery', '[]', 0, '2020-12-21 15:35:33', '2020-12-21 15:35:33', '2021-12-21 10:35:33'),
-('4ad4d9540ee7a2102f55475cad86f3f290b3347ee92d0cc8bc536d46450d3eb92a265479a5fe7978', 10, 1, 'food delivery', '[]', 0, '2020-12-23 20:47:40', '2020-12-23 20:47:40', '2021-12-23 15:47:40'),
-('4bcf57582bb9c81a848029e71e39960eb80c3f3a6882af6a1bc4d4173c7f5f5c2832fad1406e4925', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:49:03', '2020-12-14 17:49:03', '2021-12-14 12:49:03'),
-('4dd2e63a7af9dd9b8a3f8b405685e05b7ee86a8f87eb86c05eb1f678b61e1b04de545fd61cc995e5', 10, 1, 'food delivery', '[]', 0, '2020-12-23 19:47:06', '2020-12-23 19:47:06', '2021-12-23 14:47:06'),
-('4f101ff756a9c957ce44a1e5a92d757914b134ca482b801f2657e739d82c9ed3ba36fc86557326bf', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:13:19', '2020-12-02 22:13:19', '2021-12-02 17:13:19'),
-('505a95ca41bb29ee4e1d3e5f757cff0fe038de6bc7e577cdc897f9f5675e77f507cbfd19a9774612', 10, 1, 'food delivery', '[]', 0, '2020-12-23 17:07:36', '2020-12-23 17:07:36', '2021-12-23 12:07:36'),
-('50d32cf263e20357fa04ee331ac85fb6ef3adbe10c7d0cb060c13a50b17fa08436745992da6212ee', 76, 1, 'mealUp', '[]', 0, '2020-12-08 17:57:12', '2020-12-08 17:57:12', '2021-12-08 12:57:12'),
-('51a3bc0ecc99db41661f7ecb91911625e95e99598d91913d76c9b8388aa9a8f6a78aa9404ea94a39', 115, 1, 'mealUp', '[]', 0, '2021-02-12 11:57:14', '2021-02-12 11:57:14', '2022-02-12 17:27:14'),
-('51afb01c2b0af34baebfac43a371dc080a5d846ba170a1733916d08880f47a00028bab77d4cb07cc', 1, 1, 'food delivery', '[]', 0, '2020-12-18 23:28:08', '2020-12-18 23:28:08', '2021-12-18 18:28:08'),
-('51df89f98d7122ab96c0d94b58be6f98e8c0403aa709bbe5b25644bd20e6d80ecae348acd3003813', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:04:38', '2020-12-14 17:04:38', '2021-12-14 12:04:38'),
-('5236f4ddeb523048a8d39598623829b753816db33641e6ba521637906c7669213d308af6e422517a', 17, 1, 'food delivery', '[]', 0, '2021-01-04 05:37:53', '2021-01-04 05:37:53', '2022-01-04 11:07:53'),
-('540dc3e6a8db795f3fd17cf4c5c7b4b39eaf5f5565329da1039c01e7cb9c5999ab20b0abc7c3e62e', 76, 1, 'mealUp', '[]', 0, '2020-12-12 15:59:05', '2020-12-12 15:59:05', '2021-12-12 10:59:05'),
-('560bdaf4bbc77d3a3ee633480d633e8526f4c397984ade22f44db0e6829484315dd9ed21c58700a6', 76, 1, 'mealUp', '[]', 0, '2020-12-11 22:29:39', '2020-12-11 22:29:39', '2021-12-11 17:29:39'),
-('57c1e4663bf913cac26fb1b6b53ca9b63350060d8b121abdb45c1787d336ebd55911e8309f97e771', 76, 1, 'mealUp', '[]', 0, '2020-12-12 17:51:35', '2020-12-12 17:51:35', '2021-12-12 12:51:35'),
-('5a68410614663465291403b8e6777c9b9c2df67989afcea2aab671245f98108c482f9d5315178aad', 76, 1, 'mealUp', '[]', 0, '2020-12-12 23:34:31', '2020-12-12 23:34:31', '2021-12-12 18:34:31'),
-('5a6e9c37b7590b0d40513b621739d2901746968a3a3dc586389554768c233716b807c4711853d51f', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:26:02', '2020-12-12 22:26:02', '2021-12-12 17:26:02'),
-('5ba05498df9e2388522a1119540b727e2fce780a72634a20241cfea572a13ac416a070ee840cb45a', 76, 1, 'mealUp', '[]', 0, '2020-12-15 14:32:56', '2020-12-15 14:32:56', '2021-12-15 09:32:56'),
-('5fe1c3d03cacaa0139f6eddd4dc65ec7d47371c82ddec9c1cc033bc63738ed3b9efeef88bbe30085', 3, 1, 'food delivery', '[]', 0, '2020-12-22 16:23:49', '2020-12-22 16:23:49', '2021-12-22 11:23:49'),
-('60270a08946db3b2ec5d5a2ede4079c12c690960bbeb99558b4c3968bb9d7c9782fa3850581213f5', 76, 1, 'mealUp', '[]', 0, '2020-12-14 16:40:37', '2020-12-14 16:40:37', '2021-12-14 11:40:37'),
-('60ac2db30e5577f0b2c4a6b38eb79c94e1f3d83567585c92d4ea866fff128ec17b278b88240206e0', 76, 1, 'mealUp', '[]', 0, '2020-12-04 20:35:34', '2020-12-04 20:35:34', '2021-12-04 15:35:34'),
-('60fd36b308e153b85c71380cbb170120f8a0d3bf067a2056700171d8f1f2ebe3268ebc1801b301e0', 76, 1, 'mealUp', '[]', 0, '2020-12-04 15:23:45', '2020-12-04 15:23:45', '2021-12-04 10:23:45'),
-('615c2bdbac89b9e7750e919b854dda7e7f921482d289626d0289d475495af125f2a0d8ab16b18ddc', 58, 1, 'food delivery', '[]', 0, '2020-11-28 11:48:36', '2020-11-28 11:48:36', '2021-11-28 17:18:36'),
-('61a551a97184522d1e9872e3e5d7989c50225e7012b5c84e24895f8c79e32ae88473090ac52920af', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:13:30', '2020-12-14 17:13:30', '2021-12-14 12:13:30'),
-('61af0973ab36dd351e31b2306eeaf27a32a8238d3a134804ff1a353a1ddf84f36325821370c06502', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:52:10', '2020-12-24 15:52:10', '2021-12-24 10:52:10'),
-('61e3dc1f762b77567f1743cb3e02aa10098b939c65c970e1c4cb862508122698eda7ff75b12f84f7', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:46:28', '2020-12-22 22:46:28', '2021-12-22 17:46:28'),
-('62d2c8516c4d7af4c6158c9f1780258aa6d441653da5e26406391c6fa38ad2591d30aeb97ed10c72', 76, 1, 'mealUp', '[]', 0, '2020-12-04 15:09:09', '2020-12-04 15:09:09', '2021-12-04 10:09:09'),
-('63483901af83308e52bf5be686e392fa33edbec48d768927bc06437470ead0e2b9547133e99916c3', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:05:59', '2020-12-23 22:05:59', '2021-12-23 17:05:59'),
-('63729b347be0640cb33b3f8dab0d89528232676732d8c9707b008d5cf93880b1db0fbce9ab648488', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:08:24', '2020-12-12 21:08:24', '2021-12-12 16:08:24'),
-('63b9bc31ee1277893b9e02406aee6ce4ee0a5870a4ecac76a76624eff5c78da1de8f0713aba48218', 58, 1, 'food delivery', '[]', 0, '2020-11-30 04:29:50', '2020-11-30 04:29:50', '2021-11-30 09:59:50'),
-('643e52fb6d582a9ff2f4d2300aaf825692e423f41d9ca798b8740d3e329e730a1ec2da2c011db90d', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:06:06', '2020-12-02 16:06:06', '2021-12-02 11:06:06'),
-('64614f0309ecaf433230915200ef19899947a5ad463b07347c9db3c5c09426b0faa05830aaaa274d', 76, 1, 'mealUp', '[]', 0, '2020-12-08 20:44:01', '2020-12-08 20:44:01', '2021-12-08 15:44:01'),
-('64753770d718a068247fdc5ab449c6eea17dc08cda3decad1de07f59f94d7779478e599e8fd93104', 76, 1, 'mealUp', '[]', 0, '2020-12-26 04:06:09', '2020-12-26 04:06:09', '2021-12-26 09:36:09'),
-('64ce3a2a53ea6e3f558367cb8bdc76eaf61b8b355ba3b830dd1fc5de2008ad7b6b303c9cb16421fe', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:00:41', '2020-12-23 23:00:41', '2021-12-23 18:00:41'),
-('65324cb2b26e5d329d85768a36280d659991e929e4991729d6736013e2bb4456ffac2c492018b608', 115, 1, 'mealUp', '[]', 0, '2021-02-12 13:22:27', '2021-02-12 13:22:27', '2022-02-12 18:52:27'),
-('65dcdd1d72da0e12c9494379cc4970731e6a10c5d9bb55c104e2328b06b204eed2418d0afdc442d8', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:01:07', '2020-12-02 22:01:07', '2021-12-02 17:01:07'),
-('6726090c2a1f6a978dd6ee07bb9163f606f7420562c79c64023292c6d8ce6ef28b52f9312141fa2d', 76, 1, 'mealUp', '[]', 0, '2020-12-10 21:43:42', '2020-12-10 21:43:42', '2021-12-10 16:43:42'),
-('67c2837e70058617c646e943caaf1f6a775c4d9ff76f2fe259a4f0fa220e6407061864b9d76a43e4', 8, 1, 'food delivery', '[]', 0, '2020-12-22 22:08:08', '2020-12-22 22:08:08', '2021-12-22 17:08:08'),
-('682f334dad5deb686b45cd3c68c1824cb350d80ffa1d337111ee5f0907a87159c100b061c3994e09', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:26:37', '2020-12-02 22:26:37', '2021-12-02 17:26:37'),
-('68c7227dc9d676a52098bafff287b9a3ac83d7545e052f1db7c22d78c999abe551491e8b38a37c1e', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:11:57', '2020-12-23 23:11:57', '2021-12-23 18:11:57'),
-('6a9bed1b237ac710cf516ba83955ec203f540979e7f02ea3701b66dc64fd5eb47ebddbd9d1e3447e', 76, 1, 'mealUp', '[]', 0, '2020-12-03 17:18:25', '2020-12-03 17:18:25', '2021-12-03 12:18:25'),
-('6b4a89d175a39d5e0a239821c352abf9a31e48a6b83bf4a8224cebd54038a8be3a3dc30aae1de0da', 1, 1, 'food delivery', '[]', 0, '2020-12-18 23:35:36', '2020-12-18 23:35:36', '2021-12-18 18:35:36'),
-('6be66e32c07f253cc5844554737bc1242d94955bed1d8591c4b306397fc2fe28ca421a20932ab267', 76, 1, 'mealUp', '[]', 0, '2020-12-03 15:08:40', '2020-12-03 15:08:40', '2021-12-03 10:08:40'),
-('6bf11e89b6f778cc7aa778b6c106ba3969a0596d178baede39bff8ccff465c21556a5ba17727a7f5', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:41:50', '2020-12-22 22:41:50', '2021-12-22 17:41:50'),
-('6c0bfacb27f6b1a413c8155842371d6e68c8d8e9bafe84f9701592b496ccd1e1319462decb61b8e2', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:41:17', '2020-12-05 17:41:17', '2021-12-05 12:41:17'),
-('6c0d71b8dbc5cbf74294547e0a884b5bbd8e3e7bef0eb6864fc4144662e906b7a9ac5f57bb9f5b8a', 10, 1, 'food delivery', '[]', 0, '2020-12-23 20:47:22', '2020-12-23 20:47:22', '2021-12-23 15:47:22'),
-('6c2efa595f7765595fd381a34957c059f3d22c3f5bc1a5c98154b5c1550f2e56a7a1930237211c7c', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:33:54', '2020-12-22 22:33:54', '2021-12-22 17:33:54'),
-('6cb1e6be508c765f336e44fd0f2c7cd358e33d4ddc33be03532f1693ede0373c4e5f3c731f66ad47', 147, 1, 'mealUp', '[]', 0, '2021-07-05 06:18:34', '2021-07-05 06:18:34', '2022-07-05 11:48:34'),
-('6cda2f4592578fd6a7ccfacc071b6c321a354fba5350c9fb625653bb8a7e23318cdd8fe35cb226e7', 119, 1, 'mealUp', '[]', 0, '2021-02-15 13:25:52', '2021-02-15 13:25:52', '2022-02-15 18:55:52'),
-('6cdabfaea5f5e8e78c1ac72ec1c051ac2ea1f0d722177ebf6e63e2a2110c95464160920a86e044d9', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:44:05', '2020-12-02 22:44:05', '2021-12-02 17:44:05'),
-('6dc9fa59d9760135505e6af6b6d430b11479985c5a5fafc8725b4c6654d8f5d0d8c30da1cbc0286c', 76, 1, 'mealUp', '[]', 0, '2020-12-04 16:08:55', '2020-12-04 16:08:55', '2021-12-04 11:08:55'),
-('6e46b7bc3b2c70ef0dec6895eabb0f0378e573739f9a363a47a6a3c9e1e0c91178d57df37332ee21', 8, 1, 'food delivery', '[]', 0, '2020-12-22 22:15:47', '2020-12-22 22:15:47', '2021-12-22 17:15:47'),
-('6e8b5de2e70f65c24914a809b16e1ff80b295f09e911b89f3a8f030f190798ec6afe1928c9c28a81', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:53:58', '2020-12-02 22:53:58', '2021-12-02 17:53:58'),
-('6ef1df3c4270b245ad761ffd761bea7e05274b7360bf2c5625d018743f5c331f83383069198aef7f', 1, 1, 'food delivery', '[]', 0, '2020-12-18 23:35:49', '2020-12-18 23:35:49', '2021-12-18 18:35:49'),
-('6ef4a99e5b453c414da38a78476dfa5e21c88835a320032fc72b1b3a4edfc3055ddd8dccc8fa501a', 76, 1, 'mealUp', '[]', 0, '2020-12-03 23:08:20', '2020-12-03 23:08:20', '2021-12-03 18:08:20'),
-('6fba8ad6e5ea06ccc829458b0a5007c7c98c1da05bbd857554cc9b2a6179181860f8a07c99848c02', 76, 1, 'mealUp', '[]', 0, '2020-12-03 23:04:54', '2020-12-03 23:04:54', '2021-12-03 18:04:54'),
-('714fbc56091098412c6beb0b098ec3f98432fca32396c520269c4578b3298353ebf978e189bd9c58', 76, 1, 'mealUp', '[]', 0, '2020-12-03 22:24:56', '2020-12-03 22:24:56', '2021-12-03 17:24:56'),
-('71a7e80976b920a8eb5ad9ad6356afc4a35af3cefbf06e915b4f302a43900820a55509d1c427d3a8', 76, 1, 'mealUp', '[]', 0, '2020-12-15 15:06:51', '2020-12-15 15:06:51', '2021-12-15 10:06:51'),
-('72a38459d42ad001c2d2a821cc211322dbe33657fb69fc42cc359fdd0dfb5167d17871181af31dc6', 76, 1, 'mealUp', '[]', 0, '2020-12-08 20:58:09', '2020-12-08 20:58:09', '2021-12-08 15:58:09'),
-('72baff0ae5b28d1239681d5441cee844bafcb5f0b2a687ff7c45d02d8fbda6a4acbfe0b8b376e852', 19, 1, 'food delivery', '[]', 0, '2021-01-04 05:38:56', '2021-01-04 05:38:56', '2022-01-04 11:08:56'),
-('73c15b370a766058443d596838b947960a630ebdbd33ebbb5b6f1e4cfee5f5a0915adf6486a114db', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:25:23', '2020-12-12 21:25:23', '2021-12-12 16:25:23'),
-('741a089132175bbf27ac95e10cdb2c254f032434005f7246d9729df9bf7eb53b3e9f34de360b71ee', 24, 1, 'food delivery', '[]', 0, '2021-02-16 04:23:16', '2021-02-16 04:23:16', '2022-02-16 09:53:16'),
-('74a60b81feaf1ec6caa221f3365722284cd3c9742d6d5c29a342e0c1de3362f93ca6ed27183f75b7', 3, 1, 'food delivery', '[]', 0, '2020-12-22 16:24:03', '2020-12-22 16:24:03', '2021-12-22 11:24:03'),
-('76c674b51084b02f8e1f6e5753ae5e81cc5a958f542d51e83b0ec4cf1930cf1a32902f07087dd768', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:38:46', '2020-12-22 22:38:46', '2021-12-22 17:38:46'),
-('78718f652114aeb8f96e3ba6adf918d010d6798db5597a6daaa407a4ee44dec6a0b3600b68eadef1', 23, 1, 'food delivery', '[]', 0, '2021-01-04 05:45:56', '2021-01-04 05:45:56', '2022-01-04 11:15:56'),
-('78d4eb020c3005606a380f4ef679ee179558360f051e5c0b32fff2344aba39bdae2df1ce67f3221e', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:47:50', '2020-12-22 22:47:50', '2021-12-22 17:47:50'),
-('79779f0316fd7919d855dd587ef654f27d2e44108b4086998f2c6f598376862b00bfff3775efeef8', 76, 1, 'mealUp', '[]', 0, '2020-12-04 23:21:01', '2020-12-04 23:21:01', '2021-12-04 18:21:01'),
-('7c90f9204e7971de8ace8f5c71572bdac640603bcc94bb904a15cec0ab3933340f4e1c38e67747a4', 76, 1, 'mealUp', '[]', 0, '2020-12-15 15:29:07', '2020-12-15 15:29:07', '2021-12-15 10:29:07'),
-('7cd87020bd3603b0b1f751bb1a21401b004fcd21abd6733c5f39b19c66303a8585e44b565210703c', 10, 1, 'food delivery', '[]', 0, '2020-12-23 17:08:25', '2020-12-23 17:08:25', '2021-12-23 12:08:25'),
-('7d2c6e9a478a9a53bf382ee5b061fe18cebf6e7225d243693457512f713ced6b175a1c1b016ddf54', 10, 1, 'food delivery', '[]', 0, '2020-12-24 16:00:52', '2020-12-24 16:00:52', '2021-12-24 11:00:52'),
-('7e05f9c084ea92861fefc854fca599051a097546106a4ff61830a5697a7a5e188790e0bdde9c9b0d', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:05:43', '2020-12-02 16:05:43', '2021-12-02 11:05:43'),
-('7e663494783fb48ece5638a15afd7d2fa34b62dd710ecba0b7a5a4bc9aa0c4ad116ad877e58581fe', 76, 1, 'mealUp', '[]', 0, '2020-12-12 15:20:24', '2020-12-12 15:20:24', '2021-12-12 10:20:24'),
-('7e9a9216f32fe39dc0c2623eff18184c147b3f6bb7da5b1edcabe5a997b5e0f42e58c588d99fb234', 3, 1, 'food delivery', '[]', 0, '2020-12-22 21:50:38', '2020-12-22 21:50:38', '2021-12-22 16:50:38'),
-('801e8ee0640189c03bb9b7d97446762ad6a73e5540e51b0464edaa255db1b3b0eae881827f9e76f1', 76, 1, 'mealUp', '[]', 0, '2020-12-05 23:18:55', '2020-12-05 23:18:55', '2021-12-05 18:18:55'),
-('80851c0252aa735e9c323c6f22bf39da042de5d80019e09f1bbbc86983b4f34ee4ecbc7249432ca4', 18, 1, 'food delivery', '[]', 0, '2021-01-04 05:38:05', '2021-01-04 05:38:05', '2022-01-04 11:08:05'),
-('81186b00134f739ddd28d2b7121fb8f712a0359169afa5475e163f386f8aa9df72336dd6da26030d', 20, 1, 'food delivery', '[]', 0, '2021-01-04 05:39:28', '2021-01-04 05:39:28', '2022-01-04 11:09:28'),
-('814b4493d40fdf6e7b7fac799189da7a949b14c482d255fc6120b41639834648dababce47a3cfc38', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:53:55', '2020-12-23 23:53:55', '2021-12-23 18:53:55'),
-('82f68e11683bf3838a4a288fa8b99060bc36cd4cc6b1d877009318ed6e3f6618eaa2ee36fc026d92', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:20:41', '2020-12-14 17:20:41', '2021-12-14 12:20:41'),
-('835be2abfb19938dc3f9b455279fa4fc16c4049dd4e2a5426f04edbd1474cb119cc4d80416db187f', 67, 1, 'mealUp', '[]', 0, '2020-12-02 16:00:20', '2020-12-02 16:00:20', '2021-12-02 11:00:20'),
-('84af1dd7b9a5ace47c8528ef4c7f651f00f298c9dab28214c3f09aa813419c6a48a683c874b83150', 3, 1, 'food delivery', '[]', 0, '2020-12-22 14:46:53', '2020-12-22 14:46:53', '2021-12-22 09:46:53'),
-('8726ededb85d598853c1f73e1f27b3ff357d4bd59c2b2be0a1a536fbde639c68ff433281b96cdfdc', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:06:27', '2020-12-02 16:06:27', '2021-12-02 11:06:27'),
-('887084ee2ca1c28aa3d177908b8ef78570a59e601dbb7e56557f9abf2a6a2c77b0a5664094c3cf68', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:30:49', '2020-12-12 22:30:49', '2021-12-12 17:30:49'),
-('887db22447a34a670cd379765fbc47191281eee9ef15c623fefb62a4f67e93b6746fc9254b4a362a', 23, 1, 'food delivery', '[]', 0, '2021-01-04 06:35:39', '2021-01-04 06:35:39', '2022-01-04 12:05:39'),
-('8bc7531a8711c0c6e66bc44a4d77b614e42e2f7a370b1757ad1438412545a9dc87b5a1f8598c70e0', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:29:16', '2020-12-12 19:29:16', '2021-12-12 14:29:16'),
-('8c7a8fadf37874000e2d7cf377628574bdc1f9ce31bc8805905fc290c6840632603543171cdeefb2', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:40:17', '2020-12-05 17:40:17', '2021-12-05 12:40:17'),
-('8cac4fcab9cca41ccff1f51c0259ee69cccc8cb71a2391e16f152ff02e3735add291f28086107ca3', 76, 1, 'mealUp', '[]', 0, '2020-12-02 21:59:34', '2020-12-02 21:59:34', '2021-12-02 16:59:34'),
-('8ec77fc82756ccdd78815f6892ed481a9064398af5c1f3295dfd40320be1b8bb863574b0e68e9d37', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:44:49', '2020-12-05 17:44:49', '2021-12-05 12:44:49'),
-('91558272ccf08a3d5009f81d4bf5a14d8e3f5551b9646ef506b12dea57cf594599a21d3f60ef5e3f', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:41:03', '2020-12-22 22:41:03', '2021-12-22 17:41:03'),
-('91565461bd48804a7048dd0d0f1859c5e65b5b2708c28838d80d371ff3700247e27ca356712339db', 76, 1, 'mealUp', '[]', 0, '2020-12-05 20:22:02', '2020-12-05 20:22:02', '2021-12-05 15:22:02'),
-('93291473a414ff0862bec11cd95491cd2937e2954c72a2249192a2bab7520166f86d6b9dae0afaf3', 62, 1, 'food delivery', '[]', 0, '2020-11-30 08:47:02', '2020-11-30 08:47:02', '2021-11-30 14:17:02'),
-('937629e0c142ac100f00b4982e328ccc1148dfc8fc6bc10b265deede1b5bf9c55df04a3379c2db60', 76, 1, 'mealUp', '[]', 0, '2020-12-04 15:16:25', '2020-12-04 15:16:25', '2021-12-04 10:16:25'),
-('93ccab74df0742107860d7fd76f3daf70fc048720d4d4fa2976d260e1bf14eab6ba6bf2036cd1ef3', 3, 1, 'food delivery', '[]', 0, '2020-12-22 20:30:44', '2020-12-22 20:30:44', '2021-12-22 15:30:44'),
-('93ccdc45ce27fdda2d22ae676f4c6674888d327d86fa3ecfc4549fb89509b303007e71cc57e9793e', 10, 1, 'food delivery', '[]', 0, '2020-12-24 14:28:33', '2020-12-24 14:28:33', '2021-12-24 09:28:33'),
-('94ea8acc5803dc5f96810ea25cfde03554786383640be50f79a7f6a6249ba252a374df23f38780b2', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:39:08', '2020-12-22 22:39:08', '2021-12-22 17:39:08'),
-('951965786830b35c6625ce6ba995eb1da5a0e66d4b2f2e819587a3152160b8d45b3f8c2d7c867b84', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:45:26', '2020-12-12 22:45:26', '2021-12-12 17:45:26'),
-('975bc6683b131875d0550be492c00b8822ea7583d37c975564ce83d62fed76fd60edb8867f94694c', 76, 1, 'mealUp', '[]', 0, '2020-12-05 20:18:30', '2020-12-05 20:18:30', '2021-12-05 15:18:30'),
-('995ed92372e4d4907d364e9e4b16e20b6a698d52d02c0516542546db200a05ef7fbb216944b7ba45', 76, 1, 'mealUp', '[]', 0, '2020-12-04 15:31:31', '2020-12-04 15:31:31', '2021-12-04 10:31:31'),
-('99abb0e72aeecbc424854a875ff2ccff5126a4a03a9c4350b4a0491c13cdd93fd1a24ce1e2b3595d', 15, 1, 'food delivery', '[]', 0, '2021-01-04 05:15:39', '2021-01-04 05:15:39', '2022-01-04 10:45:39'),
-('99ec16302bfb908f2db6c3a51c16dfa9966d87d175a4fab3bcc1180f3e56bb2cef9328b6a03f5fa1', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:43:54', '2020-12-12 21:43:54', '2021-12-12 16:43:54'),
-('9a0839ff7a1c5ab630abce84e147db6605e120d12a138b139f3c7194418132f237f30d2f0460c623', 76, 1, 'mealUp', '[]', 0, '2020-12-07 20:49:33', '2020-12-07 20:49:33', '2021-12-07 15:49:33'),
-('9acc319566e38e09eb71b5d1ce1f62994d1105e6c7994c5e3711bb9a354f0526b3d27f86d6a92079', 76, 1, 'mealUp', '[]', 0, '2020-12-16 17:55:13', '2020-12-16 17:55:13', '2021-12-16 12:55:13'),
-('9be3f9f72dd4e9773ec08a619a741b7e7b979eed15d1f32e62c82945f23c5401059a5da043b6b880', 10, 1, 'food delivery', '[]', 0, '2020-12-23 21:35:49', '2020-12-23 21:35:49', '2021-12-23 16:35:49'),
-('9be63b71336276b4203fd27e39b9c02a49652d68561baccb69c0b3c8bd2bc83666bb7061c6f80ff7', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:49:38', '2020-12-12 19:49:38', '2021-12-12 14:49:38'),
-('9d030c9f48fef1d7b1a9149d80cfac774b9fb0913c9db4ad39fc1e9c84db02335a52b64daf293b75', 76, 1, 'mealUp', '[]', 0, '2020-12-10 19:31:46', '2020-12-10 19:31:46', '2021-12-10 14:31:46'),
-('9e3964b5c505b9e57537c22551b04d31a8bf6dccbba761c9881ffcc73b005c5affcc9f5d431a3384', 10, 1, 'food delivery', '[]', 0, '2020-12-23 19:45:41', '2020-12-23 19:45:41', '2021-12-23 14:45:41'),
-('9f26c27841dafd6cd72a53df8e28d966dc33094bdadda41da510f303554fee1ba92b5818ca63d6f2', 67, 1, 'mealUp', '[]', 0, '2020-12-02 15:58:42', '2020-12-02 15:58:42', '2021-12-02 10:58:42'),
-('a14367e7964cd172f0f08b79feedd6259846900d2d413ee6e12a9738ca5186cf13ea1803c8bc888f', 10, 1, 'food delivery', '[]', 0, '2020-12-23 21:02:32', '2020-12-23 21:02:32', '2021-12-23 16:02:32'),
-('a1bf4e1fb9cd141c3c3707ee735400321cb51095021dee57a1c3a789b8402d7fcc3ec374285897ec', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:40:58', '2020-12-02 22:40:58', '2021-12-02 17:40:58'),
-('a20b2398f5c38182a98b717d5b857d8e0ac94192c1374b8f773189143c27aad5bf055afc3733ca0a', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:54:05', '2020-12-24 15:54:05', '2021-12-24 10:54:05'),
-('a2d8d928412e86fd154b04167a0856c81e36af616142e5afa4c09ae779e1f123bb6fa4c37555f798', 76, 1, 'mealUp', '[]', 0, '2020-12-03 15:08:21', '2020-12-03 15:08:21', '2021-12-03 10:08:21'),
-('a4942c351f5166d57ee3dfc113ab94e4929cbe027ad5d448f02b22091c625cd91de19f8595d15f63', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:26:48', '2020-12-23 23:26:48', '2021-12-23 18:26:48'),
-('a52c1aaea5a750e0a63a61d6420de6bd3a31af23859bba8140afa66380b4abd163cd8f40f19b62db', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:40:55', '2020-12-05 17:40:55', '2021-12-05 12:40:55'),
-('a8c0f64346fcd6b153e84aaaa08712f440eb46b8e49695939a742c12358fc3a4e83572a6555785c3', 10, 1, 'food delivery', '[]', 0, '2020-12-23 19:29:27', '2020-12-23 19:29:27', '2021-12-23 14:29:27'),
-('a8c90804e9dd926415adf8fdb083bd653a5e8f2f85f059b12da398251c7a5d17f3270032dd015b0c', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:08:33', '2020-12-23 23:08:33', '2021-12-23 18:08:33'),
-('a9fa611fdc320e3c5923ef12c2ca45a0ef60837e0aac5ef1dbfa015aba582ccc171e1d8eeab13206', 76, 1, 'mealUp', '[]', 0, '2020-12-12 19:57:45', '2020-12-12 19:57:45', '2021-12-12 14:57:45'),
-('aa95f0a97cd45e222b8623c876575ab4fa27e981f0c7a45bfa62beb3bfdde20e755821c17152871f', 10, 1, 'food delivery', '[]', 0, '2020-12-24 16:05:31', '2020-12-24 16:05:31', '2021-12-24 11:05:31'),
-('ab7ffaac563da181b82851b2988488249b04fc1f0e1df1375fba9d98ad2cb7f1b84fd2012ca7d516', 76, 1, 'mealUp', '[]', 0, '2020-12-12 16:10:33', '2020-12-12 16:10:33', '2021-12-12 11:10:33'),
-('ab972ae6a246222895f254565fe41d5dc645af4b38a493dec1c0edee634636fe26f7dff5d6b66445', 76, 1, 'mealUp', '[]', 0, '2020-12-10 22:56:28', '2020-12-10 22:56:28', '2021-12-10 17:56:28'),
-('abc6d3a95164ca5583e3ca05acd7798202c04815112e555a16e77a6cc007d7d9546a7eba55434cba', 76, 1, 'mealUp', '[]', 0, '2020-12-12 14:39:42', '2020-12-12 14:39:42', '2021-12-12 09:39:42'),
-('ac2c497e19b54933c82ee0e79b95c909c0dedf3133b2eac77c1d8b9d1e7f3d811a4845b6ae82161e', 1, 1, 'food delivery', '[]', 0, '2020-12-18 23:35:40', '2020-12-18 23:35:40', '2021-12-18 18:35:40'),
-('ad22d4eec0a2663cb1b18fce4d9c7ec38d1034d6f539fcecc89b58bc9e16d92a7a36cd4e90f61e82', 13, 1, 'food delivery', '[]', 0, '2021-01-04 05:13:14', '2021-01-04 05:13:14', '2022-01-04 10:43:14'),
-('adeca3810e898e26fbc4b1e43b27fa73487f2f091b34ab99b752a88423910592aaee113f8765d55a', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:06:35', '2020-12-23 22:06:35', '2021-12-23 17:06:35'),
-('aeeb8cd59a4bb14ae57f9f43506633691272a1ae38a39599e918335f46dbcb985ee4f19002b36a13', 76, 1, 'mealUp', '[]', 0, '2020-12-12 16:35:18', '2020-12-12 16:35:18', '2021-12-12 11:35:18'),
-('afea08263ca3831e2550c083d968f4fe1ce840f3f056eb0a6c57609532a9c83b18efdbf9fb81639d', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:33:59', '2020-12-02 22:33:59', '2021-12-02 17:33:59'),
-('b111f92a9a7c091dd16adeea412275a769bb924b0dcba6ce4f011aef485678395460f8b8ab3db882', 76, 1, 'mealUp', '[]', 0, '2020-12-15 14:59:28', '2020-12-15 14:59:28', '2021-12-15 09:59:28'),
-('b3c9ccdb3e04139c30b77d4efd44a0060fbf4f7d1c559ab9457f03829a919f94e701535ff52520a9', 62, 1, 'mealUp', '[]', 0, '2020-12-02 17:55:52', '2020-12-02 17:55:52', '2021-12-02 12:55:52'),
-('b4a9d0875d052d99a71d9857eb5feeb79552cae5619f6189aee60783ca9583a49fff724ab958595c', 76, 1, 'mealUp', '[]', 0, '2020-12-14 14:52:27', '2020-12-14 14:52:27', '2021-12-14 09:52:27'),
-('b53c3d30ea0e1c95861c7dce2d7834a1cfae4b3aef5a077cc29fd29160af4155cccfad8af4f3b3d3', 22, 1, 'food delivery', '[]', 0, '2021-01-04 05:45:20', '2021-01-04 05:45:20', '2022-01-04 11:15:20'),
-('b57fc5ea2329dfb4a2e995fa58d288deb94678dcbc43458a5da8a2792d6da84fbfbb0a1aed019bd7', 76, 1, 'mealUp', '[]', 0, '2020-12-12 15:10:10', '2020-12-12 15:10:10', '2021-12-12 10:10:10'),
-('b7281ada9810b345c082df6fd84a0958db29f302b9f09e8005a3f8640bf7b7976ebf907fb22af76b', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:40:41', '2020-12-05 17:40:41', '2021-12-05 12:40:41'),
-('b9fa4aa3343e86e5b656b09e09429457eacefccd26fee089051ec89ed674447344701275e69ae718', 3, 1, 'food delivery', '[]', 0, '2020-12-22 20:10:50', '2020-12-22 20:10:50', '2021-12-22 15:10:50'),
-('bba6ea3143ecff587d6d9a5a5d9503e5a5c290c819c3bccbb2400e3fd7a512788e71dddc9365d3bb', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:38:53', '2020-12-22 22:38:53', '2021-12-22 17:38:53'),
-('bca3e92bb39c7b6904e875989ce96741c3d165d49a40dff2a302ae8c0ca777490439eeeea2c081cc', 14, 1, 'food delivery', '[]', 0, '2021-01-04 05:15:06', '2021-01-04 05:15:06', '2022-01-04 10:45:06'),
-('bd34d26ae3e9cfa3b144f1f7665dd69e2d85f22f8e1bf0cd5dce2e73399b5e25a8e816177a0c0490', 76, 1, 'mealUp', '[]', 0, '2020-12-03 15:13:40', '2020-12-03 15:13:40', '2021-12-03 10:13:40'),
-('bd4f60d7e53519f7d8f7a474fd5551c2dc03dfb9bbdb9256df4cdbb5fd1ec13a1d76018bff11f666', 76, 1, 'mealUp', '[]', 0, '2020-12-03 17:06:38', '2020-12-03 17:06:38', '2021-12-03 12:06:38'),
-('bda011453a614fee784210621f0f3414e0c97bde57363b3612342b1b004582752d1bdda8fee911c5', 76, 1, 'mealUp', '[]', 0, '2020-12-11 20:48:56', '2020-12-11 20:48:56', '2021-12-11 15:48:56'),
-('befb3507689443f84b007d79f11589a0c61e11a24bffadc099d2ed2367578aa8a053143bf464b6f3', 76, 1, 'mealUp', '[]', 0, '2020-12-03 22:33:14', '2020-12-03 22:33:14', '2021-12-03 17:33:14'),
-('befc1ae9403c837e3f2851bdba809b3f1d4c041b010a50802db28b9d7ae9608deacc70de076c59e7', 76, 1, 'mealUp', '[]', 0, '2020-12-12 23:19:14', '2020-12-12 23:19:14', '2021-12-12 18:19:14'),
-('bf61680fde5decf5767a477e894aca3a662b3fdc4612d5b1f41edf938c7bc7abc0b994203a943445', 10, 1, 'food delivery', '[]', 0, '2020-12-23 23:02:08', '2020-12-23 23:02:08', '2021-12-23 18:02:08'),
-('c0c515e1a62e17f91bd6fe49046e69333729e575192e0f0f0b9b5ba8e7226cb321411c9550567c7f', 120, 1, 'mealUp', '[]', 0, '2021-02-16 07:01:25', '2021-02-16 07:01:25', '2022-02-16 12:31:25'),
-('c3d19be06f0f90b14d0deebc261e53e5b33eef57f06636af2f02d28e20ef7d7b61e0adaf88fe4ee3', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:43:58', '2020-12-05 17:43:58', '2021-12-05 12:43:58'),
-('c529d96323f7938fecfacfca687946296fb03fc02003fef670fa10e827f565e9797efa40f65e53c9', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:40:44', '2020-12-22 22:40:44', '2021-12-22 17:40:44'),
-('c5f512fddabdf1219a31a940df026f7ed0564ed94fef282259bc7eabb6996049a6ba913be7a797db', 76, 1, 'mealUp', '[]', 0, '2020-12-14 19:49:34', '2020-12-14 19:49:34', '2021-12-14 14:49:34'),
-('c718005f4556e97ae7d1f17b464943f2f7b331232a104629b74ddbbe61bd8c59b16aa7c889bc8559', 76, 1, 'mealUp', '[]', 0, '2020-12-04 16:28:28', '2020-12-04 16:28:28', '2021-12-04 11:28:28'),
-('c94d8e2bc9d9bbc105bc2d6c61674fa950960e5023f3d928e832238e8945e7545bcae0dc06be2b03', 58, 1, 'food delivery', '[]', 0, '2020-11-30 11:50:47', '2020-11-30 11:50:47', '2021-11-30 17:20:47'),
-('ca5a00ef428fc7e5a1b5bb409ed0dda58b864e69096186d882271c5cb8e1e813a9730784c3df6b47', 76, 1, 'mealUp', '[]', 0, '2020-12-03 15:46:15', '2020-12-03 15:46:15', '2021-12-03 10:46:15'),
-('ca950ed9443a608370909a56b037a46aa207aa938bd368dc177b737889fe8cd31b0f70a8d151a493', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:56:29', '2020-12-12 22:56:29', '2021-12-12 17:56:29'),
-('cb7bf40df8e266d251bc508e204fc3a4049dd8dd4621f76c672d645891498329411944beb11cf614', 62, 1, 'food delivery', '[]', 0, '2020-11-28 11:30:56', '2020-11-28 11:30:56', '2021-11-28 17:00:56'),
-('cb85b3e99064f194bf3d171613fa780b17fc8ca55969ec69e35327ccd92ab19fe1ce1187f20f3399', 76, 1, 'mealUp', '[]', 0, '2020-12-05 17:43:47', '2020-12-05 17:43:47', '2021-12-05 12:43:47'),
-('cc02ca983166f6c44c466059e1e18512516cca934998081d11dbe87f13ff04e24f9a04f7d219f3a6', 76, 1, 'mealUp', '[]', 0, '2020-12-12 23:23:07', '2020-12-12 23:23:07', '2021-12-12 18:23:07'),
-('cc3111365c10b1f3f2118b06cf5262171096d7b38f1b228ed54830386c9e5d8219868d3049fffbd8', 76, 1, 'mealUp', '[]', 0, '2020-12-12 16:14:06', '2020-12-12 16:14:06', '2021-12-12 11:14:06'),
-('cc40376aa73e486b1c00eb9774d1853efde3fa7be98e37cf337daf20429f33a8610ff81af5279ef3', 76, 1, 'mealUp', '[]', 0, '2020-12-03 17:17:54', '2020-12-03 17:17:54', '2021-12-03 12:17:54'),
-('cc5bb3dd3e14ad73896b1c918755b8df6f9efd1fa86eb3c6123842d18cfaeff90b8bc833498ecc09', 76, 1, 'mealUp', '[]', 0, '2020-12-26 05:37:04', '2020-12-26 05:37:04', '2021-12-26 11:07:04'),
-('cd0e5e42b81f4a34fd8588e4634a37c5875ffd3db548aa9fdc2f6424c41a21278800625793070316', 10, 1, 'food delivery', '[]', 0, '2020-12-23 18:03:11', '2020-12-23 18:03:11', '2021-12-23 13:03:11'),
-('d0da62d010bb522d2bef4ef01c745c392590e9fb37c366baa7773157f2c128357e481043a668e999', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:55:00', '2020-12-02 16:55:00', '2021-12-02 11:55:00'),
-('d0e1f77f6ae7f69257ae1b82fe3429fb8c577d53446a8eaa9749203432fba489aed060fe9a636ae3', 3, 1, 'food delivery', '[]', 0, '2020-12-22 17:40:29', '2020-12-22 17:40:29', '2021-12-22 12:40:29'),
-('d197e94a06c5df5ff7ff25b0ee4819b9d4dec5c3861fda1bf78b8566914a2f13b91d147c7a16a85c', 76, 1, 'mealUp', '[]', 0, '2020-12-05 20:14:59', '2020-12-05 20:14:59', '2021-12-05 15:14:59'),
-('d1d8fd7a067f88e0892f6b36fc89a22fc3d9cb9b5e950e2f61a3f901f641569afe918cb1b606c4f2', 76, 1, 'mealUp', '[]', 0, '2020-12-03 14:37:45', '2020-12-03 14:37:45', '2021-12-03 09:37:45'),
-('d20243ed84a000588c30c09506994a1749b533dd1b2d1f2897ac6041a5d1d928fc28026d91153207', 3, 1, 'food delivery', '[]', 0, '2020-12-22 21:46:19', '2020-12-22 21:46:19', '2021-12-22 16:46:19'),
-('d289a0d75a6ec496fadc416e460c9f17954173cb3975e4b410a05b73d1c8e2545418c9cc72e46b04', 76, 1, 'mealUp', '[]', 0, '2020-12-14 16:20:55', '2020-12-14 16:20:55', '2021-12-14 11:20:55'),
-('d29114a2ecfa72ea14517c8ced4c1856a1814d72e202b8cd462acd919290b3fd0de95b04c24925db', 76, 1, 'mealUp', '[]', 0, '2020-12-03 22:38:36', '2020-12-03 22:38:36', '2021-12-03 17:38:36'),
-('d6e9ccc3b1ad1d5817129662ae68394c3db75aa8cff7b039183d3f7b6c688779fd6017e143bc72be', 62, 1, 'food delivery', '[]', 0, '2020-12-01 05:58:08', '2020-12-01 05:58:08', '2021-12-01 11:28:08'),
-('d80122ae052b2a35f8855fd6c7717a8ae8c1c434fb81d4d26a134033d554619c8061c3d00b3c6ac6', 16, 1, 'food delivery', '[]', 0, '2021-01-04 05:16:03', '2021-01-04 05:16:03', '2022-01-04 10:46:03'),
-('d80a56ca38a9b8f37ad98bb7830602c28ea6cc4bf41b7b27fbd47aa0e01bbda503139ded80c949a9', 76, 1, 'mealUp', '[]', 0, '2020-12-10 17:30:52', '2020-12-10 17:30:52', '2021-12-10 12:30:52'),
-('d90b8afd7530066ece823ef4f82ebef6dcbf443402f8d82ee00656bc0138dc26c4478d9c9e1efeb2', 10, 1, 'food delivery', '[]', 0, '2020-12-24 16:08:15', '2020-12-24 16:08:15', '2021-12-24 11:08:15'),
-('d91c04e1f9149f4b8914460bd77f4a489ae60ac49250cf83ad96a371bcf160cfdd4b53a597978822', 29, 1, 'food delivery', '[]', 0, '2021-02-16 04:11:34', '2021-02-16 04:11:34', '2022-02-16 09:41:34'),
-('d96af8445839f56bba0b55d68b077ebe2842706a1d1d293f8f5ee679eef8fe299f8ac1995edde317', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:43:38', '2020-12-24 15:43:38', '2021-12-24 10:43:38'),
-('d9978d5041897eef0ae6133ef0612a17e15eb14592b0ae91ef04f751eef7e1ed638debdfc13ca9b7', 76, 1, 'mealUp', '[]', 0, '2020-12-12 22:03:51', '2020-12-12 22:03:51', '2021-12-12 17:03:51'),
-('da80f19312dc2e241d3476ab2481cfec67e08d42cf1c4537ae72c7f44c70d72212507ad0dbb1cf73', 10, 1, 'food delivery', '[]', 0, '2020-12-23 18:00:15', '2020-12-23 18:00:15', '2021-12-23 13:00:15'),
-('db792bfc26428f7e643ecc70a16a89ec2abf10819d0968fb00147240f2e8b94e8bb05e98551b9f8b', 76, 1, 'mealUp', '[]', 0, '2020-12-11 14:39:12', '2020-12-11 14:39:12', '2021-12-11 09:39:12'),
-('db8045b079bc29663169835d544a1d992c232196e959db837677b4f2596028e5c3844c5cc381d0f7', 76, 1, 'mealUp', '[]', 0, '2020-12-04 16:36:54', '2020-12-04 16:36:54', '2021-12-04 11:36:54'),
-('db8965c61f92e668528c07284803e9b46efbfd9191fd3bdc679cccaedb3e36e5fae8a53af4a3fa3c', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:47:55', '2020-12-24 15:47:55', '2021-12-24 10:47:55'),
-('dbce56dcf3ef239fffe991e276af154ca9c43034abb6863f5337e20aff55c38935583a1d06b64662', 76, 1, 'mealUp', '[]', 0, '2020-12-02 22:40:36', '2020-12-02 22:40:36', '2021-12-02 17:40:36'),
-('dbda716644e647f9ef22e66a931813ebab50b626afbeecf4f89e34bf36a7b5b29bd12ec9df630118', 58, 1, 'food delivery', '[]', 0, '2020-11-28 10:51:11', '2020-11-28 10:51:11', '2021-11-28 16:21:11'),
-('dc3d23d6880a817e0eb88c55856398c40e8edc7ff365cbfc9860874b18265f504329c0fc2df5470e', 3, 1, 'food delivery', '[]', 0, '2020-12-22 16:24:57', '2020-12-22 16:24:57', '2021-12-22 11:24:57'),
-('dc5f17f4e61108fc760cba5fc184eabb3462ecfbd54c3853812e62ef5ee19ff005e2e3ede19eeac1', 76, 1, 'mealUp', '[]', 0, '2020-12-07 21:27:27', '2020-12-07 21:27:27', '2021-12-07 16:27:27'),
-('df630964193ea341fe902cbc6ab1a88c72926e29ee432e70f5226d705503f54c48be10d43afe2fc6', 125, 1, 'mealUp', '[]', 0, '2021-02-16 08:47:43', '2021-02-16 08:47:43', '2022-02-16 14:17:43'),
-('e05d418a021e53a4a9b857ee1078001033186776a86ac852e9c9e6dec614a98af0c9d3e41c0e40cf', 58, 1, 'food delivery', '[]', 0, '2020-11-28 12:08:28', '2020-11-28 12:08:28', '2021-11-28 17:38:28'),
-('e182599e007ffa96a4c32596c81471de911dd033fc4d57094dd1629075fb9fe1c0c01a101bd66206', 76, 1, 'mealUp', '[]', 0, '2020-12-12 21:12:26', '2020-12-12 21:12:26', '2021-12-12 16:12:26'),
-('e1a10db2e4de432ad503925a144b0471619b474ff01e491377b0e6bd8cefd4f6522970f24674ec3b', 119, 1, 'mealUp', '[]', 0, '2021-02-15 09:13:29', '2021-02-15 09:13:29', '2022-02-15 14:43:29'),
-('e1b0ed176eefd04d2233f968e98f35e7c33fabe851b686574c33ea472d0bc239dfe573e417d09410', 21, 1, 'food delivery', '[]', 0, '2021-01-04 05:41:21', '2021-01-04 05:41:21', '2022-01-04 11:11:21'),
-('e25d92547852de2456c30583ebc3249753b71ca9c19ed455216de6c815148fe6f9f92458f300afc6', 10, 1, 'food delivery', '[]', 0, '2020-12-23 18:06:43', '2020-12-23 18:06:43', '2021-12-23 13:06:43'),
-('e364f92c7a0250f752cf630356ca002092d3090e1ca4f79b64d568f9355a3e5851edc69676c9e2dd', 1, 1, 'food delivery', '[]', 0, '2020-12-18 23:36:07', '2020-12-18 23:36:07', '2021-12-18 18:36:07'),
-('e4e51ee330358746499cb13e10be6ee0edb0928305cc32e7547193492ac007482f0b4e786aea3da2', 28, 1, 'food delivery', '[]', 0, '2021-02-16 04:31:01', '2021-02-16 04:31:01', '2022-02-16 10:01:01'),
-('e5771d5a8dc1672742da488adbb8fe37662234a4aaab655786f62b1b21890dffcb712d9b658d66b1', 76, 1, 'mealUp', '[]', 0, '2020-12-14 17:54:48', '2020-12-14 17:54:48', '2021-12-14 12:54:48'),
-('e5a45df24429b63ea84e4fed88f99db26dbabacb8fe78c11e0e892905720ac455fb11323839cd056', 3, 1, 'food delivery', '[]', 0, '2020-12-22 16:25:44', '2020-12-22 16:25:44', '2021-12-22 11:25:44'),
-('e5c39c55fe01ceed27ed439d4366a2cc9c0b2371042a9e8461de3e9f93e7ffe762a005c03a10716b', 76, 1, 'mealUp', '[]', 0, '2020-12-14 23:45:56', '2020-12-14 23:45:56', '2021-12-14 18:45:56'),
-('e7745bcc0631c322c405ccb098a643d2d8c35997f2416769360ff9a9663779991fa29341e9c5bf40', 3, 1, 'food delivery', '[]', 0, '2020-12-22 16:25:06', '2020-12-22 16:25:06', '2021-12-22 11:25:06'),
-('e7d859e1adc216f99157bee32cee0b722ba27cc272534d310e6826716bb97b630d4e42766d308744', 76, 1, 'mealUp', '[]', 0, '2020-12-14 21:03:56', '2020-12-14 21:03:56', '2021-12-14 16:03:56'),
-('e915a498608f003e36a1fe20418d0bb9176a093d86a5e79d60a327230c90c2e602e824f3d8da6408', 76, 1, 'mealUp', '[]', 0, '2020-12-08 15:34:43', '2020-12-08 15:34:43', '2021-12-08 10:34:43'),
-('e9dda7fb246fcd05fad29da469c8b2f8ea6984668d17cb0a8799580c7b9922a8bba6e05673a81f81', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:26:58', '2020-12-24 15:26:58', '2021-12-24 10:26:58'),
-('ea69f5f2e6f50b2a83405ccbfb6702681823ffc2244f89972e9dca1ee13d9b4621e6472d209fadb2', 71, 1, 'mealUp', '[]', 0, '2020-12-02 16:55:45', '2020-12-02 16:55:45', '2021-12-02 11:55:45'),
-('eac98db63125cdf7b056e2905ef9d9b5948236b7f2d40df023d637fcbce4f18364a30c212b1760bf', 76, 1, 'mealUp', '[]', 0, '2020-12-14 19:26:05', '2020-12-14 19:26:05', '2021-12-14 14:26:05'),
-('eb63c4fa20eba303c81b103328d9defad52c4bb961874854cec9fbb592a82fa0263b2ddaf1ae435c', 76, 1, 'mealUp', '[]', 0, '2020-12-15 14:56:54', '2020-12-15 14:56:54', '2021-12-15 09:56:54'),
-('eb7351144201abf5a94d7a22689b03ab9a8687463c3fc09f92459828f72ca9e77143d4a2124a046b', 9, 1, 'food delivery', '[]', 0, '2020-12-23 21:26:29', '2020-12-23 21:26:29', '2021-12-23 16:26:29'),
-('ee3c32ab2446a9ee540c08aeab502b3ddf36c9ea14998a1e3dc4a8719aa22703f8e226b59dcbd3e0', 3, 1, 'food delivery', '[]', 0, '2020-12-21 15:13:50', '2020-12-21 15:13:50', '2021-12-21 10:13:50'),
-('ee5273c8374a5703c9872df714c05b8be6248a8c3d1e31273358373722edfd74b6390e5079f5cb8a', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:42:56', '2020-12-22 22:42:56', '2021-12-22 17:42:56'),
-('f11ecff295d79e5d8fe21ad86262a1e8f61d7e154856a2f5e42c1b3d5ea9d1e0bba10cef9c73ccf9', 24, 1, 'food delivery', '[]', 0, '2021-02-16 04:14:40', '2021-02-16 04:14:40', '2022-02-16 09:44:40'),
-('f12affba221ff165973a3617b2417850b53821e708e72ac3f88adb70430b535bcef0d3d5548cad43', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:47:18', '2020-12-22 22:47:18', '2021-12-22 17:47:18'),
-('f12d108f8789c0a3cc19e0d4fb303d540633228f6d81bf98806d7d629c8184fcb35b4b3ba0b59d81', 76, 1, 'mealUp', '[]', 0, '2020-12-04 16:31:03', '2020-12-04 16:31:03', '2021-12-04 11:31:03');
-INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('f1d370c1c27a908284ab9f43fce94ad4b150d564dd8531373f92bf20576b190771283217ba8f4c3d', 76, 1, 'mealUp', '[]', 0, '2020-12-12 20:07:17', '2020-12-12 20:07:17', '2021-12-12 15:07:17'),
-('f44e50f0c54b73cff9a267a73823d28d4bbc7749319abdfd5962c82006b3653dab9c0efa0d557302', 76, 1, 'mealUp', '[]', 0, '2020-12-14 20:58:25', '2020-12-14 20:58:25', '2021-12-14 15:58:25'),
-('f467642daa8e736272d61e4f8f4cee3d69484d1d236f6c02f562ed85b247c38e62579c3b408aa752', 76, 1, 'mealUp', '[]', 0, '2020-12-04 21:57:18', '2020-12-04 21:57:18', '2021-12-04 16:57:18'),
-('f4d9a32380bf6c9b97234057a9ca4a8688275b7b7f9b6a3ab945e01344fbfba7dd51f1cd24d0e0a5', 76, 1, 'mealUp', '[]', 0, '2020-12-15 19:24:49', '2020-12-15 19:24:49', '2021-12-15 14:24:49'),
-('f5d3b082e6ffeca800360dfa22353f5ea076cb4dc2fec9176723513f6582fe658d46439d6f98724b', 76, 1, 'mealUp', '[]', 0, '2020-12-15 16:37:13', '2020-12-15 16:37:13', '2021-12-15 11:37:13'),
-('f6ffe562584d0015ca801012079c6f6a53d5da66a8ab25f8876d31e39b0840690444fb4237ff067d', 10, 1, 'food delivery', '[]', 0, '2020-12-24 15:54:13', '2020-12-24 15:54:13', '2021-12-24 10:54:13'),
-('f7ed8b4772482d98633314fbe298e50544a55d0f7c0cc664e1cc43edbc07e884ef6d6a77d2258736', 76, 1, 'mealUp', '[]', 0, '2020-12-11 16:50:16', '2020-12-11 16:50:16', '2021-12-11 11:50:16'),
-('f8444ecf9367f5922f54c6277428b5077f4d8002b82cc84e44af31cf023b553368a1d7130bc01a50', 10, 1, 'food delivery', '[]', 0, '2020-12-25 12:48:14', '2020-12-25 12:48:14', '2021-12-25 18:18:14'),
-('fbc05830b928b11ce1c3376bea4c3e146ed45d2bed824e6162c4d313ef3314fa4abd46111cbcfce7', 10, 1, 'food delivery', '[]', 0, '2020-12-22 22:38:28', '2020-12-22 22:38:28', '2021-12-22 17:38:28'),
-('fd0036c6dc1f034d59ddb79f23e1140169b2767c29b6d299a15ffc62f863b498c02fa105fb00f7f3', 10, 1, 'food delivery', '[]', 0, '2020-12-23 22:06:50', '2020-12-23 22:06:50', '2021-12-23 17:06:50'),
-('fdb6800c8b1b672d44d4c3fb51183cb709778c2124e3a7fcf7163997feee8930689fc65a65440fea', 10, 1, 'food delivery', '[]', 0, '2020-12-23 17:10:08', '2020-12-23 17:10:08', '2021-12-23 12:10:08'),
-('fec4c4a9ad4dbc5638604f9fdfa8ebc430d3d782a513e7b93faee9c656d74f32ae1ec0db056902df', 76, 1, 'mealUp', '[]', 0, '2020-12-14 19:32:47', '2020-12-14 19:32:47', '2021-12-14 14:32:47'),
-('ffd4962a945f44db1fee7605c304c2e2e48f90af613b8f977e13b0d426961d0eaa06f83c920be943', 10, 1, 'food delivery', '[]', 0, '2020-12-23 20:59:18', '2020-12-23 20:59:18', '2021-12-23 15:59:18');
-
 -- --------------------------------------------------------
 
 --
@@ -1252,8 +939,11 @@ CREATE TABLE `order` (
   `tax` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_start_time` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_end_time` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `vendor_pending_amount` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+    `order_schedule` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,,
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1281,11 +971,6 @@ CREATE TABLE `order_child` (
 
 CREATE TABLE `order_setting` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `min_order_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_assign_manually` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `orderRefresh` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_commission` int(11) DEFAULT NULL,
-  `order_dashboard_default_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vendor_order_max_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `driver_order_max_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `delivery_charge_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1298,8 +983,8 @@ CREATE TABLE `order_setting` (
 -- Dumping data for table `order_setting`
 --
 
-INSERT INTO `order_setting` (`id`, `min_order_value`, `order_assign_manually`, `orderRefresh`, `order_commission`, `order_dashboard_default_time`, `vendor_order_max_time`, `driver_order_max_time`, `delivery_charge_type`, `charges`, `created_at`, `updated_at`) VALUES
-(1, '200', '0', '5', 10, '7days', '60', '60', 'order_amount', '[{\"min_value\":\"1\",\"max_value\":\"10\",\"charges\":\"50\"},{\"min_value\":\"10\",\"max_value\":\"20\",\"charges\":\"100\"}]', '2020-11-01 22:24:57', '2021-01-02 07:17:12');
+INSERT INTO `order_setting` (`id`, `vendor_order_max_time`, `driver_order_max_time`, `delivery_charge_type`, `charges`, `created_at`, `updated_at`) VALUES
+(1, '60', '60', 'order_amount', '[{\"min_value\":\"1\",\"max_value\":\"10\",\"charges\":\"50\"},{\"min_value\":\"10\",\"max_value\":\"20\",\"charges\":\"100\"}]', '2020-11-01 22:24:57', '2021-01-02 07:17:12');
 
 -- --------------------------------------------------------
 
@@ -1925,6 +1610,7 @@ CREATE TABLE `submenu` (
   `status` tinyint(1) NOT NULL,
   `item_reset_value` int(11) DEFAULT NULL,
   `is_excel` int(11) NOT NULL DEFAULT 0,
+  `availabel_item` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2616,9 +2302,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `image`, `email_id`, `email_verified_at`, `device_token`, `password`, `phone`, `phone_code`, `is_verified`, `status`, `otp`, `faviroute`, `remember_token`, `vendor_id`, `language`, `ifsc_code`, `account_name`, `account_number`, `micr_code`, `provider_type`, `provider_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '60b5c79fe1226.png', 'admin-mealUp@gmail.com', NULL, NULL, '$2y$10$QY7BCiafK3hoHiFWL/2RM.JCwlBpVpDzZLmkIRLNj5cosDMyZtawC', NULL, NULL, 0, 1, 2745, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-11-03 05:51:37', '2021-07-05 06:31:45'),
-(146, 'test', 'noimage.png', 'testtestr@gmasil.com', NULL, NULL, '$2y$10$mXqokarI8iN9kEFIx4KvjeOKw1o1W04FSBcf.AVrw2x3b9C3.XZQa', NULL, '+93', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-07-05 06:13:59', '2021-07-05 06:13:59'),
-(147, 'test', 'noimage.png', 'tetsetsetse@gmail.com', NULL, NULL, '$2y$10$zrpbyv/A5Dm/tnfDG4aIuuMkldjcu.uEyN6Ed6USc.C9Ye4/bWFB2', '1234567890', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-07-05 06:17:12', '2021-07-05 06:18:29');
+(1, 'admin', 'noimage.png', 'admin-mealUp@gmail.com', NULL, NULL, '$2y$10$QY7BCiafK3hoHiFWL/2RM.JCwlBpVpDzZLmkIRLNj5cosDMyZtawC', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3109,7 +2793,7 @@ ALTER TABLE `working_hours`
 -- AUTO_INCREMENT for table `banner`
 --
 ALTER TABLE `banner`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -3133,19 +2817,19 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `delivery_person`
 --
 ALTER TABLE `delivery_person`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_zone`
 --
 ALTER TABLE `delivery_zone`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_zone_area`
 --
 ALTER TABLE `delivery_zone_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -3157,13 +2841,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `faq`
 --
 ALTER TABLE `faq`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `general_setting`
@@ -3181,7 +2865,7 @@ ALTER TABLE `language`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -3193,7 +2877,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notification_template`
@@ -3217,13 +2901,13 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_child`
 --
 ALTER TABLE `order_child`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_setting`
@@ -3247,19 +2931,19 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `promo_code`
 --
 ALTER TABLE `promo_code`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `refaund`
 --
 ALTER TABLE `refaund`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -3271,7 +2955,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `settlements`
 --
 ALTER TABLE `settlements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `submenu`
@@ -3283,13 +2967,13 @@ ALTER TABLE `submenu`
 -- AUTO_INCREMENT for table `submenu_cutsomization_type`
 --
 ALTER TABLE `submenu_cutsomization_type`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tax`
 --
 ALTER TABLE `tax`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transactions`
@@ -3307,13 +2991,13 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_address`
 --
 ALTER TABLE `user_address`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vendor`
@@ -3325,13 +3009,13 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `vendor_bank_details`
 --
 ALTER TABLE `vendor_bank_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vendor_discount`
 --
 ALTER TABLE `vendor_discount`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wallets`

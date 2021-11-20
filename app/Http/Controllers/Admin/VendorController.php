@@ -7,13 +7,10 @@ use App\Http\Controllers\CustomController;
 use App\Mail\VendorMail;
 use App\Models\Country;
 use App\Models\Cuisine;
-use App\Models\DeliveryZone;
 use App\Models\DeliveryZoneArea;
 use App\Models\GeneralSetting;
 use App\Models\Language;
 use App\Models\Menu;
-use App\Models\MenuCategory;
-use App\Models\Order;
 use App\Models\PaymentSetting;
 use App\Models\PromoCode;
 use App\Models\Review;
@@ -27,7 +24,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Gate;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use DB;
@@ -84,7 +80,6 @@ class VendorController extends Controller
             'time_slot' => 'required',
         ]);
 
-        // $password = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 6);
         $password = mt_rand(100000, 999999);
         $user =  User::create([
             'name' => $request->name,

@@ -6,17 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-        var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-            console.log(msg);
-        });
-    </script>
+        @include('layouts.msg')
     @endif
 
     <div class="section-header">
@@ -61,23 +51,57 @@
                                     <th>{{__('Delivery Charge')}}</th>
                                 @endif
                                 <th>{{__('Order status')}}</th>
+                                @if(Auth::user()->load('roles')->roles->contains('title', 'vendor'))
+                                    <th>{{__('Due Amount')}}</th>
+                                    <th>{{__('Recieved Amount')}}</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $final_amount = 0;
+                            @endphp
                             @foreach ($orders as $order)
                                 <tr>
-                                    <th>{{ $loop->iteration }}</th>
-                                    <th>{{ $order->order_id }}</th>
-                                    <th>{{ $order->vendor['name'] }}</th>
-                                    <th>{{ $order->date }}</th>
-                                    <th>{{ $order->time }}</th>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $order->order_id }}</td>
+                                    <td>{{ $order->vendor['name'] }}</td>
+                                    <td>{{ $order->date }}</td>
+                                    <td>{{ $order->time }}</td>
                                     @if ($delivery_person->vendor_id == null)
-                                        <th>{{ $order->delivery_charge }}</th>
+                                        <td>{{ $order->delivery_charge }}</td>
                                     @endif
-                                    <th>{{ $order->order_status }}</th>
+                                    <td>{{ $order->order_status }}</td>
+                                    @if(Auth::user()->load('roles')->roles->contains('title', 'vendor'))
+                                    @if ($order->payment_type == 'COD' && $order->vendor_pending_amount == 0 && $order->order_status == 'COMPLETE')
+                                    @php
+                                            $final_amount += $order->amount;
+                                            @endphp
+                                            <td>{{ $currency }}{{ $order->amount }}</td>
+                                            <td>
+                                                <a href="{{ url('vendor/deliveryPerson/pending_amount/'.$order->id) }}" class="text-danger">{{__('Pending Amount')}}</a>
+                                            </td>
+                                        @else
+                                            <td>{{ $currency }}{{00}}</td>
+                                            <td>
+                                                <span class="text-primary">{{__('Recieved Amount')}}</span>
+                                            </td>
+                                        @endif
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th>{{ $currency }}{{ $final_amount }}</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

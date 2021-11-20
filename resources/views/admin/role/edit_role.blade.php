@@ -33,11 +33,8 @@
                             @enderror
                         </div>
                     </div>
-
-                    {{--  --}}
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                        {{-- {{ $role->title == 'admin' ? 'disabled' : '' }} {{ $role->title == 'vendor' ? 'disabled' : '' }} --}}
                             <label for="role">{{__('Permissions')}}</label>
                             <select name="permissions[]"  class="select2 form-control" {{ $role->title == 'admin' ? 'disabled' : '' }} {{ $role->title == 'vendor' ? 'disabled' : '' }} multiple>
                                 @foreach($permissions as $per)

@@ -11,7 +11,7 @@ class Submenu extends Model
 
     protected $table = 'submenu';
 
-    protected $fillable = ['vendor_id','item_reset_value','menu_id','is_excel','name','image','price','description','type','qty_reset','status'];
+    protected $fillable = ['item_reset_value','vendor_id','menu_id','is_excel','name','image','price','description','type','qty_reset','status','availabel_item'];
 
     protected $appends = ['image'];
 

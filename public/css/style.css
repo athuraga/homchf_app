@@ -755,7 +755,7 @@ select.form-control:not([size]):not([multiple]) {
       font-size: 16px; }
     .card.card-hero .card-header .card-icon {
       float: right;
-      color: #48cf95;
+      color: var(--hover_color);
       margin: -60px; }
       .card.card-hero .card-header .card-icon .ion, .card.card-hero .card-header .card-icon .fas, .card.card-hero .card-header .card-icon .far, .card.card-hero .card-header .card-icon .fab, .card.card-hero .card-header .card-icon .fal {
         font-size: 140px; }

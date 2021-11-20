@@ -5,16 +5,7 @@
 @section('setting')
 <section class="section">
     @if (Session::has('msg'))
-        <script>
-            var msg = "<?php echo Session::get('msg'); ?>"
-            $(window).on('load', function()
-            {
-                iziToast.success({
-                    message: msg,
-                    position: 'topRight'
-                });
-        });
-        </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('License settings')}}</h1>

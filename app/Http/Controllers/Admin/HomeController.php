@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Vendor;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\DeliveryZoneArea;
 use Carbon\Carbon;
-use App\Models\DeliveryPerson;
 use App\Models\GeneralSetting;
 use App\Models\Menu;
 use App\Models\OrderChild;
@@ -20,9 +17,6 @@ use App\Models\Submenu;
 use Symfony\Component\HttpFoundation\Response;
 use Gate;
 use DB;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB as FacadesDB;
-use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -33,7 +27,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('auth:mainAdmin');
         $this->middleware('auth');
     }
 

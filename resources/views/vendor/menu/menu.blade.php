@@ -6,16 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-        <script>
-            var msg = "<?php echo Session::get('msg'); ?>"
-            $(window).on('load', function()
-            {
-                iziToast.success({
-                    message: msg,
-                    position: 'topRight'
-                });
-            });
-        </script>
+        @include('layouts.msg')
     @endif
 
     @if (old('old_value') == "add_menu")
@@ -97,11 +88,9 @@
                                         <i class="fas fa-utensils"></i>
                                     </a>
                                 @endcan
-                                {{-- @can('vendor_submenu_delete') --}}
-                                    <a href="javascript:void(0);" class="table-action btn btn-danger btn-action" onclick="deleteData('admin/menu',{{ $menu->id }},'Menu')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                {{-- @endcan --}}
+                                <a href="javascript:void(0);" class="table-action btn btn-danger btn-action" onclick="deleteData('admin/menu',{{ $menu->id }},'Menu')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                         @endforeach

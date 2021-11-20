@@ -89,6 +89,7 @@ Route::middleware('auth:api')->prefix('vendor')->group(function ()
 
     //Order
     Route::get('order','VendorApiController@apiOrder');
+    // Route::get('order_schedule','VendorApiController@apiOrderSchedule');
     Route::post('create_order','VendorApiController@apiCreateOrder');
 
     // change status
@@ -118,6 +119,8 @@ Route::middleware('auth:api')->prefix('vendor')->group(function ()
 Route::middleware('auth:api')->group(function ()
 {
     Route::post('book_order','UserApiController@apiBookOrder');
+    // Route::get('get_order_schedule','UserApiController@apiGetOrderSchedule');
+
     Route::get('show_order','UserApiController@apiShowOrder');
     Route::post('update_user','UserApiController@apiUpdateUser');
     Route::post('update_image','UserApiController@apiUpdateImage');
@@ -132,7 +135,7 @@ Route::middleware('auth:api')->group(function ()
     Route::get('single_order/{order_id}','UserApiController@apiSingleOrder');
     Route::post('apply_promo_code','UserApiController@apiApplyPromoCode');
     Route::post('add_review','UserApiController@apiAddReview');
-    Route::post('add_feedback','UserApiController@apiAddFeedback');
+    // Route::post('add_feedback','UserApiController@apiAddFeedback');
     Route::get('user_order_status','UserApiController@apiUserOrderStatus');
     Route::post('refund','UserApiController@apirefund');
     Route::post('bank_details','UserApiController@apiBankDetails');
@@ -143,6 +146,8 @@ Route::middleware('auth:api')->group(function ()
     Route::post('user_change_password','UserApiController@apiChangePassword');
 
 });
+
+Route::post('add_feedback','UserApiController@apiAddFeedback');
 
 Route::get('tax','UserApiController@apiTax');
 Route::post('user_forgot_password','UserApiController@apiForgotPassword');

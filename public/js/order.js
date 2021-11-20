@@ -408,7 +408,7 @@ function cart(id, operation)
             id: id,
             price: original_price,
             operation: operation,
-        },
+        },  
         success: function (result)
         {
             if (result.success == true) {
@@ -417,11 +417,14 @@ function cart(id, operation)
                 $('.qty' + id).text(result.data.qty);
                 $('.itemPrice' + id).text(result.data.itemPrice);
                 $('#orderQty' + id).append('<span class="orderQty">' + result.data.qty + '</span>');
+                console.log($('.custimization' + id).is(":visible"));
                 if (result.data.qty >= 1) {
-                    $('.custimization' + id).show();
-                }
-                if (result.data.qty <= 0) {
-                    $('.custimization' + id).hide();
+                    if ($('.custimization' + id).is(":visible") == false) {
+                        $('.custimization' + id).show();
+                    }
+                    if (result.data.qty <= 0) {
+                        $('.custimization' + id).hide();
+                    }
                 }
             }
             else {

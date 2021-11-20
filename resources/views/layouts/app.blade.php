@@ -162,11 +162,6 @@
 
     <script src="{{ asset('js/scripts.js') }}"></script>
 
-    @if(Request::is('admin/vendor/*') || Request::is('admin/vendor/create') || Request::is('vendor/vendor/*') || Request::is('vendor/update_vendor'))
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ App\Models\GeneralSetting::first()->map_key }}&callback=initMap&libraries=places&v=weekly" defer></script>
-        <script src="{{ asset('js/map.js') }}"></script>
-    @endif
-
     @if (Request::is('admin/make_payment'))
         <script src="{{ asset('js/payment.js') }}"></script>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
@@ -178,14 +173,7 @@
         <script src="{{ asset('js/driver_payment.js') }}"></script>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-        {{-- <script src="https://www.paypal.com/sdk/js?client-id={{ App\Models\PaymentSetting::first()->paypal_sendbox }}&currency={{ App\Models\GeneralSetting::first()->currency }}" data-namespace="paypal_sdk"></script> --}}
         <script src="https://www.paypal.com/sdk/js?client-id={{ App\Models\PaymentSetting::first()->paypal_sendbox }}&currency={{ App\Models\GeneralSetting::first()->currency }}" data-namespace="paypal_sdk"></script>
-    @endif
-
-    @if(Request::is('vendor/order/create'))
-        {{-- <script src="http://maps.googleapis.com/maps/api/js?key={{ App\Models\GeneralSetting::first()->map_key }}&sensor=false"></script>
-        <script src="{{ asset('js/order_map.js') }}"></script> --}}
-        <script src="{{ asset('js/order.js') }}"></script>
     @endif
 
     @if (Request::is('admin/delivery_zone_area/*') || Request::is('vendor/deliveryZoneArea/*'))
@@ -205,6 +193,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/js/bootstrap-colorpicker.min.js"></script>
 
     <script src="{{ asset('js/cleave-phone.us.js') }}"></script>
+
+    @yield('js')
 
     <script src="{{ asset('js/forms-advanced-forms.js') }}"></script>
 

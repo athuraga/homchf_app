@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-5">
                                 <label for="question">{{__('question')}}<span class="text-danger">&nbsp;*</span></label>
-                                <textarea name="question" placeholder="{{__('Question')}}" class="form-control"
+                                <textarea name="question" required placeholder="{{__('Question')}}" class="form-control"
                                     cols="30" rows="10"></textarea>
                                 @error('question')
                                 <span class="custom_error" role="alert">
@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-5">
                                 <label for="{{__('answer')}}">{{__('answer')}}<span class="text-danger">&nbsp;*</span></label>
-                                <textarea name="answer" placeholder="{{__('Answer')}}"
+                                <textarea name="answer" required placeholder="{{__('Answer')}}"
                                     class="form-control">{{ old('answer') }}</textarea>
                                 @error('answer')
                                 <span class="custom_error" role="alert">

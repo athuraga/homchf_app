@@ -6,17 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-            var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-            console.log(msg);
-    });
-    </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('users')}}</h1>
@@ -88,6 +78,7 @@
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     @endcan
+                                    <a href="{{ url('admin/user/user_wallet/'.$user->id) }}" data-toggle="tooltip" title="" data-original-title="{{__('User Wallet')}}" class="btn btn-info btn-action ml-1 {{ $user->id == 1 ? 'disabled' : '' }}"><i class="fas fa-wallet"></i></a>
                                 </td>
                                 @endif
 

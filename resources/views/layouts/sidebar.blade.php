@@ -111,9 +111,6 @@
                     </li>
                 @endif
                 @if(Auth::user()->load('roles')->roles->contains('title', 'vendor'))
-                    @php
-
-                    @endphp
                     @if (Session::get('vendor_driver') == 1)
                         <li class="{{ $activePage == 'delivery_person' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('vendor/deliveryPerson') }}">
@@ -151,13 +148,16 @@
                 </a>
             </li>
             @endcan
-
-            @can('notification_template_access')
-                <li class="{{ $activePage == 'notification_template' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('admin/notification_template') }}">
+            @can('admin_reports')
+                <li class="dropdown {{ $activePage == 'notification_template' ? 'active' : ''}} || {{ $activePage == 'send_notification' ? 'active' : ''}}">
+                    <a href="javascript:void(0);" class="nav-link has-dropdown">
                         <i class="fas fa-address-card text-danger"></i>
-                        <span class="nav-link-text">{{__('Notification Template')}}</span>
+                        <span>{{__('Notifications')}}</span>
                     </a>
+                    <ul class="dropdown-menu" style="display: none;">
+                        <li class="{{ $activePage == 'notification_template' ? 'active' : ''}}"><a href="{{ url('admin/notification_template') }}">{{__('Notification Template')}}</a></li>
+                        <li class="{{ $activePage == 'send_notification' ? 'active' : ''}}"><a href="{{ url('admin/send_notification') }}">{{__('Send Notification')}}</a></li>
+                    </ul>
                 </li>
             @endcan
 

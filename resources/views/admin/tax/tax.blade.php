@@ -6,16 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-        var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-    });
-    </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Tax')}}</h1>
@@ -71,7 +62,6 @@
                                 @if($tax->type == 'percentage')
                                     <td>{{ $tax->tax }}%</td>
                                 @endif
-                                {{-- <td>{{ $tax->tax }}</td> --}}
                                 <td>
                                     <label class="switch">
                                         <input type="checkbox" name="status" onclick="change_status('admin/tax',{{ $tax->id }})" {{($tax->status == 1) ? 'checked' : ''}}>

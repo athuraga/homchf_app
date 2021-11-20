@@ -2,7 +2,6 @@
 
 namespace Tanmuhittin\LaravelGoogleTranslate\Api;
 
-
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Tanmuhittin\LaravelGoogleTranslate\Contracts\ApiTranslatorContract;
 

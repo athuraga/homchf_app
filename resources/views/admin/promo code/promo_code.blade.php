@@ -6,17 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-         var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-            console.log(msg);
-    });
-    </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Promo code')}}</h1>
@@ -58,39 +48,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($PromoCodes as $PromoCode)
-                            <tr>
-                                <td>
-                                    <input name="id[]" value="{{$PromoCode->id}}" id="{{$PromoCode->id}}" data-id="{{ $PromoCode->id }}" class="sub_chk" type="checkbox" />
-                                    <label for="{{$PromoCode->id}}"></label>
-                                </td>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    <img src="{{ $PromoCode->image }}" width="50" height="50" class="rounded" alt="">
-                                </td>
-                                <td>{{$PromoCode->name}}</td>
-                                <td>{{$PromoCode->promo_code}}</td>
-                                <td>{{$PromoCode->start_end_date}}</td>
-                                <td>
-                                    <label class="switch">
-                                        <input type="checkbox" name="status" onclick="change_status('admin/promo_code',{{ $PromoCode->id }})" {{($PromoCode->status == 1) ? 'checked' : ''}}>
-                                        <div class="slider"></div>
-                                    </label>
-                                </td>
-                                @if(Gate::check('promo_code_edit') && Gate::check('promo_code_delete'))
+                                @foreach ($PromoCodes as $PromoCode)
+                                <tr>
                                     <td>
-                                        @can('promo_code_edit')
-                                            <a href="{{ url('admin/promo_code/'.$PromoCode->id.'/edit') }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                        @endcan
-                                        @can('promo_code_delete')
-                                            <a href="javascript:void(0);" class="table-action ml-2 btn btn-danger btn-action" onclick="deleteData('admin/promo_code',{{ $PromoCode->id }},'Promo Code')">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        @endcan
+                                        <input name="id[]" value="{{$PromoCode->id}}" id="{{$PromoCode->id}}" data-id="{{ $PromoCode->id }}" class="sub_chk" type="checkbox" />
+                                        <label for="{{$PromoCode->id}}"></label>
                                     </td>
-                                @endif
-                            </tr>
-                            @endforeach
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        <img src="{{ $PromoCode->image }}" width="50" height="50" class="rounded" alt="">
+                                    </td>
+                                    <td>{{$PromoCode->name}}</td>
+                                    <td>{{$PromoCode->promo_code}}</td>
+                                    <td>{{$PromoCode->start_end_date}}</td>
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" name="status" onclick="change_status('admin/promo_code',{{ $PromoCode->id }})" {{($PromoCode->status == 1) ? 'checked' : ''}}>
+                                            <div class="slider"></div>
+                                        </label>
+                                    </td>
+                                    @if(Gate::check('promo_code_edit') && Gate::check('promo_code_delete'))
+                                        <td>
+                                            @can('promo_code_edit')
+                                                <a href="{{ url('admin/promo_code/'.$PromoCode->id.'/edit') }}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                            @endcan
+                                            @can('promo_code_delete')
+                                                <a href="javascript:void(0);" class="table-action ml-2 btn btn-danger btn-action" onclick="deleteData('admin/promo_code',{{ $PromoCode->id }},'Promo Code')">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            @endcan
+                                        </td>
+                                    @endif
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

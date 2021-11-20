@@ -21,7 +21,7 @@
                                 <input type="text" name="date_range" class="form-control">
                             </div>
                             <div class="col-md-6 col-lg-6 col-12">
-                                <input type="submit" value="{{__('apply')}}" class="btn btn-primary">
+                                <input type="button" value="{{__('apply')}}" class="btn btn-primary">
                             </div>
                         </div>
                     </form>
@@ -42,7 +42,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>{{__('Order Id')}}</th>
-                                    <th>{{__('Vendor name')}}</th>
                                     <th>{{__('User name')}}</th>
                                     <th>{{__('Order date')}}</th>
                                     <th>{{__('Order time')}}</th>
@@ -51,6 +50,9 @@
                                     <th>{{__('promo code price')}}</th>
                                     <th>{{__('vendor discount price')}}</th>
                                     <th>{{__('delivery charge')}}</th>
+                                    <th>{{__('Delivery Person Name')}}</th>
+                                    <th>{{__('Received From Delivery Person')}}</th>
+                                    <th>{{__('Receied From Delivery Person?')}}</th>
                                     <th>{{__('Order status')}}</th>
                                     <th>{{__('Payment Status')}}</th>
                                 </tr>
@@ -60,7 +62,6 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $order->order_id }}</td>
-                                        <td>{{ $order->vendor['name'] }}</td>
                                         <td>{{ $order->user['name'] }}</td>
                                         <td>{{ $order->date }}</td>
                                         <td>{{ $order->time }}</td>
@@ -95,7 +96,22 @@
                                             @else
                                             <td>{{ $currency }}{{ $order->vendor_discount_price }}</td>
                                             @endif
-                                        <td>{{ $currency }}{{ $order->delivery_charge }}</td>
+                                            <td>{{ $currency }}{{ $order->delivery_charge }}</td>
+                                            <td>{{ $order->deliver_person_name }}</td>
+                                            <td>
+                                                @if ($order->payment_type == 'COD' && $order->vendor_pending_amount == 0 && $order->order_status == 'COMPLETE')
+                                                    {{ $currency }}{{ $order->amount }}
+                                                @else
+                                                    {{ $currency }}00
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($order->vendor_pending_amount == 1)
+                                                    <div class="badge badge-success">{{__('Yes')}}</div>
+                                                @else
+                                                    <div class="badge badge-danger">{{__('No')}}</div>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($order->order_status == 'PENDING')
                                                     <span class="badge badge-pill pending">{{__('PENDING')}}</span>

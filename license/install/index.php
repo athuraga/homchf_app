@@ -1,6 +1,6 @@
 <?php
-require_once '../includes/lb_helper.php'; // Include LicenseBox external/client api helper file
-$api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
+    require_once '../includes/lb_helper.php'; // Include LicenseBox external/client api helper file
+    $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
 ?>
 
 <!DOCTYPE html>
@@ -8,61 +8,46 @@ $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
 
 <head>
     <meta charset="utf-8" />
-    <title>@HomChf - Installer</title>
+    <title>MealUp - Installer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <style>
-        #cover-spin {
-            position: fixed;
-            width: 100%;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.7);
-            z-index: 9999;
-            display: none;
-        }
+    #cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+    display:none;
+    }
 
-        @-webkit-keyframes spin {
-            from {
-                -webkit-transform: rotate(0deg);
-            }
+    @-webkit-keyframes spin {
+        from {-webkit-transform:rotate(0deg);}
+        to {-webkit-transform:rotate(360deg);}
+    }
 
-            to {
-                -webkit-transform: rotate(360deg);
-            }
-        }
+    @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
 
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        #cover-spin::after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 48%;
-            top: 40%;
-            width: 40px;
-            height: 40px;
-            border-style: solid;
-            border-color: black;
-            border-top-color: transparent;
-            border-width: 4px;
-            border-radius: 50%;
-            -webkit-animation: spin .8s linear infinite;
-            animation: spin .8s linear infinite;
-        }
-    </style>
+    #cover-spin::after {
+        content:'';
+        display:block;
+        position:absolute;
+        left:48%;top:40%;
+        width:40px;height:40px;
+        border-style:solid;
+        border-color:black;
+        border-top-color:transparent;
+        border-width: 4px;
+        border-radius:50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+</style>
 </head>
 
 <body>
@@ -126,9 +111,9 @@ $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
                                     <a href="index.php?step=0" class="button is-link">Next</a>
                                 <?php } ?>
                             </div>
-                        <?php
-                            break;
-                        case "0": ?>
+                            <?php
+                                    break;
+                                case "0": ?>
                             <div class="tabs is-fullwidth">
                                 <ul>
                                     <li>
@@ -154,19 +139,20 @@ $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
                                 </ul>
                             </div>
                             <?php
-                            $license_code = null;
-                            $client_name = null;
-                            if (!empty($_POST['license']) && !empty($_POST['client'])) {
-                                $license_code = strip_tags(trim($_POST["license"]));
-                                $client_name = strip_tags(trim($_POST["client"]));
-                                /* Once we have the license code and client's name we can use LicenseBoxAPI's activate_license() function for activating/installing the license, if the third parameter is empty a local license file will be created which can be used for background license checks. */
-                                $activate_response = $api->activate_license($license_code, $client_name);
-                                if (empty($activate_response)) {
-                                    $msg = 'Server is unavailable.';
-                                } else {
-                                    $msg = $activate_response['message'];
-                                }
-                                if ($activate_response['status'] != true) { ?>
+                                    $license_code = null;
+                                    $client_name = null;
+                                    if (!empty($_POST['license']) && !empty($_POST['client']))
+                                    {
+                                        $license_code = strip_tags(trim($_POST["license"]));
+                                        $client_name = strip_tags(trim($_POST["client"]));
+                                        /* Once we have the license code and client's name we can use LicenseBoxAPI's activate_license() function for activating/installing the license, if the third parameter is empty a local license file will be created which can be used for background license checks. */
+                                        $activate_response = $api->activate_license($license_code, $client_name);
+                                        if (empty($activate_response)) {
+                                            $msg = 'Server is unavailable.';
+                                        } else {
+                                            $msg = $activate_response['message'];
+                                        }
+                                        if ($activate_response['status'] != true) { ?>
                                     <form action="index.php?step=0" method="POST">
                                         <div class="notification is-danger"><?php echo ucfirst($msg); ?></div>
                                         <div class="field">
@@ -442,7 +428,8 @@ $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
         });
     });
 
-    jQuery(document).on("click", "#admin-login-btn", function() {
+    jQuery(document).on("click", "#admin-login-btn", function()
+    {
         $('#cover-spin').show(0);
         url = window.location.origin + window.location.pathname
         url = url.slice(0, -1)
@@ -456,21 +443,25 @@ $api = new LicenseBoxAPI(); // Initialize a new LicenseBoxAPI object
             cache: false,
             contentType: false,
             processData: false,
-            success: function(result) {
+            success: function(result)
+            {
                 // if (result.success == true)
                 // {
                 //     window.location.replace(result.data);
                 // }
-                $.ajax({
+                $.ajax(
+                {
                     type: "POST",
                     url: name + "public/saveAdminData",
                     data: formData,
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function(result) {
+                    success: function(result)
+                    {
                         console.log('result', result)
-                        if (result.success == true) {
+                        if (result.success == true)
+                        {
                             window.location.replace(result.data);
                         }
                     },

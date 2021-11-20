@@ -6,17 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-        <script>
-            var msg = "<?php echo Session::get('msg'); ?>"
-                $(window).on('load', function()
-                {
-                    iziToast.success(
-                    {
-                        message: msg,
-                        position: 'topRight'
-                    });
-                });
-        </script>
+        @include('layouts.msg')
     @endif
 
     <div class="section-header">
@@ -53,16 +43,6 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-5">
-                                    <label for="Promo code name">{{__('Company white logo')}}</label>
-                                    <div class="logoContainer">
-                                        <img id="image" src="{{ $general_setting->whitelogo }}" width="180" height="150">
-                                    </div>
-                                    <div class="fileContainer sprite">
-                                        <span>{{__('Image')}}</span>
-                                        <input type="file" name="company_white_logo" value="Choose File" id="previewImage" data-id="edit" accept=".png, .jpg, .jpeg, .svg">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-5">
                                     <label for="Image">{{__('Company black logo')}}</label>
                                     <div class="logoContainer">
                                         <img id="licence_doc" src="{{ $general_setting->blacklogo }}"  width="180" height="150">
@@ -72,9 +52,7 @@
                                         <input type="file" name="company_black_logo" value="Choose File" id="previewlicence_doc" data-id="edit" accept=".png, .jpg, .jpeg, .svg">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label for="Image">{{__('Company Favicon')}}</label>
                                     <div class="logoContainer">
                                         <img id="imgFavicon" src="{{ url('images/upload/'.$general_setting->favicon) }}"  width="180" height="150">
@@ -93,28 +71,8 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="contact_person_name">{{__('contact person name')}}</label>
-                                    <input type="text" name="contact_person_name" class="form-control"
-                                        value="{{ $general_setting->contact_person_name }}"
-                                        placeholder="{{__('Contact Person Name')}}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="contact">{{__('Contact')}}</label>
-                                    <input type="text" name="contact" class="form-control"
-                                        value="{{ $general_setting->contact }}" placeholder="{{__('Contact Number')}}">
-                                </div>
-                            </div>
-
                             <div class="row mb-5">
-                                <div class="col-md-6">
-                                    <label for="business_address">{{__('Business address')}}</label>
-                                    <input type="text" name="business_address" class="form-control"
-                                        value="{{ $general_setting->business_address }}"
-                                        placeholder="{{__('Business Address')}}">
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="contact">{{__('country')}}</label>
                                     <select name="country" class="form-control select2">
                                         @foreach ($countries as $country)
@@ -127,12 +85,7 @@
                             </div>
 
                             <div class="row mb-5">
-                                <div class="col-md-6">
-                                    <label for="tax_id">{{__('Tax Id number')}}</label>
-                                    <input type="text" name="tax_id" value="{{ $general_setting->tax_id }}"
-                                        placeholder="{{__('Tax Id Number')}}" class="form-control">
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="timezone">{{__('timezone')}}</label>
                                     <select class="form-control select2" name="timezone">
                                         @foreach ($timezones as $timezone)
@@ -159,21 +112,6 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="tax_id">{{__('Help line number')}}</label>
-                                    <input type="text" name="help_line_no" value="{{ $general_setting->help_line_no }}"
-                                        placeholder="{{__('Help Line Number')}}" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row mt-5">
-                                <div class="col-md-12">
-                                    <label for="google key">{{__('Settlement Days')}}</label>
-                                    <input type="number" name="settlement_days" class="form-control" value="{{$general_setting->settlement_days}}">
-                                </div>
-                            </div>
-
-                            <div class="row mt-5">
-                                <div class="col-md-12">
                                     <label for="google key">{{__('Google map key')}}</label>
                                     <input type="text" name="map_key" class="form-control" value="{{$general_setting->map_key}}" style="text-transform: none;">
                                 </div>
@@ -235,36 +173,10 @@
                                 </div>
                             </div>
 
-                            <h5 class="mt-5">{{__('Terminology')}}</h5>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="">{{__('tax type')}}</label>
-                                    <input type="text" name="tax_type" class="form-control"
-                                        value="{{$general_setting->tax_type}}">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="">{{__('vendor name')}}</label>
-                                    <input type="text" name="vendor_name" value="{{$general_setting->vendor_name}}"
-                                        class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="">{{__('driver name')}}</label>
-                                    <input type="text" name="driver_name" value="{{$general_setting->driver_name}}"
-                                        class="form-control">
-                                </div>
-                            </div>
-
                             <h5 class="mt-5">{{__('Other')}}</h5>
                             <hr>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <label for="max_user">{{__('Takeaway feature')}}</label><br>
                                     <label class="switch">
                                         <input type="checkbox" name="isPickup"
@@ -272,17 +184,7 @@
                                         <div class="slider"></div>
                                     </label>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <label for="isSameDayDelivery">{{__('same day delivery')}}</label><br>
-                                    <label class="switch">
-                                        <input type="checkbox" name="isSameDayDelivery"
-                                            {{ $general_setting->isSameDayDelivery == 1 ? 'checked' : '' }}>
-                                        <div class="slider"></div>
-                                    </label>
-                                </div>
                             </div>
-
                             <h5 class="mt-5">{{__('Site color changes')}}</h5>
                             <hr>
                             <div class="form-group">

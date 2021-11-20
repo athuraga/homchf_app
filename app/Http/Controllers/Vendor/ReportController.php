@@ -10,6 +10,7 @@ use App\Models\Vendor;
 use App\Models\Settle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\DeliveryPerson;
 
 class ReportController extends Controller
 {
@@ -61,6 +62,13 @@ class ReportController extends Controller
         else
         {
             $orders = Order::where('vendor_id',$vendor->id)->orderBy('id','DESC')->get();
+        }
+        foreach ($orders as $order) {
+            if ($order->delivery_person_id) 
+            {
+                $delivery_person = DeliveryPerson::find($order->delivery_person_id,['id','first_name','last_name','image']);
+                $order['deliver_person_name'] = $delivery_person->first_name.' '.$delivery_person->last_name;
+            }
         }
         $currency = GeneralSetting::first()->currency_symbol;
         return view('vendor.report.order_report',compact('orders','currency'));

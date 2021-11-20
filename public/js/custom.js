@@ -1899,6 +1899,12 @@ function show_admin_order(id) {
                 //     $('.show_discount').text("doesn't apply any promo code");
                 // }
                 $('.show_order_id').text(result.data.order.order_id);
+                // if (result.data.order.order_schedule != null) {
+                //     $('.show_order_schedule').text(result.data.order.order_schedule);
+                // }
+                // else {
+                //     $('.show_order_schedule').text("doesn't apply");
+                // }
                 $('.show_user_name').text(result.data.order.user.name);
                 $('.show_date').text(result.data.order.date);
                 $('.show_time').text(result.data.order.time);

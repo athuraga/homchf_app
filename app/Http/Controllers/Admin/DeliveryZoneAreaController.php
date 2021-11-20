@@ -10,7 +10,7 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Auth;
 
-class DeliveryZoneAreaController extends Controller
+class   DeliveryZoneAreaController extends Controller
 {
     /**
      * Display a listing of the resource.

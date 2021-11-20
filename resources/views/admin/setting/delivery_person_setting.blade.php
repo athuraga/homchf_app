@@ -5,17 +5,7 @@
 @section('content')
 <section class="section">
     @if (Session::has('msg'))
-        <script>
-            var msg = "<?php echo Session::get('msg'); ?>"
-            $(window).on('load', function()
-            {
-                iziToast.success({
-                    message: msg,
-                    position: 'topRight'
-                });
-                console.log(msg);
-        });
-        </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Delivery person settings')}}</h1>
@@ -34,28 +24,8 @@
                 <div class="card-body">
                     <h5 class="mt-3">{{__('Delivery person setting')}}</h5>
                     <hr>
-
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="Delivery Person Accept Multiple Order">{{__('Delivery Person Accept Multiple Order?')}}</label><br>
-                            <label class="switch">
-                                <input type="checkbox" name="is_driver_accept_multipleorder" {{ $general_setting->is_driver_accept_multipleorder == 1 ? 'checked' : '' }}>
-                                <div class="slider"></div>
-                            </label>
-                        </div>
-
-                        <div class="col-md-6 driver_accept_multi_order {{ $general_setting->is_driver_accept_multipleorder == 0 ? 'hide' : '' }}">
-                            <label for="Delivery Person Accept Multiple Order Count">{{__('Delivery Person Accept Multiple Order Count')}}</label>
-                            <input type="text" name="driver_accept_multiple_order_count" class="form-control" value="{{ $general_setting->driver_accept_multiple_order_count }}">
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="driver assign km">{{__('driver assign km')}}</label>
-                            <input type="text" required name="driver_assign_km" class="form-control" value="{{ $general_setting->driver_assign_km }}">
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="driver assign km">{{__('Driver dashboard auto refresh(In seconds)')}}</label>
                             <input type="number" min=1 required name="driver_auto_refrese" class="form-control" value="{{ $general_setting->driver_auto_refrese }}">
                             @error('driver_auto_refrese')

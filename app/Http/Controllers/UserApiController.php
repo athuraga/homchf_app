@@ -75,6 +75,7 @@ class UserApiController extends Controller
                             return response()->json(['success' => true, 'data' => $user], 200);
                         } else {
                             $this->sendNotification($user);
+                            $user['token'] = '';
                             return response(['success' => true, 'data' => $user, 'msg' => 'Otp send in your account']);
                         }
                     } else {
@@ -92,7 +93,7 @@ class UserApiController extends Controller
             $data['is_verified'] = 1;
             $filtered = Arr::except($data, ['provider_token']);
             if ($data['provider'] !== 'LOCAL') {
-                $user = User::where('email', $data['email'])->first();
+                $user = User::where('email', $data['email'])->first()->makeHidden('otp');
                 if ($user) {
                     $user->provider_token = $request->provider_token;
                     $token = $user->createToken('mealUp')->accessToken;
@@ -211,11 +212,20 @@ class UserApiController extends Controller
             'where' => 'bail|required'
         ]);
         $user = User::where('email_id', $request->email_id)->first();
-        if ($user) {
-            $this->sendNotification($user);
+        if ($user)
+        {
+            if ($request->where == 'register')
+            {
+                $this->sendNotification($user);
+            }
+            if($request->where == 'forgot_password')
+            {
+                $this->ForgotPassword($user);
+            }
+            $user->makeHidden('otp');
             return response(['success' => true, 'data' => $user]);
         } else {
-            return response(['success' => false, 'data' => __('User Not Found.')]);
+            return response(['success' => false, 'msg' => __('User Not Found.')]);
         }
     }
 
@@ -235,6 +245,13 @@ class UserApiController extends Controller
         }
         return response(['success' => false, 'data' => 'No record found for this record']);
     }
+
+    // public function apiGetOrderSchedule(Request $request)
+    // {
+    //     $user = User::find(auth()->user()->id);
+    //     // $order = Order::where('user_id',$user)->where('order_status','!=','COMPLETE')->where('order_status','!=','CANCEL')->get(['order_status','id'])->makeHidden(['vendor','user','orderItems','user_address']);
+    //     $order_child = OrderChild::where('user_id', $user->id)->where([['order_schedule', '!=', '']])->get(['order_schedule', 'id'])->makeHidden(['order_id','item','price','qty','custimization']);
+    // }
 
     public function apiSingleMenu($menu_id)
     {
@@ -256,22 +273,29 @@ class UserApiController extends Controller
     public function apiSingleVendor($vendor_id)
     {
         $master = array();
-        $master['vendor'] = Vendor::where([['id', $vendor_id], ['status', 1]])->first(['id', 'image', 'tax', 'name', 'map_address', 'for_two_person', 'vendor_type', 'cuisine_id'])->makeHidden(['vendor_logo']);
+        $master['vendor'] = Vendor::where([['id', $vendor_id], ['status', 1]])->first(['id', 'image', 'tax', 'name', 'map_address', 'for_two_person', 'vendor_type','lat','lang', 'cuisine_id'])->makeHidden(['vendor_logo']);
         if ($master['vendor']->tax == null) {
             $master['vendor']->tax = strval(5);
         }
         $menus = Menu::where([['vendor_id', $vendor_id], ['status', 1]])->orderBy('id', 'DESC')->get(['id', 'name', 'image']);
         $tax = GeneralSetting::first()->isItemTax;
         foreach ($menus as $menu) {
-            $menu['submenu'] = Submenu::where('menu_id', $menu->id)->get(['id', 'qty_reset', 'item_reset_value','type', 'name', 'image', 'price']);
-            foreach ($menu['submenu'] as $value) {
-                $value['custimization'] = SubmenuCusomizationType::where('submenu_id', $value->id)->get(['id', 'name', 'custimazation_item', 'type']);
-                if ($tax == 0) {
+            $menu['submenu'] = Submenu::where([['menu_id', $menu->id],['status',1]])->get(['id', 'qty_reset', 'item_reset_value','availabel_item','type', 'name', 'image', 'price']);
+            foreach ($menu['submenu'] as $value) 
+            {
+                if ($value->qty_reset == 'daily') {
+                    $value->availabel_item = $value->availabel_item == null ? $value->item_reset_value : $value->availabel_item;
+                }
+                $value['custimization'] = SubmenuCusomizationType::where('submenu_id', $value->id)->get(['id', 'name', 'custimazation_item', 'type','min_item_selection','max_item_selection']);
+                if ($tax == 0) 
+                {
                     $price_tax = GeneralSetting::first()->item_tax;
                     $disc = $value->price * $price_tax;
                     $discount = $disc / 100;
                     $value->price = strval($value->price + $discount);
-                } else {
+                } 
+                else 
+                {
                     $value->price = strval($value->price);
                 }
             }
@@ -355,7 +379,7 @@ class UserApiController extends Controller
     {
         $promo = PromoCode::where('status', 1);
         $v = [];
-        $promo_codes = PromoCode::where([['status', 1], ['display_customer_app', 1]])->get();
+        $promo_codes = PromoCode::where([['status', 1],['display_customer_app', 1]])->get();
         foreach ($promo_codes as $promo_code) {
             $vendorIds = explode(',', $promo_code->vendor_id);
             if (($key = array_search($vendor_id, $vendorIds)) !== false) {
@@ -396,7 +420,7 @@ class UserApiController extends Controller
                             $promo = PromoCode::where('id', $data['promocode_id'])->first(['id', 'image', 'isFlat', 'flatDiscount', 'discount', 'discountType']);
                             return response(['success' => true, 'data' => $promo]);
                         } else {
-                            return response(['success' => false, 'data' => 'This Coupon is expire..!!']);
+                            return response(['success' => false, 'data' => 'This coupen is expire..!!']);
                         }
                     } else {
                         if ($promoCode->coupen_type == $data['delivery_type']) {
@@ -404,20 +428,20 @@ class UserApiController extends Controller
                                 $promo = PromoCode::where('id', $data['promocode_id'])->first(['id', 'image', 'isFlat', 'flatDiscount', 'discount', 'discountType']);
                                 return response(['success' => true, 'data' => $promo]);
                             } else {
-                                return response(['success' => false, 'data' => 'This Coupon is expire..!!']);
+                                return response(['success' => false, 'data' => 'This coupen is expire..!!']);
                             }
                         } else {
-                            return response(['success' => false, 'data' => 'This Coupon is not valid for ' . $data['delivery_type']]);
+                            return response(['success' => false, 'data' => 'This coupen is not valid for ' . $data['delivery_type']]);
                         }
                     }
                 } else {
-                    return response(['success' => false, 'data' => 'This Coupon not valid for less than ' . $currency . $promoCode->min_order_amount . ' amount']);
+                    return response(['success' => false, 'data' => 'This coupen not valid for less than ' . $currency . $promoCode->min_order_amount . ' amount']);
                 }
             } else {
-                return response(['success' => false, 'data' => 'Coupon is expire..!!']);
+                return response(['success' => false, 'data' => 'Coupen is expire..!!']);
             }
         } else {
-            return response(['success' => false, 'data' => 'Coupon is not valid for this user..!!']);
+            return response(['success' => false, 'data' => 'Coupen is not valid for this user..!!']);
         }
     }
 
@@ -471,23 +495,31 @@ class UserApiController extends Controller
             'payment_token' => 'bail|required_if:payment_type,STRIPE,RAZOR,PAYPAl',
             // 'delivery_charge' => 'bail|required_if:delivery_type,HOME',
             'tax' => 'required',
+            'order_schedule' => 'required',
         ]);
         $bookData = $request->all();
         $vendor = Vendor::where('id', $bookData['vendor_id'])->first();
 
-        if ($bookData['payment_type'] == 'STRIPE')
-        {
+        if ($bookData['payment_type'] == 'STRIPE') {
             $paymentSetting = PaymentSetting::find(1);
             $stripe_sk = $paymentSetting->stripe_secret_key;
             $currency = GeneralSetting::find(1)->currency;
             $stripe = new \Stripe\StripeClient($stripe_sk);
             $charge = $stripe->charges->create(
-            [
-                "amount" => $bookData['amount'],
-                "currency" => $currency,
-                "source" => $request->payment_token,
-            ]);
+                [
+                    "amount" => $bookData['amount'],
+                    "currency" => $currency,
+                    "source" => $request->payment_token,
+                ]
+            );
             $bookData['payment_token'] = $charge->id;
+        }
+        if ($bookData['payment_type'] == 'WALLET')
+        {
+            $user = auth()->user();
+            if ($bookData['amount'] > $user->balance) {
+                return response(['success' => false, 'data' => "You have insufficient balance."]);
+            }
         }
         $bookData['user_id'] = auth()->user()->id;
 
@@ -502,22 +534,34 @@ class UserApiController extends Controller
         $bookData['order_id'] = '#' . rand(100000, 999999);
         $bookData['vendor_id'] = $vendor->id;
         $order = Order::create($bookData);
+        if ($bookData['payment_type'] == 'WALLET') {
+            $user->withdraw($bookData['amount'], [$order->id]);
+        }
         $bookData['item'] = json_decode($bookData['item'], true);
-        foreach ($bookData['item'] as $child_item) {
+        foreach ($bookData['item'] as $child_item) 
+        {
             $order_child = array();
             $order_child['order_id'] = $order->id;
             $order_child['item'] = $child_item['id'];
             $order_child['price'] = $child_item['price'];
             $order_child['qty'] = $child_item['qty'];
-            if (isset($child_item['custimization']))
-            {
+            // $order_child['order_schedule'] = $child_item['order_schedule'];
+                       
+            if (isset($child_item['custimization'])) {
                 $order_child['custimization'] = $child_item['custimization'];
+            }
+            $submenu = Submenu::find($child_item['id']);
+            if ($submenu->qty_reset == 'daily') {
+                $submenu->availabel_item = $submenu->availabel_item + $child_item['qty'];
+                $submenu->save();
             }
             OrderChild::create($order_child);
         }
-        $this->sendVendorOrderNotification($vendor,$order->id);
-        $this->sendUserNotification($bookData['user_id'],$order->id);
+        $this->sendVendorOrderNotification($vendor, $bookData['order_id']);
+        $this->sendUserNotification($bookData['user_id'], $bookData['order_id']);
         $amount = $order->amount;
+        $order_schedule = $order->order_schedule;
+
         $tax = array();
         if ($vendor->admin_comission_type == 'percentage') {
             $comm = $amount * $vendor->admin_comission_value;
@@ -529,8 +573,7 @@ class UserApiController extends Controller
             $tax['admin_commission'] = $amount - $tax['vendor_amount'];
         }
         $order->update($tax);
-        if ($order->payment_type == 'FLUTTERWAVE')
-        {
+        if ($order->payment_type == 'FLUTTERWAVE') {
             return response(['success' => true, 'url' => url('FlutterWavepayment/' . $order->id), 'data' => "order booked successfully wait for confirmation"]);
         } else {
             return response(['success' => true, 'data' => "order booked successfully wait for confirmation"]);
@@ -541,7 +584,7 @@ class UserApiController extends Controller
     {
         app('App\Http\Controllers\Vendor\VendorSettingController')->cancel_max_order();
         // app('App\Http\Controllers\DriverApiController')->cancel_max_order();
-        $orders = Order::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get(['id', 'amount', 'vendor_id', 'order_status', 'delivery_person_id', 'delivery_charge', 'date', 'time', 'address_id']);
+        $orders = Order::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get(['id', 'amount', 'vendor_id', 'order_status', 'order_schedule', 'delivery_person_id', 'delivery_charge', 'date', 'time', 'address_id']);
         foreach ($orders as $order) {
             if ($order->delivery_person_id != null) {
                 $delivery_person = DeliveryPerson::find($order->delivery_person_id);
@@ -612,10 +655,10 @@ class UserApiController extends Controller
                     return response(['success' => true, 'data' => $user->id, 'msg' => 'SuccessFully verify your account...!!']);
                 }
             } else {
-                return response(['success' => false, 'data' => 'Something went wrong otp does not match..!']);
+                return response(['success' => false, 'msg' => 'Something went wrong otp does not match..!']);
             }
         } else {
-            return response(['success' => false, 'data' => 'Oops...user not found..!!']);
+            return response(['success' => false, 'msg' => 'Oops...user not found..!!']);
         }
     }
 
@@ -671,7 +714,7 @@ class UserApiController extends Controller
                     array_push($restraunt, $request->id);
                     $data->faviroute = implode(",", $restraunt);
                     $data->save();
-                    return response(['success' => true, 'data' => 'Add to faviroute Successfully..!!']);
+                    return response(['success' => true, 'data' => 'Add to Favorite Successfully..!!']);
                 }
             }
         } else {
@@ -682,7 +725,6 @@ class UserApiController extends Controller
     public function apiNearBy(Request $request)
     {
         $radius = GeneralSetting::first()->radius;
-        // $vendors = Vendor::where('status', 1)->get(['id', 'image', 'name', 'lat', 'lang', 'cuisine_id', 'vendor_type'])->makeHidden(['vendor_logo']);
         $vendors = Vendor::where('status', 1)->GetByDistance($request->lat, $request->lang, $radius)->get(['id', 'image', 'name', 'lat', 'lang', 'cuisine_id', 'vendor_type'])->makeHidden(['vendor_logo']);
         foreach ($vendors as $vendor) {
             if (auth('api')->user() != null) {
@@ -792,6 +834,18 @@ class UserApiController extends Controller
         }
 
         $data = $result->get(['id', 'name', 'image', 'lat', 'lang', 'cuisine_id', 'vendor_type'])->makeHidden(['vendor_logo']);
+
+        if(isset($request->sorting))
+        {
+            if($request->sorting == 'high_to_low')
+            {
+                $data = $data->sortByDesc('rate')->values()->all();
+            }
+            if($request->sorting == 'low_to_high')
+            {
+                $data = $data->sortBy('rate')->values()->all();
+            }
+        }
 
         foreach ($data as $vendor) {
             $lat1 = $vendor->lat;
@@ -977,7 +1031,7 @@ class UserApiController extends Controller
 
     public function apiSingleOrder($id)
     {
-        $order = Order::where('id', $id)->first(['id', 'order_id', 'vendor_id', 'amount', 'delivery_person_id', 'order_status', 'address_id', 'promocode_id', 'promocode_price', 'user_id', 'vendor_discount_price', 'delivery_charge']);
+        $order = Order::where('id', $id)->first(['id', 'order_id', 'vendor_id', 'amount', 'delivery_person_id', 'order_status', 'address_id', 'promocode_id', 'promocode_price', 'user_id', 'vendor_discount_price', 'delivery_charge','order_schedule']);
         $tax = 0;
         foreach (json_decode(Order::find($id)->tax) as $t) {
             $tax += $t->tax;
@@ -1076,7 +1130,8 @@ class UserApiController extends Controller
         $d_image = [];
         if (isset($data['image'])) {
             if (count($data['image']) <= 3) {
-                foreach ($data['image'] as $image) {
+                foreach ($data['image'] as $image) 
+                {
                     $img = $image;
                     $img = str_replace('data:image/png;base64,', '', $img);
                     $img = str_replace(' ', '+', $img);
@@ -1456,5 +1511,46 @@ class UserApiController extends Controller
         $transction['added_by'] = 'user';
         WalletPayment::create($transction);
         return response(['success' => true, 'data' => 'balance added']);
+    }
+
+    public function ForgotPassword($user)
+    {
+        $verification_content = NotificationTemplate::where('title','verification')->first();
+        $otp = mt_rand(1000, 9999);
+        $user->otp = $otp;
+        $user->save();
+        if ($user->language == 'spanish')
+        {
+            $msg_content = $verification_content->spanish_notification_content;
+            $mail_content = $verification_content->spanish_mail_content;
+
+            $sid = GeneralSetting::first()->twilio_acc_id;
+            $token = GeneralSetting::first()->twilio_auth_token;
+            $detail['otp'] = $otp;
+            $detail['user_name'] = $user->name;
+            $detail['app_name'] = GeneralSetting::first()->business_name;
+            $data = ["{otp}", "{user_name}", "{app_name}"];
+
+            $message1 = str_replace($data, $detail, $mail_content);
+            try {
+                Mail::to($user->email_id)->send(new Verification($message1));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
+        else
+        {
+            $mail_content = $verification_content->mail_content;
+            $detail['otp'] = $otp;
+            $detail['user_name'] = $user->name;
+            $detail['app_name'] = GeneralSetting::first()->business_name;
+            $data = ["{otp}", "{user_name}","{app_name}"];
+            $message1 = str_replace($data, $detail, $mail_content);
+            try {
+                Mail::to($user->email_id)->send(new Verification($message1));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
     }
 }

@@ -6,17 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-        <script>
-             var msg = "<?php echo Session::get('msg'); ?>"
-            $(window).on('load', function()
-            {
-                iziToast.success({
-                    message: msg,
-                    position: 'topRight'
-                });
-                console.log(msg);
-        });
-        </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Vendor dashboard')}}</h1>
@@ -158,28 +148,6 @@
                                         @endif
                                     </td>
                                     <td>{{ $order->payment_type }}</td>
-                                    {{-- <td>
-                                        @if ($order->delivery_type == 'SHOP')
-                                            <select class="form-control" onchange="order_status({{$order->id}})" id="status{{$order->id}}">
-                                                <option value="PENDING" {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                                <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
-                                                <option value="PREPARE_FOR_ORDER" {{ $order->order_status == 'PREPARE_FOR_ORDER' ? 'selected' : '' }}>{{__('Prepare for order')}}</option>
-                                                <option value="READY_FOR_ORDER" {{ $order->order_status == 'READY_FOR_ORDER' ? 'selected' : '' }}>{{__('Ready for order')}}</option>
-                                                <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}{{ $order->order_status == 'CANCEL' ? 'selected' : '' }}>{{__('Reject')}}</option>
-                                                <option value="COMPLETE" {{ $order->order_status == 'COMPLETE' ? 'selected' : '' }}>{{__('Complete')}}</option>
-                                            </select>
-                                        @else
-                                            <select class="form-control" onchange="order_status({{$order->id}})" name="order_status_change" id="status{{$order->id}}">
-                                                <option value="PENDING" {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                                <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
-                                                <option value="ACCEPT" {{ $order->order_status == 'ACCEPT' ? 'selected' : '' }} disabled>{{__('Accept')}}</option>
-                                                <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
-                                                <option value="PICKUP" {{ $order->order_status == 'PICKUP' ? 'selected' : '' }}>{{__('pickup')}}</option>
-                                                <option value="DELIVERED" {{ $order->order_status == 'DELIVERED' ? 'selected' : '' }}>{{__('Delivered')}}</option>
-                                                <option value="COMPLETE" {{ $order->order_status == 'COMPLETE' ? 'selected' : '' }}>{{__('Complete')}}</option>
-                                            </select>
-                                        @endif
-                                    </td> --}}
                                     <td>
                                         @if ($order->delivery_type == 'SHOP')
                                             @if ($order->order_status == 'COMPLETE' || $order->order_status == 'CANCEL' || $order->order_status == 'REJECT')
@@ -189,6 +157,7 @@
                                             @else
                                                 @if ($order->order_status == 'PENDING')
                                                     <select class="form-control w-auto" onchange="order_status({{$order->id}})" id="status{{$order->id}}">
+                                                        <option value="PENDING" disabled {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('PENDING')}}</option>
                                                         <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
                                                         <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
                                                     </select>
@@ -211,6 +180,7 @@
                                             @else
                                                 @if ($order->order_status == 'PENDING')
                                                     <select class="form-control w-auto" onchange="order_status({{$order->id}})" name="order_status_change" id="status{{$order->id}}">
+                                                        <option value="PENDING" disabled {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('PENDING')}}</option>
                                                         <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
                                                         <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
                                                     </select>
@@ -224,12 +194,6 @@
                                                         <option value="COMPLETE" {{ $order->order_status == 'COMPLETE' ? 'selected' : '' }}>{{__('Complete')}}</option>
                                                     </select>
                                                 @endif
-                                                {{-- <select class="form-control w-auto" onchange="order_status({{$order->id}})" name="order_status_change" id="status{{$order->id}}">
-                                                    <option value="PENDING" {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                                    <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
-                                                    <option value="ACCEPT" {{ $order->order_status == 'ACCEPT' ? 'selected' : '' }} disabled>{{__('Accept')}}</option>
-                                                    <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
-                                                </select> --}}
                                             @endif
                                         @endif
                                     </td>

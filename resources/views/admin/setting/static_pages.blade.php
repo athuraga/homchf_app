@@ -6,16 +6,7 @@
 
 
     @if (Session::has('msg'))
-    <script>
-         var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-        });
-    </script>
+        @include('layouts.msg')
     @endif
 
     <section class="section">
@@ -166,7 +157,6 @@
                                     <div class="card-body">
                                         <div class="form-group row align-items-center">
                                             <div class="form-group col-12">
-                                                {{-- {{dd($setting->company_details)}} --}}
                                                 <label>{{__('About Us')}}</label>
                                                 <textarea class="form-control textarea_editor" name="company_details">{{ $setting->company_details }}</textarea>
                                             </div>

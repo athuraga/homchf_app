@@ -19,4 +19,18 @@ class PromoCode extends Model
     {
         return url('images/upload') . '/'.$this->attributes['image'];
     }
+
+    public function getDiscountAttribute()
+    {
+        if($this->attributes['discount'] == null)
+        {
+            return 0;
+        }
+        return $this->attributes['discount'];
+    }
+
+    protected $casts = [
+        'flatDiscount' => 'integer',
+        'discount' => 'integer',
+    ];
 }

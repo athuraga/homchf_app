@@ -8,7 +8,6 @@ use App\Models\Cuisine;
 use App\Models\Faq;
 use App\Models\GeneralSetting;
 use App\Models\Menu;
-use App\Models\MenuCategory;
 use App\Models\NotificationTemplate;
 use App\Models\Order;
 use App\Models\OrderChild;
@@ -24,7 +23,6 @@ use App\Models\VendorBankDetail;
 use App\Models\VendorDiscount;
 use App\Models\WorkingHours;
 use Carbon\Carbon;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -1037,6 +1035,23 @@ class VendorApiController extends Controller
         }
         return response(['success' => true, 'data' => $orders]);
     }
+    public function apiOrderSchedule()
+    {
+        $vendor = Vendor::where('user_id', auth()->user()->id)->first();
+        $orders = Order::where('vendor_id', $vendor->id)->get()->each->setAppends(['orderItems'])->makeHidden(['created_at', 'updated_at']);
+        foreach ($orders as $order) {
+            $order->user_name = User::find($order->user_id)->name;
+            $order->user_phone = User::find($order->user_id)->phone;
+            if ($order->delivery_type == 'HOME') {
+                if (isset($order->delivery_person_id)) {
+                    $order->delivery_person = DeliveryPerson::find($order->delivery_person_id, ['first_name', 'last_name', 'contact'])->makeHidden(['image', 'deliveryzone']);
+                    $order->userAddress = UserAddress::find($order->address_id)->address;
+                }
+            }
+            $order->vendorAddress = Vendor::find($order->vendor_id)->map_address;
+        }
+        return response(['success' => true, 'data' => $orders]);
+    }
 
     public function apiCreateOrder(Request $request)
     {
@@ -1072,6 +1087,10 @@ class VendorApiController extends Controller
         {
             $order_child = array();
             $order_child['order_id'] = $order->id;
+            if(isset($item['order_schedule']))
+            {
+                $order_child['order_schedule'] = $item['order_schedule'];
+            }
             $order_child['item'] = $item['id'];
             $order_child['price'] = $item['price'];
             $order_child['qty'] = $item['qty'];
@@ -1085,6 +1104,7 @@ class VendorApiController extends Controller
         $settle = array();
         $settle['vendor_id'] = $order->vendor_id;
         $settle['order_id'] = $order->id;
+
         if ($order->payment_type == 'COD')
         {
             $settle['payment'] = 0;
@@ -1160,7 +1180,7 @@ class VendorApiController extends Controller
         $master['today_earning'] = intval(Settle::whereDate('created_at',Carbon::now())->where('vendor_id',$vendor->id)->sum('vendor_earning'));
         $master['weekly_earning'] = intval(Settle::where('vendor_id', $vendor->id)->whereBetween('created_at', [Carbon::now()->subDays(7)->format('Y-m-d')." 00:00:00",  Carbon::now()->format('Y-m-d')." 23:59:59"])->sum('vendor_earning'));
         $master['yearly_earning'] = intval(Settle::where('vendor_id', $vendor->id)->whereYear('created_at', date('Y'))->sum('vendor_earning'));
-        $master['order_chart'] = $this->orderChart();
+        $master['earning_chart'] = $this->earningChart();
         return response(['success' => true , 'data' => $master]);
     }
 
@@ -1168,44 +1188,6 @@ class VendorApiController extends Controller
     {
         $vendor = Vendor::where('user_id',auth()->user()->id)->first();
         $settles = Settle::where('vendor_id',$vendor->id)->get();
-        // $past = Carbon::now()->subDays(35);
-        // $now = Carbon::today();
-        // $c = $now->diffInDays($past);
-        // $loop = $c / 10;
-        // $data = [];
-        // while ($now->greaterThan($past)) {
-        //     $t = $past->copy();
-        //     $t->addDay();
-        //     $temp['start'] = $t->toDateString();
-        //     $past->addDays(10);
-        //     if ($past->greaterThan($now)) {
-        //         $temp['end'] = $now->toDateString();
-        //     } else {
-        //         $temp['end'] = $past->toDateString();
-        //     }
-        //     array_push($data, $temp);
-        // }
-        //
-        // $settels = array();
-        // $orderIds = array();
-        // foreach ($data as $key)
-        // {
-        //     $settle = Settle::where('vendor_id', $vendor->id)->where('created_at', '>=', $key['start'].' 00.00.00')->where('created_at', '<=', $key['end'].' 23.59.59')->get();
-        //     $value['d_total_task'] = $settle->count();
-        //     $value['admin_earning'] = $settle->sum('admin_earning');
-        //     $value['vendor_earning'] = $settle->sum('vendor_earning');
-        //     $value['driver_earning'] = $settle->sum('driver_earning');
-        //     $value['d_total_amount'] = $value['admin_earning'] + $value['driver_earning'] + $value['vendor_earning'];
-        //     $remainingOnline = Settle::where([['vendor_id', $vendor->id], ['payment', 0]])->where('created_at', '>=', $key['start'].' 00.00.00')->where('created_at', '<=', $key['end'].' 23.59.59')->get();
-        //     $remainingOffline = Settle::where([['vendor_id', $vendor->id], ['payment', 1]])->where('created_at', '>=', $key['start'].' 00.00.00')->where('created_at', '<=', $key['end'].' 23.59.59')->get();
-
-        //     $online = $remainingOnline->sum('vendor_earning'); // admin e devana
-        //     $offline = $remainingOffline->sum('admin_earning'); // admin e levana
-
-        //     $value['duration'] = $key['start'] . ' - ' . $key['end'];
-        //     $value['d_balance'] = $offline - $online; // + hoy to levana - devana
-        //     array_push($settels,$value);
-        // }
         $settles = Settle::where('vendor_id',$vendor->id)->get();
         $balances = [];
         foreach ($settles as $settle) {
@@ -1242,55 +1224,33 @@ class VendorApiController extends Controller
     public function orderChart()
     {
         $vendor = Vendor::where('user_id',auth()->user()->id)->first();
-        $masterYear = array();
-        $labelsYear = array();
-        array_push($masterYear, intval(Order::where('vendor_id',$vendor->id)->whereMonth('created_at', Carbon::now())->count()));
-        for ($i = 1; $i <= 11; $i++) {
-            if ($i >= Carbon::now()->month)
-            {
-                array_push($masterYear, intval(Order::where('vendor_id',$vendor->id)->whereMonth('created_at',Carbon::now()->subMonths($i))->whereYear('created_at', Carbon::now()->subYears(1))->count()));
-            } else {
-                array_push($masterYear, intval(Order::where('vendor_id',$vendor->id)->whereMonth('created_at', Carbon::now()->subMonths($i))
-                ->whereYear('created_at', Carbon::now()->year)
-                ->count()));
-            }
+        $g_data = [];
+        $now = Carbon::today();
+        for ($i = 0; $i < 12; $i++)
+        {
+            $total_orders = intval(Order::where('vendor_id',$vendor->id)->whereMonth('created_at', $now)->count());
+            $temp['data'] = $total_orders;
+            $temp['label'] = $now->format('M');
+            array_push($g_data,$temp);
+            $now = $now->subMonth();
         }
-
-        array_push($labelsYear, Carbon::now()->format('M-y'));
-        for ($i = 1; $i <= 11; $i++) {
-            array_push($labelsYear, Carbon::now()->subMonths($i)->format('M-y'));
-        }
-        return json_encode(['data' => $masterYear, 'label' => $labelsYear]);
+        return $g_data;
     }
 
     public function earningChart()
     {
         $vendor = Vendor::where('user_id',auth()->user()->id)->first();
-        $userYear = array();
-        $Userlabels = array();
-
-        array_push($userYear, intval(Settle::where('vendor_id',$vendor->id)->whereMonth('created_at', Carbon::now())->sum('vendor_earning')));
-        for ($i = 1; $i <= 11; $i++)
+        $g_data = [];
+        $now = Carbon::today();
+        for ($i = 0; $i < 12; $i++)
         {
-            if ($i >= Carbon::now()->month)
-            {
-                array_push($userYear, intval(Settle::where('vendor_id',$vendor->id)->whereMonth('created_at',Carbon::now()->subMonths($i))
-                ->whereYear('created_at', Carbon::now()->subYears(1))
-                ->sum('vendor_earning')));
-            }
-            else
-            {
-                array_push($userYear, intval(Settle::where('vendor_id',$vendor->id)->whereMonth('created_at', Carbon::now()->subMonths($i))
-                ->whereYear('created_at', Carbon::now()->year)
-                ->sum('vendor_earning')));
-            }
+            $toatal_earning = intval(Settle::where('vendor_id',$vendor->id)->whereMonth('created_at',$now)->sum('vendor_earning'));
+            $temp['data'] = $toatal_earning;
+            $temp['label'] = $now->format('M');
+            array_push($g_data,$temp);
+            $now = $now->subMonth();
         }
-
-        array_push($Userlabels, Carbon::now()->format('M-y'));
-        for ($i = 1; $i <= 11; $i++) {
-            array_push($Userlabels, Carbon::now()->subMonths($i)->format('M-y'));
-        }
-        return json_encode(['data' => $userYear, 'label' => $Userlabels]);
+        return $g_data;
     }
 
     public function apiVendorLogin()
@@ -1314,7 +1274,7 @@ class VendorApiController extends Controller
             'time_slot' => 'required',
         ]);
         $data = $request->all();
-        if ($file = $request->hasfile('image'))
+        if (isset($request->image))
         {
             $img = $request->image;
             $img = str_replace('data:image/png;base64,', '', $img);
@@ -1325,7 +1285,7 @@ class VendorApiController extends Controller
             $success = file_put_contents($file, $data1);
             $data['image'] = $Iname . ".png";
         }
-        if ($file = $request->hasfile('vendor_logo'))
+        if (isset($request->vendor_logo))
         {
             $img = $request->vendor_logo;
             $img = str_replace('data:image/png;base64,', '', $img);
@@ -1335,6 +1295,11 @@ class VendorApiController extends Controller
             $file = public_path('/images/upload/') . $Iname . ".png";
             $success = file_put_contents($file, $data1);
             $data['vendor_logo'] = $Iname . ".png";
+        }
+        if (isset($data['status'])) {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
         }
         $vendor->update($data);
         return response(['success' => true , 'data' => 'profile update successfully..']);
@@ -1395,10 +1360,10 @@ class VendorApiController extends Controller
                         $notification_content = str_replace($h, $detail, $content->notification_content);
                         if ($driver_notification == 1)
                         {
+                            Config::set('onesignal.app_id', env('driver_app_id'));
+                            Config::set('onesignal.rest_api_key', env('driver_api_key'));
+                            Config::set('onesignal.user_auth_key', env('driver_auth_key'));
                             try {
-                                Config::set('onesignal.app_id', env('driver_app_id'));
-                                Config::set('onesignal.rest_api_key', env('driver_api_key'));
-                                Config::set('onesignal.user_auth_key', env('driver_auth_key'));
                                 OneSignal::sendNotificationToUser(
                                     $notification_content,
                                     $near_driver->device_token,

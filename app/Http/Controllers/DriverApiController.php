@@ -405,7 +405,7 @@ class DriverApiController extends Controller
         $this->driver_cancel_max_order();
         $vendor_driver = $this->checkVendorDriver();
         $driver = auth()->user();
-        if($vendor_driver == 1)
+        if($vendor_driver == 1) 
         {
             $delivery_zone_areas = DeliveryZoneArea::where('delivery_zone_id',$driver->delivery_zone_id)->get();
             $users = array();
@@ -420,7 +420,8 @@ class DriverApiController extends Controller
                         $near_vendors = Vendor::find($value)->GetByDistance($delivery_zone_area->lat, $delivery_zone_area->lang, $delivery_zone_area->radius)->get();
                         if ($near_vendors != null)
                         {
-                            foreach ($near_vendors as $near_vendor) {
+                            foreach ($near_vendors as $near_vendor)
+                            {
                                 array_push($vendors,$near_vendor->id);
                             }
                         }
@@ -456,11 +457,11 @@ class DriverApiController extends Controller
         $order = Order::find($reqData['order_id']);
         if($order)
         {
-            $order->order_status = $reqData['order_status'];
-            $order->save();
             $vendor_driver = $this->checkVendorDriver();
             if($vendor_driver == 1)
             {
+                $order->order_status = $reqData['order_status'];
+                $order->save();
                 if($reqData['order_status'] == 'ACCEPT')
                 {
                     $order->delivery_person_id = auth()->user()->id;
@@ -468,18 +469,19 @@ class DriverApiController extends Controller
                 }
                 if($reqData['order_status'] == 'COMPLETE')
                 {
+                    $order->payment_status = 1;
+                    $order->save();
                     $vendor = Vendor::find($order->vendor_id);
                     $distance = $this->distance($vendor->lat,$vendor->lang,$order->user_address['lat'],$order->user_address['lang'],'K');
                     $earnings = json_decode(GeneralSetting::first()->driver_earning);
                     $earn = 0;
                     foreach ($earnings as $earning)
                     {
-                        if(($distance < $earning->min_km) && ($distance <= $earning->max_km))
+                        if(($distance > $earning->min_km) && ($distance <= $earning->max_km))
                         {
                             $earn = $earning->charge;
                         }
                     }
-
                     if($earn == 0)
                     {
                         $earn = max(array_column($earnings, 'charge'));
@@ -489,7 +491,8 @@ class DriverApiController extends Controller
                     $settle['vendor_id'] = $vendor->id;
                     $settle['order_id'] = $order->id;
                     $settle['driver_id'] = auth()->user()->id;
-                    if ($order->payment_type == 'COD') {
+                    if ($order->payment_type == 'COD') 
+                    {
                         $settle['payment'] = 0;
                     } else {
                         $settle['payment'] = 1;
@@ -570,7 +573,7 @@ class DriverApiController extends Controller
         }
         else
         {
-            return response(['success' => false , 'data' => 'order not found']);
+            return response(['success' => false , 'msg' => 'order not found']);
         }
     }
 
@@ -670,7 +673,7 @@ class DriverApiController extends Controller
             for ($i = 0; $i < 12; $i++)
             {
                 $count_month = 0;
-                $graphs = Order::where('delivery_type','HOME')->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->get();
+                $graphs = Order::where([['delivery_type','HOME'],['delivery_person_id',auth()->user()->id]])->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->get();
                 foreach ($graphs as $graph)
                 {
                     if (isset($graph->vendor['lat']) && isset($graph->vendor['lang']) && isset($graph->user_address['lat']) && isset($graph->user_address['lang']))
@@ -679,7 +682,7 @@ class DriverApiController extends Controller
                         $charges = json_decode($setting->driver_earning);
                         foreach($charges as $charge)
                         {
-                            if(($distance < $charge->min_km) && ($distance <= $charge->max_km))
+                            if(($distance > $charge->min_km) && ($distance <= $charge->max_km))
                             {
                                 $count_month += $charge->charge;
                             }
@@ -804,7 +807,7 @@ class DriverApiController extends Controller
 
     public function apiDriverSetting()
     {
-        $setting = GeneralSetting::where('id',1)->first(['driver_vehical_type','is_driver_accept_multipleorder','driver_app_id','driver_auth_key','driver_api_key','driver_accept_multiple_order_count','company_white_logo','company_black_logo','driver_auto_refrese','cancel_reason']);
+        $setting = GeneralSetting::where('id',1)->first(['driver_vehical_type','driver_app_id','driver_auth_key','driver_api_key','currency','currency_symbol','company_black_logo','driver_auto_refrese','cancel_reason']);
         if (auth('driverApi')->user() != null)
         {
             $vendor_driver = $this->checkVendorDriver();
@@ -865,6 +868,8 @@ class DriverApiController extends Controller
                 $LoginDriver = auth('driverApi')->user();
             }
         }
-        return $LoginDriver->vendor_id == null ? 1 : 0;
+        if ($LoginDriver) {
+            return $LoginDriver->vendor_id == null ? 1 : 0;
+        }
     }
 }

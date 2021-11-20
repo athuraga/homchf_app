@@ -43,9 +43,6 @@ class SettingController extends Controller
 
     public function update_general_setting(Request $request)
     {
-        // $request->validate([
-        //     'item_tax' => 'required_if:isItemTax,1',
-        // ]);
         if(!isset($request->business_availability)){
             $request->validate(
             [
@@ -74,17 +71,6 @@ class SettingController extends Controller
         $data['isItemTax'] = $request->has('isItemTax') ? 1 : 0;
         $data['isPickup'] = $request->has('isPickup') ? 1 : 0;
         $data['isSameDayDelivery'] = $request->has('isSameDayDelivery') ? 1 : 0;
-
-        if ($file = $request->hasfile('company_white_logo'))
-        {
-            $request->validate(
-            ['company_white_logo' => 'max:1000'],
-            [
-                'company_white_logo.max' => 'The Image May Not Be Greater Than 1 MegaBytes.',
-            ]);
-            (new CustomController)->deleteImage(DB::table('general_setting')->where('id', $id->id)->value('company_white_logo'));
-            $data['company_white_logo'] = (new CustomController)->uploadImage($request->company_white_logo);
-        }
         if ($file = $request->hasfile('company_black_logo'))
         {
             $request->validate(

@@ -4,16 +4,7 @@
 
 @section('content')
 @if (Session::has('msg'))
-    <script>
-        var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-    });
-    </script>
+    @include('layouts.msg')
 @endif
 
 <section class="section">
@@ -135,7 +126,7 @@
                                                                         <label for="chkbox">{{__('Status')}}</label>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-primary" onclick="update_custimization({{$custimization_type->id}},'{{$custimization_type->name}}')">+</button>
+                                                                        <button type="button" class="btn btn-primary" onclick="update_custimization({{$custimization_type->id}},'{{strtolower($custimization_type->name)}}')">+</button>
                                                                     </td>
                                                                 </tr>
                                                             @endif

@@ -5,17 +5,7 @@
 @section('content')
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-         var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-            console.log(msg);
-    });
-    </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Refund')}}</h1>
@@ -83,7 +73,6 @@
             </div>
             <div class="modal-body">
                 <table class="table">
-                    {{-- <h4 class="user_name">{{__('user name')}}</h4> --}}
                     <tr>
                         <th>{{__('user name')}}</th>
                         <td class="user_name"></td>

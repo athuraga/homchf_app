@@ -8,17 +8,7 @@
 <section class="section">
     <div class="section-header">
         @if (Session::has('msg'))
-        <script>
-             var msg = "<?php echo Session::get('msg'); ?>"
-            $(window).on('load', function()
-            {
-                iziToast.success({
-                    message: msg,
-                    position: 'topRight'
-                });
-                console.log(msg);
-        });
-        </script>
+            @include('layouts.msg')
         @endif
         <h1>{{__('Bank Details')}}</h1>
         <div class="section-header-breadcrumb">

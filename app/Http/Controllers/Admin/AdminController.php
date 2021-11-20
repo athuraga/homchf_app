@@ -225,10 +225,4 @@ class AdminController extends Controller
         return response()->download($pathToFile, $name, $headers);
         // return redirect()->back();
     }
-
-    public function import()
-    {
-        DB::unprepared(file_get_contents(base_path().'/license/includes/db_mealup.sql'));
-        return redirect('/');
-    }
 }

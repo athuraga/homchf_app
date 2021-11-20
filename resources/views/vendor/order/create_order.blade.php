@@ -6,16 +6,7 @@
 
 <section class="section">
     @if (Session::has('msg'))
-    <script>
-        var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-        });
-    </script>
+        @include('layouts.msg')
     @endif
     <div class="section-header">
         <h1>{{__('Create new order')}}</h1>
@@ -94,7 +85,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 orderCol">
                                                                 <img src="{{ $submenu->image }}" width="100%" height="113" class="orderImage" alt="">
-                                                        </div>
+                                                            </div>
                                                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-8 orderColRight">
                                                                 <div class="orderContent">
                                                                     @if ($submenu->type == 'veg')
@@ -110,7 +101,7 @@
                                                                 @if (Session::get('cart') != null)
                                                                     @foreach (Session::get('cart') as $cart)
                                                                         @if($cart['id'] == $submenu->id)
-                                                                            <a onclick="DispCustimization({{$submenu->id}})" class="cursor-pointer text-primary">{{__('Custimization')}}</a>
+                                                                            <a onclick="DispCustimization({{$submenu->id}})" class="cursor-pointer text-primary custimization{{$submenu->id}}">{{__('Custimization')}}</a>
                                                                         @endif
                                                                     @endforeach
                                                                 @endif
@@ -383,13 +374,6 @@
                                                                 <span class="dispBillTotalAmount">00</span>
                                                             </td>
                                                         </tr>
-                                                        {{-- <tr class="Border">
-                                                            <td class="leftTd">{{__('Other Tax')}}</td>
-                                                            <td class="rightTd">
-                                                                {{$currency}}
-                                                                <span class="dispBillTex">00</span>
-                                                            </td>
-                                                        </tr> --}}
                                                         <tr class="Border">
                                                             <td class="leftTd">{{__('Final total')}}</td>
                                                             <td class="rightTd">
@@ -498,7 +482,6 @@
 
                                         <div class="card SubmenuCard hide display_custimization">
                                             <div class="table-responsive p-3 qtyTable displayCustimization">
-
                                             </div>
                                             <div class="cardFooter d-flex">
                                                 <div class="totalItemDiv">
@@ -521,8 +504,7 @@
         </div>
 </section>
 
-<div class="modal" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-    aria-hidden="true">
+<div class="modal" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <form class="form_user_address" method="post">

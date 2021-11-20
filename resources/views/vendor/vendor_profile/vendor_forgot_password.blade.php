@@ -9,24 +9,27 @@
     $title = App\Models\GeneralSetting::find(1)->business_name;
 
     @endphp
-    <title>{{ $title }} | @yield('title','@HomChf forgot password')</title>
+    <title>{{ $title }} | @yield('title','Vendor forgot password')</title>
 
     <!-- General CSS Files -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    @php
-    $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
-    $color = App\Models\GeneralSetting::find(1)->site_color;
-    $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
+        @php
+            $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
+            $color = App\Models\GeneralSetting::find(1)->site_color;
+            $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
 
-    @endphp
-    <style>
-        :root {
-            --site_color: <?php echo $color; ?>;
-            --hover_color: <?php echo $color . 'c7'; ?>;
-        }
-    </style>
+        @endphp
+        <style>
+            :root
+            {
+                --site_color: <?php echo $color; ?>;
+                --hover_color: <?php echo $color.'c7'; ?>;
+            }
+        </style>
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ url('css/style.css') }}">
@@ -41,8 +44,7 @@
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">{{__("nothing beats home taste...!!")}}</h1>
-                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome to @ Home Chef")}}</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome Vendor...!!")}}</h1>
                             </div>
                         </div>
                     </div>
@@ -75,14 +77,14 @@
                         </div>
                         @endif
                         @if (Session::has('errormsg'))
-                        <div class="alert alert-danger alert-dismissible show fade">
-                            <div class="alert-body">
-                                <button class="close" data-dismiss="alert">
-                                    <span>×</span>
-                                </button>
-                                {{ Session::get('errormsg') }}
+                            <div class="alert alert-danger alert-dismissible show fade">
+                                <div class="alert-body">
+                                    <button class="close" data-dismiss="alert">
+                                        <span>×</span>
+                                    </button>
+                                    {{ Session::get('errormsg') }}
+                                </div>
                             </div>
-                        </div>
                         @endif
                         <form method="POST" action="{{ url('admin/admin_forgot_password') }}">
                             @csrf
@@ -123,5 +125,4 @@
 
     <!-- Page Specific JS File -->
 </body>
-
 </html>

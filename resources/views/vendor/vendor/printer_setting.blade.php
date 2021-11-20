@@ -3,19 +3,9 @@
 @section('title','Vendor Printer Setting')
 
 @section('content')
-@if (Session::has('msg'))
-<script>
-    var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-            console.log(msg);
-        });
-</script>
-@endif
+    @if (Session::has('msg'))
+    @include('layouts.msg')
+    @endif
     <section class="section">
         <div class="section-header">
             <h1>{{__('Printer Details')}}</h1>

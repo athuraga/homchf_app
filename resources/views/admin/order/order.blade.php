@@ -140,56 +140,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{-- <div class="modal-body">
-                <table class="table">
-                    <tr>
-                        <th>{{__('Order Id')}}</th>
-                        <td class="show_order_id"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('User name')}}</th>
-                        <td class="show_user_name"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('date')}}</th>
-                        <td class="show_date"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('time')}}</th>
-                        <td class="show_time"></td>
-                    </tr>
-                    <tr>
-                        <th>{{__('Delivery At')}}</th>
-                        <td class="show_delivery_at"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('Discount')}}</th>
-                        <td class="show_discount"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('Total Amount')}}</th>
-                        <td class="show_total_amount"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('Admin Commission')}}</th>
-                        <td class="show_admin_commission"></td>
-                    </tr>
-
-                    <tr>
-                        <th>{{__('Vendor Commission')}}</th>
-                        <td class="show_vendor_amount"></td>
-                    </tr>
-                </table>
-                <h6>{{__('Items')}}</h6>
-                <table class="table show_order_table">
-                </table>
-            </div> --}}
             <div class="modal-body">
                 <table class="table">
                     <tr>

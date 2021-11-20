@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationTemplate;
 use Illuminate\Http\Request;
 use App;
+use App\Models\User;
+use App\Models\Vendor;
+use Config;
+use OneSignal;
 
 class NotificationTemplateController extends Controller
 {
@@ -133,5 +137,85 @@ class NotificationTemplateController extends Controller
     public function destroy(NotificationTemplate $notificationTemplate)
     {
         //
+    }
+
+    public function send_notification()
+    {
+        $users = User::whereHas('roles', function($q)
+        {
+            $q->where('title','user');
+        })->get();
+        $vUsers = User::whereHas('roles', function($q)
+        {
+            $q->where('title','vendor');
+        })->get();
+        $vendors = [];
+        foreach ($vUsers as $vUser) {
+            array_push($vendors,Vendor::where('user_id',$vUser->id)->first());
+        }
+        return view('admin.notification template.send_notification',compact('users','vendors'));
+    }
+
+    public function send_notification_user(Request $request)
+    {
+        $request->validate([
+            'title' => 'bail|required',
+            'message' => 'bail|required',
+            'user_id' => 'bail|required',
+        ]);
+        foreach ($request->user_id as $id) 
+        {
+            $user = User::find($id);
+            try {
+                Config::set('onesignal.app_id', env('customer_app_id'));
+                Config::set('onesignal.rest_api_key', env('customer_api_key'));
+                Config::set('onesignal.user_auth_key', env('customer_auth_key'));
+                OneSignal::sendNotificationToUser(
+                    $request->message,
+                    $user->device_token,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    $request->title
+                );
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            
+        }
+        return redirect()->back();
+    }
+
+    public function send_notification_vendor(Request $request)
+    {
+        $request->validate([
+            'title' => 'bail|required',
+            'message' => 'bail|required',
+            'vendor_id' => 'bail|required',
+        ]);
+        foreach ($request->user_id as $id) 
+        {
+            $vendor = Vendor::find($id);
+            $user = User::find($vendor->user_id);
+            try {
+                Config::set('onesignal.app_id', env('vendor_app_id'));
+                Config::set('onesignal.rest_api_key', env('vendor_api_key'));
+                Config::set('onesignal.user_auth_key', env('vendor_auth_key'));
+                OneSignal::sendNotificationToUser(
+                    $request->message,
+                    $user->device_token,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    $request->title
+                );
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            
+        }
+        return redirect()->back();
     }
 }

@@ -363,7 +363,6 @@ class VendorSettingController extends Controller
     public function send_otp($id)
     {
         $otp = mt_rand(1000, 9999);
-        // $otp = 1234;
         $user = User::find($id);
         $user->otp = $otp;
         $user->save();

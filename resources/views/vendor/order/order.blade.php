@@ -24,7 +24,7 @@
                                 <input type="text" name="date_range" class="form-control">
                             </div>
                             <div class="col-md-6 col-lg-6 col-12">
-                                <input type="submit" value="{{__('apply')}}" class="btn btn-primary">
+                                <input type="button" value="{{__('apply')}}" class="btn btn-primary">
                             </div>
                         </div>
                     </form>
@@ -90,6 +90,11 @@
                                         <th>{{__('Order Accept')}}</th>
                                         @if (Session::get('vendor_driver') == 1)
                                             <th>{{__('Assign Driver')}}</th>
+                                        @endif
+                                        <th>{{__('Delivery Person Name')}}</th>
+                                        @if (Session::get('vendor_driver') == 0)
+                                            <th>{{__('Received Amount From Delivery Person')}}</th>
+                                            <th>{{__('Received Amount?')}}</th>
                                         @endif
                                         <th>{{__('View')}}</th>
                                         <th>{{__('Delete')}}</th>
@@ -170,6 +175,7 @@
                                                     @else
                                                         @if ($order->order_status == 'PENDING')
                                                             <select class="form-control w-auto" onchange="order_status({{$order->id}})" id="status{{$order->id}}">
+                                                                <option value="PENDING" disabled {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
                                                                 <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
                                                                 <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
                                                             </select>
@@ -192,6 +198,7 @@
                                                     @else
                                                         @if ($order->order_status == 'PENDING')
                                                             <select class="form-control w-auto" onchange="order_status({{$order->id}})" name="order_status_change" id="status{{$order->id}}">
+                                                                <option value="PENDING" disabled {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
                                                                 <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
                                                                 <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
                                                             </select>
@@ -205,12 +212,6 @@
                                                                 <option value="COMPLETE" {{ $order->order_status == 'COMPLETE' ? 'selected' : '' }}>{{__('Complete')}}</option>
                                                             </select>
                                                         @endif
-                                                        {{-- <select class="form-control w-auto" onchange="order_status({{$order->id}})" name="order_status_change" id="status{{$order->id}}">
-                                                            <option value="PENDING" {{ $order->order_status == 'PENDING' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                                            <option value="APPROVE" {{ $order->order_status == 'APPROVE' ? 'selected' : '' }}>{{__('Approve')}}</option>
-                                                            <option value="ACCEPT" {{ $order->order_status == 'ACCEPT' ? 'selected' : '' }} disabled>{{__('Accept')}}</option>
-                                                            <option value="REJECT" {{ $order->order_status == 'REJECT' ? 'selected' : '' }}>{{__('Reject')}}</option>
-                                                        </select> --}}
                                                     @endif
                                                 @endif
                                             </td>
@@ -223,6 +224,20 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
+                                            @endif
+                                            <td>{{ $order->deliver_person_name }}</td>
+                                            @if (Session::get('vendor_driver') == 0)
+                                                @if ($order->payment_type == 'COD' && $order->vendor_pending_amount == 0 && $order->order_status == 'COMPLETE')
+                                                    <td>{{ $currency }}{{ $order->amount }}</td>
+                                                    <td>
+                                                        <a href="{{ url('vendor/deliveryPerson/pending_amount/'.$order->id) }}" class="text-danger">{{__('Pending Amount')}}</a>
+                                                    </td>
+                                                @else
+                                                    <td>{{ $currency }}{{00}}</td>
+                                                    <td>
+                                                        <span class="text-primary">{{__('Recieved Amount')}}</span>
+                                                    </td>
+                                                @endif
                                             @endif
                                             <td>
                                                 <a href="{{ url('vendor/order/'.$order->id) }}" onclick="show_order({{ $order->id }})" data-toggle="modal" data-target="#view_order">{{__('View Order')}}</a>

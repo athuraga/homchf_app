@@ -26,6 +26,7 @@ use App\Http\Controllers\Vendor\CustimizationTypeController;
 use App\Http\Controllers\Vendor\VendorsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\DeliveryZoneAreaController;
+use App\Http\Controllers\Admin\NotificationTemplateController;
 use App\Http\Controllers\Admin\RefaundController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\UserApiController;
@@ -73,6 +74,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function ()
     Route::post('earningChart',[HomeController::class,'earningChart']);
     Route::get('topItems',[HomeController::class,'topItems']);
     Route::get('avarageItems',[HomeController::class,'avarageItems']);
+
+    // Send Custom Notification
+    Route::get('send_notification',[NotificationTemplateController::class,'send_notification']);
+    Route::post('send_notification_user',[NotificationTemplateController::class,'send_notification_user']);
+    Route::post('send_notification_vendor',[NotificationTemplateController::class,'send_notification_vendor']);
 
     Route::resources([
         'delivery_person' => Admin\DeliveryPersonController::class,
@@ -319,6 +325,8 @@ Route::middleware(['auth'])->prefix('vendor')->group(function ()
     Route::post('order/change_status',[App\Http\Controllers\Vendor\OrderController::class,'change_status']);
     Route::get('month_finanace',[App\Http\Controllers\Vendor\VendorController::class,'month_finanace']);
     Route::post('month',[App\Http\Controllers\Vendor\VendorController::class,'month']);
+
+    Route::get('/deliveryPerson/pending_amount/{order_id}',[DeliveryPersonController::class,'pending_amount']);
 
     Route::resources([
         'vendor_discount' => Vendor\VendorDiscountController::class,

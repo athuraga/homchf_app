@@ -108,7 +108,7 @@
 
                         <div class="col-md-3 mb-5 {{($promoCode->isFlat == 1) ? 'hide' : ''}} max_disc_amount">
                             <label for="{{__('Maximum Discount amount')}}">{{__('Enter Discount')}}</label>
-                            <input type="number" min=1 name="discount" class="form-control @error('discount') is_invalide @enderror" id="Maximum Discount amount" placeholder="{{__('Enter Discount')}}" value="{{ $promoCode->discount }}">
+                            <input type="number" min=0 name="discount" class="form-control @error('discount') is_invalide @enderror" id="Maximum Discount amount" placeholder="{{__('Enter Discount')}}" value="{{ $promoCode->discount }}">
                         </div>
 
                         @error('discount')

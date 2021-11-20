@@ -4,16 +4,7 @@
 
 @section('content')
     @if (Session::has('msg'))
-    <script>
-        var msg = "<?php echo Session::get('msg'); ?>"
-        $(window).on('load', function()
-        {
-            iziToast.success({
-                message: msg,
-                position: 'topRight'
-            });
-    });
-    </script>
+        @include('layouts.msg')
     @endif
 
     @if (Session::has('message'))

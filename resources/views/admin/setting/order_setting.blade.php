@@ -5,16 +5,7 @@
 @section('content')
 
 @if (Session::has('msg'))
-<script>
-    var msg = "<?php echo Session::get('msg'); ?>"
-    $(window).on('load', function()
-    {
-        iziToast.success({
-            message: msg,
-            position: 'topRight'
-        });
-});
-</script>
+@include('layouts.msg')
 @endif
 
 <section class="section">
@@ -29,19 +20,6 @@
     <div class="section-body">
         <form action="{{ url('admin/update_order_setting') }}" method="post">
             @csrf
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h5>{{__('Order settings')}}</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="">{{__('minimum order values')}}</label>
-                            <input type="number" min=1 name="min_order_value" required value="{{ $orderData->min_order_value }}" class="form-control">
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="card card-primary mt-3">
                 <div class="card-header">
@@ -49,13 +27,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="">{{__('order cancel thresold by vendor(In minutes)')}}</label>
                             <input type="number" min=1 value="{{ $orderData->vendor_order_max_time }}" required name="vendor_order_max_time" class="form-control">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="">{{__('order cancel thresold by driver(In minutes)')}}</label>
                             <input type="number" min=1 required value="{{ $orderData->driver_order_max_time }}" name="driver_order_max_time" class="form-control">
                         </div>

@@ -57,14 +57,7 @@ class SubMenuController extends Controller
             $data['image'] = 'product_default.jpg';
         }
 
-        if(isset($data['status']))
-        {
-            $data['status'] = 1;
-        }
-        else
-        {
-            $data['status'] = 0;
-        }
+        $data['status'] = $request->has('status') ? 1 : 0;
         Submenu::create($data);
         return redirect()->back()->with('msg','submenu created successfully..!!');
     }
