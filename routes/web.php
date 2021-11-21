@@ -366,3 +366,7 @@ Route::middleware(['auth'])->prefix('vendor')->group(function ()
 
 Route::post('saveEnvData',[AdminController::class,'saveEnvData']);
 Route::post('saveAdminData',[AdminController::class,'saveAdminData']);
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return "Cache is cleared";
+});

@@ -1607,7 +1607,7 @@ function addhours(i) {
     var timeslot = $('#timeslot').val();
     $('#tr' + i).after('<tr><td><input class="timeslots" name="start_time_' + i + '[]" /></td><td><input class="timeslots" name="end_time_' + i + '[]"/></td><td><button type="button" class="removebtn btn btn-danger text-light"><i class="fas fa-times"></i></button></tr>');
     $('.timeslots').timepicker({
-        timeFormat: 'h:mm p',
+        timeFormat: 'HH:mm:ss',
         defaultTime: '11',
         interval: timeslot,
         dynamic: false,
