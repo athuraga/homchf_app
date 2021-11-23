@@ -1026,8 +1026,8 @@ class VendorApiController extends Controller
             $order->user_name = User::find($order->user_id)->name;
             $order->user_phone = User::find($order->user_id)->phone;
             if ($order->delivery_type == 'HOME') {
-                if (isset($order->delivery_person_id)) {
-                    $order->delivery_person = DeliveryPerson::find($order->delivery_person_id, ['first_name', 'last_name', 'contact'])->makeHidden(['image', 'deliveryzone']);
+                if (isset($order->user_id)) {
+                    // $order->delivery_person = DeliveryPerson::find($order->delivery_person_id, ['first_name', 'last_name', 'contact'])->makeHidden(['image', 'deliveryzone']);
                     $order->userAddress = UserAddress::find($order->address_id)->address;
                 }
             }
@@ -1035,23 +1035,23 @@ class VendorApiController extends Controller
         }
         return response(['success' => true, 'data' => $orders]);
     }
-    public function apiOrderSchedule()
-    {
-        $vendor = Vendor::where('user_id', auth()->user()->id)->first();
-        $orders = Order::where('vendor_id', $vendor->id)->get()->each->setAppends(['orderItems'])->makeHidden(['created_at', 'updated_at']);
-        foreach ($orders as $order) {
-            $order->user_name = User::find($order->user_id)->name;
-            $order->user_phone = User::find($order->user_id)->phone;
-            if ($order->delivery_type == 'HOME') {
-                if (isset($order->delivery_person_id)) {
-                    $order->delivery_person = DeliveryPerson::find($order->delivery_person_id, ['first_name', 'last_name', 'contact'])->makeHidden(['image', 'deliveryzone']);
-                    $order->userAddress = UserAddress::find($order->address_id)->address;
-                }
-            }
-            $order->vendorAddress = Vendor::find($order->vendor_id)->map_address;
-        }
-        return response(['success' => true, 'data' => $orders]);
-    }
+    // public function apiOrderSchedule()
+    // {
+    //     $vendor = Vendor::where('user_id', auth()->user()->id)->first();
+    //     $orders = Order::where('vendor_id', $vendor->id)->get()->each->setAppends(['orderItems'])->makeHidden(['created_at', 'updated_at']);
+    //     foreach ($orders as $order) {
+    //         $order->user_name = User::find($order->user_id)->name;
+    //         $order->user_phone = User::find($order->user_id)->phone;
+    //         if ($order->delivery_type == 'HOME') {
+    //             if (isset($order->delivery_person_id)) {
+    //                 $order->delivery_person = DeliveryPerson::find($order->delivery_person_id, ['first_name', 'last_name', 'contact'])->makeHidden(['image', 'deliveryzone']);
+    //                 $order->userAddress = UserAddress::find($order->address_id)->address;
+    //             }
+    //         }
+    //         $order->vendorAddress = Vendor::find($order->vendor_id)->map_address;
+    //     }
+    //     return response(['success' => true, 'data' => $orders]);
+    // }
 
     public function apiCreateOrder(Request $request)
     {
