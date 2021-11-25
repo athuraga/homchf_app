@@ -110,6 +110,53 @@
                             <div class="form-group text-center">
                                 <a href="{{ url('https://homchf.one/public/vendor_refund.html') }}">{{__('Refund Policy')}}</a>
                             </div>
+
+                            <style>
+                            * {
+                            box-sizing: border-box;
+                            }
+
+                            .row {
+                            display: flex;
+                            }
+
+                            /* Create two equal columns that sits next to each other */
+                            .column {
+                            flex: 50%;
+                            padding: 10px;
+                            }
+                            </style>
+                            <div class="row">
+                                <div class="column" style="background:linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);">
+                                    <h3 class="font-weight-bold" style="color: #fff">{{__('User App')}}</h3>
+                                        <ul class="app">
+                                        <li>
+                                            <a href="{{url('https://apps.apple.com/se/app/homchf/id1591763186?l=en')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
+                                        </li>
+                                        </ul>
+
+                                        <ul class="app">
+                                        <li>
+                                            <a href="{{url('images/HomChfUser.apk')}}"  target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
+                                        </li>
+                                        </ul>
+                                </div>
+                                <div class="column" style=" background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(11,121,9,1) 35%, rgba(14,255,0,1) 100%);">
+                                        <h3 class="font-weight-bold" style="color: #fff">{{__('Vendor/Chef App')}}</h3>
+                                            <ul class="app">
+                                            <li>
+                                                <a href="{{url('#')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
+                                            </li>
+                                            </ul>
+                                
+                                            <ul class="app">
+                                            <li>
+                                            <a href="{{url('images/HomChfVendor.apk')}}" target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
+                                            </li>
+                                            </ul>                        
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

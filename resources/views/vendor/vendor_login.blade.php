@@ -46,7 +46,7 @@
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome Vendor...!!")}}</h1>
+                                <h1 class="mb-2 display-4 font-weight-bold">{{__("welcome @home chef...!!")}}</h1>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                         <div class="w-100 text-center">
                             <img src="{{ url('images/upload/'.$icon) }}" alt="logo" width="80" class="shadow-light rounded-circle mb-5 mt-2">
                         </div>
-                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span class="font-weight-bold">{{__('Restaurant')}}</span>
+                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span class="font-weight-bold">{{__('HomChf')}}</span>
                         </h4>
                         @if ($errors->any())
                         <div class="alert alert-primary alert-dismissible show fade">
@@ -100,6 +100,52 @@
                             {{__("Don't have an account?")}}
                             <a href="{{ url('vendor/register_vendor') }}">{{__('Register')}}</a>
                         </div>
+                        <style>
+                            * {
+                            box-sizing: border-box;
+                            }
+
+                            .row {
+                            display: flex;
+                            }
+
+                            /* Create two equal columns that sits next to each other */
+                            .column {
+                            flex: 50%;
+                            padding: 10px;
+                            }
+                            </style>
+                            <div class="row">
+                                <div class="column" style="background:linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);">
+                                    <h3 class="font-weight-bold" style="color: #fff">{{__('User App')}}</h3>
+                                        <ul class="app">
+                                        <li>
+                                            <a href="{{url('https://apps.apple.com/se/app/homchf/id1591763186?l=en')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
+                                        </li>
+                                        </ul>
+
+                                        <ul class="app">
+                                        <li>
+                                            <a href="{{url('images/HomChfUser.apk')}}"  target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
+                                        </li>
+                                        </ul>
+                                </div>
+                                <div class="column" style=" background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(11,121,9,1) 35%, rgba(14,255,0,1) 100%);">
+                                        <h3 class="font-weight-bold" style="color: #fff">{{__('Vendor/Chef App')}}</h3>
+                                            <ul class="app">
+                                            <li>
+                                                <a href="{{url('#')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
+                                            </li>
+                                            </ul>
+                                
+                                            <ul class="app">
+                                            <li>
+                                            <a href="{{url('images/HomChfVendor.apk')}}" target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
+                                            </li>
+                                            </ul>                        
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

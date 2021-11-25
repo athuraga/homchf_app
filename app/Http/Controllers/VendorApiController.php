@@ -169,7 +169,7 @@ class VendorApiController extends Controller
             'user_id' => $user->id,
             'email_id' => $user->email_id,
             'image' => 'noimage.png',
-            'admin_comission_value' => '33',
+            'admin_comission_value' => '0',
             'contact' => $user->phone,
             'status' => 1,
             'password' => Hash::make($data['password']),
@@ -178,13 +178,13 @@ class VendorApiController extends Controller
             'isTop' => 1,
             'vendor_logo' => 'vendor-logo.png',
             'password' => Hash::make($data['password']),
-            'vendor_own_driver' => $request->vendor_own_driver,
+            'vendor_own_driver' => 1,//$request->vendor_own_driver,
             'time_slot' => '15',
             'vendor_language' => 'english',
             'cuisine_id' => $cuisine_id,
-            'lat' => '22.3039',
-            'lang' => '70.8022',
-            'address' => 'rajkot , gujrat',
+            'lat' => '57.708870',
+            'lang' => '11.974560',
+            'address' => 'Gothenburg, Sweden',
         ]);
 
 

@@ -242,10 +242,10 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <!-- <div class="col-md-6 mb-3">
                                     <label for="tax">{{__('GSTIN(%)')}}<span class="text-danger">&nbsp;*</span></label>
                                     <input type="number" required name="tax" value="{{ $vendor->tax }}" placeholder="{{__('Resturant tax in %')}}" class="form-control">
-                                </div>
+                                </div> -->
 
                                 <div class="col-md-6 mb-3">
                                     <label for="tax">{{__('vendor language')}}</label>

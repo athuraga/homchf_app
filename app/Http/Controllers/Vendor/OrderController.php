@@ -939,7 +939,7 @@ class OrderController extends Controller
         $h['tax'] = intval($taxDisc / 100);
         $h['name'] = 'other tax';
         array_push($t,$h);
-        $finalTotal = $finalTotal + $h['tax'];
+        $finalTotal = $finalTotal;// + $h['tax'];
         return response(['success' => true , 'currency' => $currency ,'data' =>['totalAmount' => intval(round($totalamount)),'finalTotal' => intval(round($finalTotal)) , 'admin_tax' => $t]]);
     }
 

@@ -237,7 +237,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="admin_commision_value">{{__('Admin comission value')}}<span class="text-danger">&nbsp;*</span></label>
-                                <input type="number" min=1 name="admin_comission_value" value="{{ $vendor->admin_comission_value }}" placeholder="{{__('Admin Comission Value')}}" required class="form-control">
+                                <input type="number" min=0 name="admin_comission_value" value="{{ $vendor->admin_comission_value }}" placeholder="{{__('Admin Comission Value')}}" required class="form-control">
 
                                 @error('admin_commision_value')
                                 <span class="custom_error" role="alert">
@@ -274,10 +274,10 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                                 <label for="tax">{{__('GSTIN(%)')}}<span class="text-danger">&nbsp;*</span></label>
                                 <input type="number" name="tax" value="{{ $vendor->tax }}" placeholder="{{__('Resturant Tax In %')}}" class="form-control">
-                            </div>
+                            </div> -->
 
 
                             <div class="col-md-6 mb-3">
@@ -291,10 +291,10 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12 mb-3">
+                            <!-- <div class="col-md-12 mb-3">
                                 <input type="checkbox" id="chkbox" name="vendor_own_driver" {{ $vendor->vendor_own_driver == 1 ? 'checked' : '' }}>
                                 <label for="chkbox">{{__('Vendor Has Own Driver??')}}</label>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="row">
