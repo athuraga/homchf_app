@@ -24,7 +24,9 @@ Route::post('vendor/login','VendorApiController@apiLogin');
 Route::post('vendor/register','VendorApiController@apiRegister');
 Route::post('vendor/check_otp','VendorApiController@apiCheckOtp');
 Route::post('vendor/resend_otp','VendorApiController@apiResendOtp');
-Route::post('vendor/forgot_password','VendorApiController@apiForgotPassword');
+Route::post('vendor/send_otp','VendorApiController@apiSendOtp');
+
+Route::get('vendor/forgot_password','VendorApiController@apiForgotPassword');
 Route::post('user_login','UserApiController@apiUserLogin');
 Route::post('user_register','UserApiController@apiUserRegister');
 Route::post('check_otp','UserApiController@apiCheckOtp');
@@ -94,6 +96,7 @@ Route::middleware('auth:api')->prefix('vendor')->group(function ()
 
     // change status
     Route::post('change_status','VendorApiController@apiChangeStatus');
+    Route::get('notification','DriverApiController@apiDriverNotification');
 
     //user
     Route::get('user','VendorApiController@apiUser');

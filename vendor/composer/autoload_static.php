@@ -96,6 +96,7 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        'cb61d74ad51d00867155534456b38b23' => __DIR__ . '/..' . '/mews/purifier/src/helpers.php',
         '473cc9fdd95403f39820b380db4ab28c' => __DIR__ . '/../..' . '/license/includes/lb_helper.php',
     );
 
@@ -204,6 +205,7 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
             'MyCLabs\\Enum\\' => 13,
             'Monolog\\' => 8,
             'Mike42\\' => 7,
+            'Mews\\Purifier\\' => 14,
             'Matrix\\' => 7,
             'Maatwebsite\\Excel\\' => 18,
         ),
@@ -567,6 +569,10 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
         array (
             0 => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42',
         ),
+        'Mews\\Purifier\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mews/purifier/src',
+        ),
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
@@ -851,6 +857,7 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\MinuteUpdate' => __DIR__ . '/../..' . '/app/Console/Commands/MinuteUpdate.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
@@ -950,6 +957,7 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
         'App\\Models\\Vendor' => __DIR__ . '/../..' . '/app/Models/Vendor.php',
         'App\\Models\\VendorBankDetail' => __DIR__ . '/../..' . '/app/Models/VendorBankDetail.php',
         'App\\Models\\VendorDiscount' => __DIR__ . '/../..' . '/app/Models/VendorDiscount.php',
+        'App\\Models\\WalletPayment' => __DIR__ . '/../..' . '/app/Models/WalletPayment.php',
         'App\\Models\\WorkingHours' => __DIR__ . '/../..' . '/app/Models/WorkingHours.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -2063,6 +2071,7 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
         'Faker\\Provider\\nl_BE\\Payment' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Payment.php',
         'Faker\\Provider\\nl_BE\\Person' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Person.php',
         'Faker\\Provider\\nl_BE\\PhoneNumber' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
+        'Faker\\Provider\\nl_BE\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Text.php',
         'Faker\\Provider\\nl_NL\\Address' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Address.php',
         'Faker\\Provider\\nl_NL\\Color' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Color.php',
         'Faker\\Provider\\nl_NL\\Company' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Company.php',
@@ -5099,6 +5108,12 @@ class ComposerStaticInitb5dafb9ccc4816312e3e156c78d15571
         'Matrix\\Operators\\Multiplication' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
         'Matrix\\Operators\\Operator' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Operator.php',
         'Matrix\\Operators\\Subtraction' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
+        'Mews\\Purifier\\Casts\\CleanHtml' => __DIR__ . '/..' . '/mews/purifier/src/Casts/CleanHtml.php',
+        'Mews\\Purifier\\Casts\\CleanHtmlInput' => __DIR__ . '/..' . '/mews/purifier/src/Casts/CleanHtmlInput.php',
+        'Mews\\Purifier\\Casts\\CleanHtmlOutput' => __DIR__ . '/..' . '/mews/purifier/src/Casts/CleanHtmlOutput.php',
+        'Mews\\Purifier\\Facades\\Purifier' => __DIR__ . '/..' . '/mews/purifier/src/Facades/Purifier.php',
+        'Mews\\Purifier\\Purifier' => __DIR__ . '/..' . '/mews/purifier/src/Purifier.php',
+        'Mews\\Purifier\\PurifierServiceProvider' => __DIR__ . '/..' . '/mews/purifier/src/PurifierServiceProvider.php',
         'Mike42\\Escpos\\CapabilityProfile' => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfile.php',
         'Mike42\\Escpos\\CapabilityProfiles\\DefaultCapabilityProfile' => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfiles/DefaultCapabilityProfile.php',
         'Mike42\\Escpos\\CapabilityProfiles\\EposTepCapabilityProfile' => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfiles/EposTepCapabilityProfile.php',

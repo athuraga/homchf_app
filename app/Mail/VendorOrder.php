@@ -29,7 +29,7 @@ class VendorOrder extends Mailable
     public function build()
     {
         // return $this->view('view.name');
-        return $this->from(env('MAIL_FROM_ADDRESS'))->subject('Vendor password')
+        return $this->from(env('MAIL_FROM_ADDRESS'))->subject('New Order Update')
         ->view('vendor_order')->with([
             'content' => $this->content,
         ]);

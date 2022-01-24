@@ -23,10 +23,10 @@ class NotificationTemplateController extends Controller
         if (session()->has('locale'))
         {
             $lang = session()->get('locale');
-            if ($lang == "spanish") 
+            if ($lang == "spanish")
             {
                 $data = NotificationTemplate::all();
-                foreach ($data as $value) 
+                foreach ($data as $value)
                 {
                     $value->notification_content = $value->spanish_notification_content;
                     $value->mail_content = $value->spanish_mail_content;
@@ -85,10 +85,10 @@ class NotificationTemplateController extends Controller
      */
     public function edit(NotificationTemplate $notificationTemplate)
     {
-        if (session()->has('locale')) 
+        if (session()->has('locale'))
         {
             $lang = session()->get('locale');
-            if ($lang == "spanish") 
+            if ($lang == "spanish")
             {
                 $notificationTemplate->notification_content = $notificationTemplate->spanish_notification_content;
                 $notificationTemplate->mail_content = $notificationTemplate->spanish_mail_content;
@@ -107,10 +107,10 @@ class NotificationTemplateController extends Controller
     public function update(Request $request, NotificationTemplate $notificationTemplate)
     {
         $data = $request->all();
-        if (session()->has('locale')) 
+        if (session()->has('locale'))
         {
             $lang = session()->get('locale');
-            if ($lang == "spanish") 
+            if ($lang == "spanish")
             {
                 $notificationTemplate->spanish_notification_content = $data['notification_content'];
                 $notificationTemplate->spanish_mail_content = $data['mail_content'];
@@ -153,7 +153,10 @@ class NotificationTemplateController extends Controller
         foreach ($vUsers as $vUser) {
             array_push($vendors,Vendor::where('user_id',$vUser->id)->first());
         }
-        return view('admin.notification template.send_notification',compact('users','vendors'));
+        $allusers = $users;
+        $allvendors = $vUsers;
+
+        return view('admin.notification template.send_notification',compact('users','vUsers','allusers', 'allvendors'));
     }
 
     public function send_notification_user(Request $request)
@@ -163,7 +166,7 @@ class NotificationTemplateController extends Controller
             'message' => 'bail|required',
             'user_id' => 'bail|required',
         ]);
-        foreach ($request->user_id as $id) 
+        foreach ($request->user_id as $id)
         {
             $user = User::find($id);
             try {
@@ -182,7 +185,7 @@ class NotificationTemplateController extends Controller
             } catch (\Throwable $th) {
                 //throw $th;
             }
-            
+
         }
         return redirect()->back();
     }
@@ -192,12 +195,14 @@ class NotificationTemplateController extends Controller
         $request->validate([
             'title' => 'bail|required',
             'message' => 'bail|required',
-            'vendor_id' => 'bail|required',
+            'vUser_id' => 'bail|required',
         ]);
-        foreach ($request->user_id as $id) 
+        foreach ($request->vUser_id as $id)
         {
-            $vendor = Vendor::find($id);
-            $user = User::find($vendor->user_id);
+            // $vendor = Vendor::find($id);
+            $user = User::find($id);
+
+            // $user = User::find($vendor->$id);
             try {
                 Config::set('onesignal.app_id', env('vendor_app_id'));
                 Config::set('onesignal.rest_api_key', env('vendor_api_key'));
@@ -214,8 +219,56 @@ class NotificationTemplateController extends Controller
             } catch (\Throwable $th) {
                 //throw $th;
             }
-            
+
         }
+        return redirect()->back();
+    }
+
+    public function send_notification_allusers(Request $request)
+    {
+        $request->validate([
+            'title' => 'bail|required',
+            'message' => 'bail|required',
+        ]);
+            try {
+                Config::set('onesignal.app_id', env('customer_app_id'));
+                Config::set('onesignal.rest_api_key', env('customer_api_key'));
+                Config::set('onesignal.user_auth_key', env('customer_auth_key'));
+                OneSignal::sendNotificationToAll(
+                    $request->message,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    $request->title
+                );
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        return redirect()->back();
+    }
+    
+    public function send_notification_allvendors(Request $request)
+    {
+        $request->validate([
+            'title' => 'bail|required',
+            'message' => 'bail|required',
+        ]);
+            try {
+                Config::set('onesignal.app_id', env('vendor_app_id'));
+                Config::set('onesignal.rest_api_key', env('vendor_api_key'));
+                Config::set('onesignal.user_auth_key', env('vendor_auth_key'));
+                OneSignal::sendNotificationToAll(
+                    $request->message,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    $request->title
+                );
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         return redirect()->back();
     }
 }

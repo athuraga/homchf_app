@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     @php
-        $title = App\Models\GeneralSetting::find(1)->business_name;
-        $favicon = App\Models\GeneralSetting::find(1)->favicon;
+    $title = App\Models\GeneralSetting::find(1)->business_name;
+    $favicon = App\Models\GeneralSetting::find(1)->favicon;
     @endphp
 
     <title>{{ $title }} | @yield('title','Vendor login')</title>
@@ -24,17 +24,18 @@
     <link rel="stylesheet" href="{{ url('css/components.css')}}">
 
     @php
-        $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
-        $color = App\Models\GeneralSetting::find(1)->site_color;
-        $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
+    $favicon = App\Models\GeneralSetting::find(1)->company_favicon;
+    $color = App\Models\GeneralSetting::find(1)->site_color;
+    $icon = App\Models\GeneralSetting::find(1)->company_black_logo;
 
     @endphp
     <style>
-        :root
-        {
-            --site_color: <?php echo $color; ?>;
-            --hover_color: <?php echo $color.'c7'; ?>;
-        }
+    :root {
+        --site_color: <?php echo $color;
+        ?>;
+        --hover_color: <?php echo $color.'c7';
+        ?>;
+    }
     </style>
 </head>
 
@@ -42,7 +43,8 @@
     <div id="app">
         <section class="section">
             <div class="d-flex flex-wrap align-items-stretch">
-                <div class="col-lg-8 col-12 col-md-6 order-lg-1 order-1 min-vh-100 background-walk-y overlay-gradient-bottom" data-background="{{ url('images/1.png') }}" style="background-color: #23110f">
+                <div class="col-lg-8 col-12 col-md-6 order-lg-1 order-1 min-vh-100 background-walk-y overlay-gradient-bottom"
+                    data-background="{{ url('images/1.png') }}" style="background-color: #23110f">
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
@@ -54,9 +56,11 @@
                 <div class="col-lg-4 col-12 pt-5 col-md-6 order-lg-2 min-vh-100 order-2 bg-white">
                     <div class="p-4 m-3">
                         <div class="w-100 text-center">
-                            <img src="{{ url('images/upload/'.$icon) }}" alt="logo" width="80" class="shadow-light rounded-circle mb-5 mt-2">
+                            <img src="{{ url('images/upload/'.$icon) }}" alt="logo" width="80"
+                                class="shadow-light rounded-circle mb-5 mt-2">
                         </div>
-                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span class="font-weight-bold">{{__('HomChf')}}</span>
+                        <h4 class="text-dark mb-5 font-weight-normal">{{__('Welcome to ')}}<span
+                                class="font-weight-bold">{{__('HomChf')}}</span>
                         </h4>
                         @if ($errors->any())
                         <div class="alert alert-primary alert-dismissible show fade">
@@ -74,15 +78,16 @@
                             @csrf
                             <div class="form-group">
                                 <label for="email">{{__('Email')}}</label>
-                                <input id="email" type="email" class="form-control" name="email_id" tabindex="1" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email_id" tabindex="1"
+                                    required autofocus>
                             </div>
 
                             <div class="form-group">
                                 <div class="d-block">
                                     <label for="password" class="control-label">Password</label>
                                 </div>
-                                <input id="password" type="password" class="form-control" name="password"
-                                    tabindex="2" required>
+                                <input id="password" type="password" class="form-control" name="password" tabindex="2"
+                                    required>
                             </div>
 
                             <div class="form-group">
@@ -101,55 +106,62 @@
                             <a href="{{ url('vendor/register_vendor') }}">{{__('Register')}}</a>
                         </div>
                         <style>
-                            * {
+                        * {
                             box-sizing: border-box;
-                            }
+                        }
 
-                            .row {
+                        .row {
                             display: flex;
-                            }
+                        }
 
-                            /* Create two equal columns that sits next to each other */
-                            .column {
+                        /* Create two equal columns that sits next to each other */
+                        .column {
                             flex: 50%;
                             padding: 10px;
-                            }
-                            </style>
-                            <div class="row">
-                                <div class="column" style="background:linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);">
-                                    <h3 class="font-weight-bold" style="color: #fff">{{__('User App')}}</h3>
-                                        <ul class="app">
-                                        <li>
-                                            <a href="{{url('https://apps.apple.com/se/app/homchf/id1591763186?l=en')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
-                                        </li>
-                                        </ul>
+                        }
+                        </style>
+                        <div class="row">
+                            <div class="column">
+                                <h3 class="font-weight-bold">{{__('User App')}}</h3>
+                                <ul class="app">
+                                    <li>
+                                        <a href="{{url('https://apps.apple.com/se/app/homchf/id1591763186?l=en')}}">
+                                            <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%">
+                                        </a>
+                                    </li>
+                                </ul>
 
-                                        <ul class="app">
-                                        <li>
-                                            <a href="{{url('images/HomChfUser.apk')}}"  target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
-                                        </li>
-                                        </ul>
-                                </div>
-                                <div class="column" style=" background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(11,121,9,1) 35%, rgba(14,255,0,1) 100%);">
-                                        <h3 class="font-weight-bold" style="color: #fff">{{__('Vendor/Chef App')}}</h3>
-                                            <ul class="app">
-                                            <li>
-                                                <a href="{{url('#')}}"> <img src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
-                                            </li>
-                                            </ul>
-                                
-                                            <ul class="app">
-                                            <li>
-                                            <a href="{{url('images/HomChfVendor.apk')}}" target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%" height="80%"> </a>
-                                            </li>
-                                            </ul>                        
-                                    </div>
-                                </div>
+                                <ul class="app">
+                                    <li>
+                                        <a href="{{url('https://play.google.com/store/apps/details?id=app.homchf.homechef')}}"
+                                            target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%"
+                                                height="80%"> </a>
+                                    </li>
+                                </ul>
                             </div>
+                            <div class="column">
+                                <h3 class="font-weight-bold">{{__('Vendor/Chef App')}}</h3>
+                                <ul class="app">
+                                    <li>
+                                        <a href="{{url('https://testflight.apple.com/join/025cRG2p')}}"> <img
+                                                src="{{asset('images/apple_store.png')}}" width="80%" height="80%"> </a>
+                                    </li>
+                                </ul>
+
+                                <ul class="app">
+                                    <li>
+                                        <a href="{{url('https://play.google.com/store/apps/details?id=app.one.homchf.vendor')}}"
+                                            target="_blank"> <img src="{{asset('images/google_play.png')}}" width="80%"
+                                                height="80%"> </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+    </div>
+    </section>
     </div>
 
     <!-- General JS Scripts -->

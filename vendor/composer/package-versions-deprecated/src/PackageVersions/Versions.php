@@ -81,6 +81,7 @@ final class Versions
   'maennchen/zipstream-php' => '2.1.0@c4c5803cc1f93df3d2448478ef79394a5981cc58',
   'markbaker/complex' => '2.0.3@6f724d7e04606fd8adaa4e3bb381c3e9db09c946',
   'markbaker/matrix' => '2.1.3@174395a901b5ba0925f1d790fa91bab531074b61',
+  'mews/purifier' => '3.3.6@1d033fc32b98036226002c38747d4a45424d5f28',
   'mike42/escpos-php' => 'v2.2@e5496cf819b048b11877117bd14a9cea4fb17c03',
   'monolog/monolog' => '2.2.0@1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
   'myclabs/php-enum' => '1.8.0@46cf3d8498b095bd33727b13fd5707263af99421',

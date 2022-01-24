@@ -51,6 +51,21 @@ Route::get('/clear-cache', function() {
     Artisan::call('config:clear');
     return "Cache is cleared";
 });
+Route::get('/queue-work', function() {
+    Artisan::call('queue:work');
+    return "queue-work";
+});
+Route::get('/queue-migrate', function() {
+    // Artisan::call('queue:table');
+    Artisan::call('migrate');
+    return "queue-migrate";
+});
+Route::get('/flare-config', function() {
+    Artisan::call('vendor:publish --tag=flare-config');
+    return "flare-config";
+});
+
+
 
 Auth::routes();
 
@@ -79,6 +94,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function ()
     Route::get('send_notification',[NotificationTemplateController::class,'send_notification']);
     Route::post('send_notification_user',[NotificationTemplateController::class,'send_notification_user']);
     Route::post('send_notification_vendor',[NotificationTemplateController::class,'send_notification_vendor']);
+    Route::post('send_notification_allusers',[NotificationTemplateController::class,'send_notification_allusers']);
+    Route::post('send_notification_allvendors',[NotificationTemplateController::class,'send_notification_allvendors']);
 
     Route::resources([
         'delivery_person' => Admin\DeliveryPersonController::class,

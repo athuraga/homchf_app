@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\MinuteUpdate' => $baseDir . '/app/Console/Commands/MinuteUpdate.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',
@@ -105,6 +106,7 @@ return array(
     'App\\Models\\Vendor' => $baseDir . '/app/Models/Vendor.php',
     'App\\Models\\VendorBankDetail' => $baseDir . '/app/Models/VendorBankDetail.php',
     'App\\Models\\VendorDiscount' => $baseDir . '/app/Models/VendorDiscount.php',
+    'App\\Models\\WalletPayment' => $baseDir . '/app/Models/WalletPayment.php',
     'App\\Models\\WorkingHours' => $baseDir . '/app/Models/WorkingHours.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
@@ -1218,6 +1220,7 @@ return array(
     'Faker\\Provider\\nl_BE\\Payment' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Payment.php',
     'Faker\\Provider\\nl_BE\\Person' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Person.php',
     'Faker\\Provider\\nl_BE\\PhoneNumber' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
+    'Faker\\Provider\\nl_BE\\Text' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Text.php',
     'Faker\\Provider\\nl_NL\\Address' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Address.php',
     'Faker\\Provider\\nl_NL\\Color' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Color.php',
     'Faker\\Provider\\nl_NL\\Company' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Company.php',
@@ -4254,6 +4257,12 @@ return array(
     'Matrix\\Operators\\Multiplication' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Multiplication.php',
     'Matrix\\Operators\\Operator' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Operator.php',
     'Matrix\\Operators\\Subtraction' => $vendorDir . '/markbaker/matrix/classes/src/Operators/Subtraction.php',
+    'Mews\\Purifier\\Casts\\CleanHtml' => $vendorDir . '/mews/purifier/src/Casts/CleanHtml.php',
+    'Mews\\Purifier\\Casts\\CleanHtmlInput' => $vendorDir . '/mews/purifier/src/Casts/CleanHtmlInput.php',
+    'Mews\\Purifier\\Casts\\CleanHtmlOutput' => $vendorDir . '/mews/purifier/src/Casts/CleanHtmlOutput.php',
+    'Mews\\Purifier\\Facades\\Purifier' => $vendorDir . '/mews/purifier/src/Facades/Purifier.php',
+    'Mews\\Purifier\\Purifier' => $vendorDir . '/mews/purifier/src/Purifier.php',
+    'Mews\\Purifier\\PurifierServiceProvider' => $vendorDir . '/mews/purifier/src/PurifierServiceProvider.php',
     'Mike42\\Escpos\\CapabilityProfile' => $vendorDir . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfile.php',
     'Mike42\\Escpos\\CapabilityProfiles\\DefaultCapabilityProfile' => $vendorDir . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfiles/DefaultCapabilityProfile.php',
     'Mike42\\Escpos\\CapabilityProfiles\\EposTepCapabilityProfile' => $vendorDir . '/mike42/escpos-php/src/Mike42/Escpos/CapabilityProfiles/EposTepCapabilityProfile.php',

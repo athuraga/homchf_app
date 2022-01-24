@@ -915,6 +915,7 @@ CREATE TABLE `oauth_refresh_tokens` (
 CREATE TABLE `order` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_schedule` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vendor_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `delivery_person_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -941,9 +942,7 @@ CREATE TABLE `order` (
   `order_end_time` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vendor_pending_amount` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-    `order_schedule` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,,
-
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

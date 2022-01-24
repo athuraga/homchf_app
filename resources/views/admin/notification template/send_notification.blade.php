@@ -18,15 +18,25 @@
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>{{__('Send Notification')}}</h4>
+                        <h4>{{ __('Send Notification') }}</h4>
                     </div>
                     <div class="card-body">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">{{__('User')}}</a>
+                                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true">{{ __('User') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">{{__('Vendor')}}</a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">{{ __('Home Chef') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab"
+                                    aria-controls="profile" aria-selected="false">{{ __('All Users') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile2" role="tab"
+                                    aria-controls="profile" aria-selected="false">{{ __('All Home Chefs') }}</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
@@ -35,8 +45,11 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="role">{{__('Notification Title')}}</label>
-                                            <input type="text" name="title" class="form-control @error('title') is_invalide @enderror" placeholder="{{__('Notification Title')}}" value="{{old('title')}}" required>
+                                            <label for="role">{{ __('Notification Title') }}</label>
+                                            <input type="text" name="title"
+                                                class="form-control @error('title') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Title') }}"
+                                                value="{{ old('title') }}" required>
                                             @error('title')
                                                 <span class="custom_error" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -47,8 +60,10 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="role">{{__('Notification Message')}}</label>
-                                            <textarea name="message" class="form-control privacy_policy @error('message') is_invalide @enderror" placeholder="{{__('Notification Message')}}"></textarea>
+                                            <label for="role">{{ __('Notification Message') }}</label>
+                                            <textarea name="message" style="text-transform: none"
+                                                class="form-control @error('message') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Message') }}"></textarea>
                                             @error('message')
                                                 <span class="custom_error" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -59,7 +74,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="user">{{__('Select User')}}</label>
+                                            <label for="user">{{ __('Select User') }}</label>
                                             <select name="user_id[]" class="form-control select2" multiple required>
                                                 @foreach ($users as $user)
                                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -75,7 +90,8 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3 text-center">
-                                            <input type="submit" value="{{__('Send Notification')}}" class="btn btn-primary">
+                                            <input type="submit" value="{{ __('Send Notification') }}"
+                                                class="btn btn-primary">
                                         </div>
                                     </div>
 
@@ -86,8 +102,11 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="role">{{__('Notification Title')}}</label>
-                                            <input type="text" name="title" class="form-control @error('title') is_invalide @enderror" placeholder="{{__('Notification Title')}}" value="{{old('title')}}" required>
+                                            <label for="role">{{ __('Notification Title') }}</label>
+                                            <input type="text" name="title"
+                                                class="form-control @error('title') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Title') }}"
+                                                value="{{ old('title') }}" required>
                                             @error('title')
                                                 <span class="custom_error" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -98,8 +117,10 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="role">{{__('Notification Message')}}</label>
-                                            <textarea name="message" class="form-control privacy_policy @error('message') is_invalide @enderror" placeholder="{{__('Notification Message')}}"></textarea>
+                                            <label for="role">{{ __('Notification Message') }}</label>
+                                            <textarea name="message" style="text-transform: none"
+                                                class="form-control @error('message') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Message') }}"></textarea>
                                             @error('message')
                                                 <span class="custom_error" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -110,10 +131,10 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="user">{{__('Select Vendor')}}</label>
-                                            <select name="vendor_id[]" class="form-control select2" multiple required>
-                                                @foreach ($vendors as $vendor)
-                                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                            <label for="vUser">{{ __('Select Vendor') }}</label>
+                                            <select name="vUser_id[]" class="form-control select2" multiple required>
+                                                @foreach ($vUsers as $vUser)
+                                                    <option value="{{ $vUser->id }}">{{ $vUser->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('vendor_id')
@@ -126,7 +147,123 @@
 
                                     <div class="row">
                                         <div class="col-md-12 mb-3 text-center">
-                                            <input type="submit" value="{{__('Send Notification')}}" class="btn btn-primary">
+                                            <input type="submit" value="{{ __('Send Notification') }}"
+                                                class="btn btn-primary">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="profile1" role="tabpanel1" aria-labelledby="profile-tab1">
+                                <form action="{{ url('admin/send_notification_allusers') }}" method="post">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="role">{{ __('Notification Title') }}</label>
+                                            <input type="text" name="title"
+                                                class="form-control @error('title') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Title') }}"
+                                                value="{{ old('title') }}" required>
+                                            @error('title')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="role">{{ __('Notification Message') }}</label>
+                                            <textarea name="message" style="text-transform: none"
+                                                class="form-control @error('message') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Message') }}"></textarea>
+                                            @error('message')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="user">{{ __('Select Vendor') }}</label>
+                                            <select name="vendor_id[]" class="form-control select2" multiple required>
+                                                @foreach ($vendors as $vendor)
+                                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('vendor_id')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3 text-center">
+                                            <input type="submit" value="{{ __('Send Notification') }}"
+                                                class="btn btn-primary">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="profile2" role="tabpanel2" aria-labelledby="profile-tab2">
+                                <form action="{{ url('admin/send_notification_allvendors') }}" method="post">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="role">{{ __('Notification Title') }}</label>
+                                            <input type="text" name="title"
+                                                class="form-control @error('title') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Title') }}"
+                                                value="{{ old('title') }}" required>
+                                            @error('title')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="role">{{ __('Notification Message') }}</label>
+                                            <textarea name="message" style="text-transform: none"
+                                                class="form-control @error('message') is_invalide @enderror"
+                                                placeholder="{{ __('Notification Message') }}"></textarea>
+                                            @error('message')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    {{-- <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="user">{{ __('Select Vendor') }}</label>
+                                            <select name="vendor_id[]" class="form-control select2" multiple required>
+                                                @foreach ($vendors as $vendor)
+                                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('vendor_id')
+                                                <span class="custom_error" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div> --}}
+
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3 text-center">
+                                            <input type="submit" value="{{ __('Send Notification') }}"
+                                                class="btn btn-primary">
                                         </div>
                                     </div>
 

@@ -15,7 +15,6 @@ use DB;
 use Mail;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class CuisineController extends Controller
 {
     /**

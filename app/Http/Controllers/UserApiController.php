@@ -246,20 +246,13 @@ class UserApiController extends Controller
         return response(['success' => false, 'data' => 'No record found for this record']);
     }
 
-    // public function apiGetOrderSchedule(Request $request)
-    // {
-    //     $user = User::find(auth()->user()->id);
-    //     // $order = Order::where('user_id',$user)->where('order_status','!=','COMPLETE')->where('order_status','!=','CANCEL')->get(['order_status','id'])->makeHidden(['vendor','user','orderItems','user_address']);
-    //     $order_child = OrderChild::where('user_id', $user->id)->where([['order_schedule', '!=', '']])->get(['order_schedule', 'id'])->makeHidden(['order_id','item','price','qty','custimization']);
-    // }
-
     public function apiSingleMenu($menu_id)
     {
         $menu = Menu::find($menu_id);
         $tax = GeneralSetting::first()->isItemTax;
         $submenus = Submenu::where('menu_id', $menu->id)->get();
         foreach ($submenus as $submenu) {
-            $submenu['custimization'] = SubmenuCusomizationType::where('submenu_id', $submenu->id)->get();
+            $submenu['custimization'] = SubmenuCusomizationType::where('submenu_id', $submenu->id)->get(['id', 'qty_reset', 'item_reset_value','availabel_item','type', 'name', 'image', 'price', 'description']);
             if ($tax == 0) {
                 $price_tax = GeneralSetting::first()->item_tax;
                 $disc = $submenu->price * $price_tax;
@@ -273,28 +266,28 @@ class UserApiController extends Controller
     public function apiSingleVendor($vendor_id)
     {
         $master = array();
-        $master['vendor'] = Vendor::where([['id', $vendor_id], ['status', 1]])->first(['id', 'image', 'tax', 'name', 'map_address', 'for_two_person', 'vendor_type','lat','lang', 'cuisine_id'])->makeHidden(['vendor_logo']);
+        $master['vendor'] = Vendor::where([['id', $vendor_id], ['status', 1]])->first(['id', 'image', 'tax', 'name', 'map_address', 'for_two_person', 'vendor_type','lat','lang', 'cuisine_id', 'contact'])->makeHidden(['vendor_logo']);
         if ($master['vendor']->tax == null) {
             $master['vendor']->tax = strval(5);
         }
         $menus = Menu::where([['vendor_id', $vendor_id], ['status', 1]])->orderBy('id', 'DESC')->get(['id', 'name', 'image']);
         $tax = GeneralSetting::first()->isItemTax;
         foreach ($menus as $menu) {
-            $menu['submenu'] = Submenu::where([['menu_id', $menu->id],['status',1]])->get(['id', 'qty_reset', 'item_reset_value','availabel_item','type', 'name', 'image', 'price']);
-            foreach ($menu['submenu'] as $value) 
+            $menu['submenu'] = Submenu::where([['menu_id', $menu->id],['status',1]])->get(['id', 'qty_reset', 'item_reset_value','availabel_item','type', 'name', 'image', 'price', 'description']);
+            foreach ($menu['submenu'] as $value)
             {
                 if ($value->qty_reset == 'daily') {
                     $value->availabel_item = $value->availabel_item == null ? $value->item_reset_value : $value->availabel_item;
                 }
                 $value['custimization'] = SubmenuCusomizationType::where('submenu_id', $value->id)->get(['id', 'name', 'custimazation_item', 'type','min_item_selection','max_item_selection']);
-                if ($tax == 0) 
+                if ($tax == 0)
                 {
                     $price_tax = GeneralSetting::first()->item_tax;
                     $disc = $value->price * $price_tax;
                     $discount = $disc / 100;
                     $value->price = strval($value->price + $discount);
-                } 
-                else 
+                }
+                else
                 {
                     $value->price = strval($value->price);
                 }
@@ -495,7 +488,6 @@ class UserApiController extends Controller
             'payment_token' => 'bail|required_if:payment_type,STRIPE,RAZOR,PAYPAl',
             // 'delivery_charge' => 'bail|required_if:delivery_type,HOME',
             'tax' => 'required',
-            'order_schedule' => 'required',
         ]);
         $bookData = $request->all();
         $vendor = Vendor::where('id', $bookData['vendor_id'])->first();
@@ -538,15 +530,13 @@ class UserApiController extends Controller
             $user->withdraw($bookData['amount'], [$order->id]);
         }
         $bookData['item'] = json_decode($bookData['item'], true);
-        foreach ($bookData['item'] as $child_item) 
+        foreach ($bookData['item'] as $child_item)
         {
             $order_child = array();
             $order_child['order_id'] = $order->id;
             $order_child['item'] = $child_item['id'];
             $order_child['price'] = $child_item['price'];
             $order_child['qty'] = $child_item['qty'];
-            // $order_child['order_schedule'] = $child_item['order_schedule'];
-                       
             if (isset($child_item['custimization'])) {
                 $order_child['custimization'] = $child_item['custimization'];
             }
@@ -559,9 +549,9 @@ class UserApiController extends Controller
         }
         $this->sendVendorOrderNotification($vendor, $bookData['order_id']);
         $this->sendUserNotification($bookData['user_id'], $bookData['order_id']);
-        $amount = $order->amount;
-        $order_schedule = $order->order_schedule;
+        $this->sendVendorrNotification($vendor, $bookData['order_id']);
 
+        $amount = $order->amount;
         $tax = array();
         if ($vendor->admin_comission_type == 'percentage') {
             $comm = $amount * $vendor->admin_comission_value;
@@ -579,12 +569,95 @@ class UserApiController extends Controller
             return response(['success' => true, 'data' => "order booked successfully wait for confirmation"]);
         }
     }
+    public function sendVendorrNotification($vendor, $order_id)
+    {
+        $vendor_notification = GeneralSetting::first()->vendor_notification;
+        $vendor_mail = GeneralSetting::first()->vendor_mail;
+        $content = NotificationTemplate::where('title', 'vendor order')->first();
+        $vendor_user = User::where('id', $vendor->user_id)->first();
+        if ($vendor->vendor_language == 'spanish') {
+            $detail['Vendor_name'] = $vendor->name;
+            $detail['Order_id'] = $order_id;
+            $detail['User_name'] = auth()->user()->name;
+            $v = ["{Vendor_name}", "{Order_id}", "{User_name}"];
+            $notification_content = str_replace($v, $detail, $content->spanish_notification_content);
+            if ($vendor_notification == 1) {
+                try {
+                    Config::set('onesignal.app_id', env('vendor_app_id'));
+                    Config::set('onesignal.rest_api_key', env('vendor_api_key'));
+                    Config::set('onesignal.user_auth_key', env('vendor_auth_key'));
+                    OneSignal::sendNotificationToUser(
+                        $notification_content,
+                        $vendor_user->device_token,
+                        $url = null,
+                        $data = null,
+                        $buttons = null,
+                        $schedule = null,
+                        GeneralSetting::find(1)->business_name
+                    );
+                } catch (\Throwable $th) {
+                }
+            }
+            $p_notification = array();
+            $p_notification['title'] = 'create order';
+            $p_notification['user_type'] = 'vendor';
+            $p_notification['user_id'] = $vendor->id;
+            $p_notification['message'] = $notification_content;
+            Notification::create($p_notification);
+            $mail = str_replace($v, $detail, $content->spanish_mail_content);
+            if ($vendor_mail == 1) {
+                try {
+                    Mail::to($vendor->email_id)->send(new VendorOrder($mail));
+                } catch (\Throwable $th) {
+                }
+            }
+            return true;
+        } else {
+            $detail['Vendor_name'] = $vendor->name;
+            $detail['Order_id'] = $order_id;
+            $detail['User_name'] = auth()->user()->name;
+            $v = ["{Vendor_name}", "{Order_id}", "{User_name}"];
+            $notification_content = str_replace($v, $detail, $content->notification_content);
+            if ($vendor_notification == 1) {
+                try {
+                    Config::set('onesignal.app_id', env('vendor_app_id'));
+                    Config::set('onesignal.rest_api_key', env('vendor_api_key'));
+                    Config::set('onesignal.user_auth_key', env('vendor_auth_key'));
+                    OneSignal::sendNotificationToUser(
+                        $notification_content,
+                        $vendor_user->device_token,
+                        $url = null,
+                        $data = null,
+                        $buttons = null,
+                        $schedule = null,
+                        GeneralSetting::find(1)->business_name
+                    );
+                } catch (\Throwable $th) {
+                }
+            }
+            $p_notification = array();
+            $p_notification['title'] = 'create order';
+            $p_notification['user_type'] = 'vendor';
+            $p_notification['user_id'] = $vendor->id;
+            $p_notification['message'] = $notification_content;
+            Notification::create($p_notification);
+            $mail = str_replace($v, $detail, $content->mail_content);
+            if ($vendor_mail == 1) {
+                try {
+                    Mail::to($vendor->email_id)->send(new VendorOrder($mail));
+                } catch (\Throwable $th) {
+                }
+            }
+            return true;
+        }
+    }
+
 
     public function apiShowOrder()
     {
         app('App\Http\Controllers\Vendor\VendorSettingController')->cancel_max_order();
         // app('App\Http\Controllers\DriverApiController')->cancel_max_order();
-        $orders = Order::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get(['id', 'amount', 'vendor_id', 'order_status', 'order_schedule', 'delivery_person_id', 'delivery_charge', 'date', 'time', 'address_id']);
+        $orders = Order::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->get(['id', 'amount', 'vendor_id', 'order_status', 'delivery_person_id', 'delivery_charge', 'date', 'time', 'address_id']);
         foreach ($orders as $order) {
             if ($order->delivery_person_id != null) {
                 $delivery_person = DeliveryPerson::find($order->delivery_person_id);
@@ -1031,7 +1104,7 @@ class UserApiController extends Controller
 
     public function apiSingleOrder($id)
     {
-        $order = Order::where('id', $id)->first(['id', 'order_id', 'vendor_id', 'amount', 'delivery_person_id', 'order_status', 'address_id', 'promocode_id', 'promocode_price', 'user_id', 'vendor_discount_price', 'delivery_charge','order_schedule']);
+        $order = Order::where('id', $id)->first(['id', 'order_id', 'vendor_id', 'amount', 'delivery_person_id', 'order_status', 'address_id', 'promocode_id', 'promocode_price', 'user_id', 'vendor_discount_price', 'delivery_charge']);
         $tax = 0;
         foreach (json_decode(Order::find($id)->tax) as $t) {
             $tax += $t->tax;
@@ -1130,7 +1203,7 @@ class UserApiController extends Controller
         $d_image = [];
         if (isset($data['image'])) {
             if (count($data['image']) <= 3) {
-                foreach ($data['image'] as $image) 
+                foreach ($data['image'] as $image)
                 {
                     $img = $image;
                     $img = str_replace('data:image/png;base64,', '', $img);
@@ -1268,6 +1341,22 @@ class UserApiController extends Controller
 
                 $user->otp = $otp;
                 $user->save();
+                $notification_content = str_replace($data, $detail, $mail_content);
+                try {
+                    Config::set('onesignal.app_id', env('customer_app_id'));
+                    Config::set('onesignal.rest_api_key', env('customer_api_key'));
+                    Config::set('onesignal.user_auth_key', env('customer_auth_key'));
+                    OneSignal::sendNotificationToUser(
+                        $notification_content,
+                        $user->device_token,
+                        $url = null,
+                        $data = null,
+                        $buttons = null,
+                        $schedule = null,
+                        GeneralSetting::find(1)->business_name
+                    );
+                } catch (\Throwable $th) {
+                }
                 if ($mail_verification == 1) {
                     $message1 = str_replace($data, $detail, $mail_content);
                     try {
@@ -1530,7 +1619,23 @@ class UserApiController extends Controller
             $detail['user_name'] = $user->name;
             $detail['app_name'] = GeneralSetting::first()->business_name;
             $data = ["{otp}", "{user_name}", "{app_name}"];
-
+            
+            $notification_content = str_replace($data, $detail, $mail_content);
+            try {
+                Config::set('onesignal.app_id', env('customer_app_id'));
+                Config::set('onesignal.rest_api_key', env('customer_api_key'));
+                Config::set('onesignal.user_auth_key', env('customer_auth_key'));
+                OneSignal::sendNotificationToUser(
+                    $notification_content,
+                    $user->device_token,
+                    $url = null,
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null,
+                    GeneralSetting::find(1)->business_name
+                );
+            } catch (\Throwable $th) {
+            }
             $message1 = str_replace($data, $detail, $mail_content);
             try {
                 Mail::to($user->email_id)->send(new Verification($message1));
@@ -1546,6 +1651,24 @@ class UserApiController extends Controller
             $detail['app_name'] = GeneralSetting::first()->business_name;
             $data = ["{otp}", "{user_name}","{app_name}"];
             $message1 = str_replace($data, $detail, $mail_content);
+            
+            $notification_content = str_replace($data, $detail, $mail_content);
+                try {
+                    Config::set('onesignal.app_id', env('customer_app_id'));
+                    Config::set('onesignal.rest_api_key', env('customer_api_key'));
+                    Config::set('onesignal.user_auth_key', env('customer_auth_key'));
+                    OneSignal::sendNotificationToUser(
+                        $notification_content,
+                        $user->device_token,
+                        $url = null,
+                        $data = null,
+                        $buttons = null,
+                        $schedule = null,
+                        GeneralSetting::find(1)->business_name
+                    );
+                } catch (\Throwable $th) {
+                }
+
             try {
                 Mail::to($user->email_id)->send(new Verification($message1));
             } catch (\Throwable $th) {

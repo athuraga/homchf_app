@@ -26,6 +26,9 @@ use LicenseBoxAPI;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Response;
 use DB;
+use Twilio\Rest\Client;
+use OneSignal;
+use Config;
 
 class AdminController extends Controller
 {
@@ -122,6 +125,18 @@ class AdminController extends Controller
                 try
                 {
                     Mail::to($user->email_id)->send(new AdminForgotPassword($message1));
+                    Config::set('onesignal.app_id', env('vendor_app_id'));
+                        Config::set('onesignal.rest_api_key', env('vendor_auth_key'));
+                        Config::set('onesignal.user_auth_key', env('vendor_api_key'));
+                        OneSignal::sendNotificationToUser(
+                            $message1,
+                            // $user->device_token,
+                            $url = null,
+                            $data = null,
+                            $buttons = null,
+                            $schedule = null,
+                            GeneralSetting::find(1)->business_name
+                        );
                 }
                 catch (\Throwable $th)
                 {
@@ -135,7 +150,6 @@ class AdminController extends Controller
             return redirect()->back()->with('errormsg','Ooops.. User Not Found..!!');
         }
     }
-
     public function change_password(Request $request)
     {
         $request->validate([

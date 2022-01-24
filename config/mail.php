@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'send.one.com'),
-            'port' => env('MAIL_PORT', 465),
+            'host' => env('MAIL_HOST', 'smtp.mandrillapp.com'),
+            'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'username' => env('MAIL_USERNAME', 'HomChf'),
+            'password' => env('MAIL_PASSWORD', 'rkZgDulLZMJblLRBITWL2Q'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@homchf.one'),
+        'name' => env('MAIL_FROM_NAME', 'HomChf'),
     ],
 
     /*

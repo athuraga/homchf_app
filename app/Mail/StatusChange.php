@@ -29,7 +29,7 @@ class StatusChange extends Mailable
     public function build()
     {
         // return $this->view('view.name');
-        return $this->from(env('MAIL_FROM_ADDRESS'))->subject('Send password')
+        return $this->from(env('MAIL_FROM_ADDRESS'))->subject('Order Status Update')
         ->view('status_change')->with([
             'content' => $this->content,
          ]);

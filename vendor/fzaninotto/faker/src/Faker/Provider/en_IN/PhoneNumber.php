@@ -7,8 +7,6 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
     protected static $formats = array(
         '+91 ## ########',
         '+91 ### #######',
-        '+46 ## ### ## ## ',
-        '+46#########',
         '0## ########',
         '0### #######'
     );
@@ -21,8 +19,6 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
         '+91 9#########',
         '+91 8#########',
         '+91 7#########',
-        '+46 ## ### ## ## ',
-        '+46#########',
         '09#########',
         '08#########',
         '07#########'

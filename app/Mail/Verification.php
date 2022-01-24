@@ -29,6 +29,7 @@ class Verification extends Mailable
     public function build()
     {
         // return $this->view('verified');
+        // dd(env('MAIL_HOST'),env('MAIL_MAILER'),env('MAIL_PORT'),env('MAIL_USERNAME'),env('MAIL_PASSWORD'),env('MAIL_ENCRYPTION'),env('MAIL_FROM_ADDRESS'),env('MAIL_FROM_NAME'));
         return $this->from(env('MAIL_FROM_ADDRESS'))->subject('Verification')
         ->view('verified')->with(['content' => $this->content]);
     }
